@@ -198,8 +198,6 @@ small {
   width: 100px !important;
 }
 
-#mobile-reviews {}
-
 .footer-link {
   color: rgb(34, 34, 34) !important;
   text-decoration: none !important;
@@ -261,4 +259,57 @@ small {
 
 .form-label {
 font-weight: 500 !important
+}
+
+.unp-navbar {
+  background-color: #f8f9fa;
+  /* Other navbar styles */
+}
+
+.unp-sidebar {
+  width: 250px;
+  /* Custom sidebar styles */
+}
+
+.unp-footer {
+  padding: 20px;
+  background-color: #333;
+  color: white;
+}
+
+.unp-pagination {
+  margin-top: 20px;
+}
+
+.filter-bar-wrapper {
+  overflow-x: auto; /* Allow horizontal scrolling */
+  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+.filter-bar {
+  display: inline-flex; /* Ensure inline display for scrolling */
+  width: 100%; /* Take up full width */
+}
+
+.filter-button {
+  flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    padding: 0.5rem; /* Add padding for smaller screens */
+  }
+}
+
+.bi-star-fill {
+  color: #f8e825; /* Filled star color */
+}
+
+.bi-star {
+  color: #e4e5e9; /* Empty star color */
+}
+
+.alert-info {
+  font-size: 0.9rem; /* Smaller font for AI-generated review */
 }

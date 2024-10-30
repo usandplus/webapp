@@ -1,18 +1,9 @@
 import React from 'react';
 import { Card, CardProps, Row, Image, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'
-interface CustomCardProps extends CardProps {
-  title?: string,
-  description: string,
-  imgURL: string,
-  rating: number,
-  className: string,
-  category?: string,
-  clientId: string,
-  disabled?: boolean
-}
+import { MainCardProps } from '../types/components';
 
-const CustomCard: React.FC<CustomCardProps> = ({ title, description, imgURL, rating, className, category, clientId, disabled }) => {
+const CustomCard: React.FC<MainCardProps> = ({ title, description, imgURL, rating, className, category, clientId, disabled }) => {
   const navigate = useNavigate()
   let _description = ``
   let _title = 'The Test Foundation'

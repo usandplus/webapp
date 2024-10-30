@@ -1,46 +1,22 @@
-import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
-import CustomCard from './../../Components/CustomCard'
-import { useNavigate } from 'react-router-dom';
+// Example usage in a ProfileView component
 
-interface UserProfile {
-  name: string,
-  description: string,
-  location: string,
-  price: string
-}
+import React from 'react';
+import { useAuth } from '../../firebase/contexts/AuthContext';
 
-const Profile: React.FC = () => {
-  const defaultProfile = {
-    name: 'Company A',
-    description: 'This is company A',
-    location: 'City Center, 1234 Street',
-    price: '$200/night'
-  };
+const ProfileView: React.FC = () => {
+    const { user, role, logout } = useAuth();
 
-  const [editMode, setEditMode] = useState(false);
-  const [profile, setProfile] = useState<UserProfile>(defaultProfile);
-  const navigate = useNavigate();
+    if (!user) {
+        return <p>Loading...</p>; // Optionally handle loading state
+    }
 
-  const onEditClick = () => {
-    setEditMode(true);
-  }
+    return (
+        <div>
+            <h1>Welcome, {user.displayName || user.email}</h1>
+            <p>Your Role: {role}</p>
+            <button onClick={logout}>Logout</button>
+        </div>
+    );
+};
 
-  const onSaveClick = () => {
-    setEditMode(false);
-  }
-
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfile({ ...profile, [e.target.name]: e.target.value });
-  }
-
-  return (
-    <Container>
-      
-
-    </Container>
-  );
-}
-
-export default Profile;
-
+export default ProfileView;

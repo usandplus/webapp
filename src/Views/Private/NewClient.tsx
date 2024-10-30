@@ -2,19 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Image, Container, Button, Row, Col, Form, ListGroup, ProgressBar } from 'react-bootstrap';
 import FileInput from '../../Components/FileInput';
 import DismissableAlert from '../../Components/DismissableAlert';
-
-interface NewClientData {
-  nombreComercial: string;
-  denominacion: string;
-  representante: string;
-  direccion: string;
-  fechaDeInicio: string;
-  telefono: string;
-  correoElectronico: string;
-  categorias: string[];
-  acercaDe: string;
-  servicios: string;
-}
+import { NewClientData } from '../../types/models';
 
 const NewClient = () => {
   // Form data state
