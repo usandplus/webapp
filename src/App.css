@@ -313,3 +313,65 @@ font-weight: 500 !important
 .alert-info {
   font-size: 0.9rem; /* Smaller font for AI-generated review */
 }
+
+
+/* UNPShowcaseGrid */
+
+.showcase-grid-container {
+  margin-top: 2rem;
+}
+
+.showcase-title {
+  margin-left: 1rem;
+}
+
+.showcase-cards-container {
+  gap: 1rem; /* Add some space between the cards */
+  padding: 1rem;
+  scroll-behavior: smooth;
+}
+
+.showcase-card-wrapper {
+  flex: 0 0 auto; /* Ensure cards are not squished */
+  width: 250px; /* Set a width suitable for each card */
+  margin: 0.5rem;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Floating effect */
+  background-color: white; /* Ensure cards have their own white background */
+}
+
+@media (max-width: 768px) {
+  .showcase-cards-container {
+    gap: 0.5rem; /* Reduce gap for smaller screens */
+    padding: 0.5rem;
+    scroll-behavior: smooth;
+  }
+
+  .showcase-card-wrapper {
+    width: 180px; /* Make cards smaller for mobile view */
+  }
+}
+
+.scroll-button.left {
+  left: 0;
+}
+
+.scroll-button.right {
+  right: 0;
+}
+
+.scroll-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.scroll-button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}

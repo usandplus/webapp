@@ -84,7 +84,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
     >
       {mini ? (
         // Mini Version
-          <div className='border'>
+        <div className='border'>
           <div >
             <img
               src={imgURL}
@@ -100,7 +100,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
             <h4 className="text-center">{title}</h4>
             <p className="text-center small">{description}</p>
           </div>
-          </div>
+        </div>
       ) : (
         // Full Version
         <>
@@ -129,6 +129,8 @@ const UNPCard: React.FC<UNPCardProps> = ({
                     position: 'relative',
                     border: 'none', // Remove default button border
                     cursor: 'pointer', // Show pointer to indicate it's clickable
+                    marginLeft: '10px',
+                    minWidth: '40px'
                   }}
                 >
                   <FaChevronLeft />
@@ -154,6 +156,8 @@ const UNPCard: React.FC<UNPCardProps> = ({
                     position: 'relative',
                     border: 'none', // Remove default button border
                     cursor: 'pointer', // Show pointer to indicate it's clickable
+                    marginRight: '10px',
+                    minWidth: '40px'
                   }}
                 >
                   <FaChevronRight />
@@ -169,7 +173,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
                 alt="Main image"
                 style={{
                   height: `${fixedHeight}px`, // Set a fixed height
-                  objectFit: 'cover',
+                  // objectFit: 'cover',
                 }}
               />
             </Carousel.Item>

@@ -124,7 +124,7 @@ const componentsList = [
   { name: 'UNPFooter', version: '1.1', component: <UNPFooter /> },
   { name: 'UNPInput', version: '1.2', component: <UNPInput type='email' value='admin@usandplus.io' label='Correo Electronico' onChange={() => alert('que haces chico!?')} /> },
   { name: 'UNPNavbar', version: '1.1', component: <UNPNavbar links={[{ name: 'Home', path: '/showroom' }]} /> },
-  { name: 'UNPShowcaseGrid', version: '1.3', component: <UNPShowcaseGrid selectedCategory={'educacion'} title="Fundaciones" items={showcaseGridItems} baseType={'organizacion'} /> },
+  { name: 'UNPShowcaseGrid', version: '1.4', component: <UNPShowcaseGrid selectedCategory={'educacion'} title="Fundaciones" items={showcaseGridItems} baseType={'organizacion'} /> },
   { name: 'UNPDocumentManager', version: '1.1', component: <UNPDocumentManager /> },
   { name: 'UNPCollaboratorManager', version: '1.1', component: <UNPCollaboratorManager /> },
   { name: 'UNPAnalytics', version: '1.1', component: <UNPAnalytics /> },

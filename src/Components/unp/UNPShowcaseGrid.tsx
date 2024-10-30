@@ -1,77 +1,129 @@
-// src/components/unp/UNPShowcaseGrid.tsx
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import React, { useRef, useState, useEffect } from 'react';
 import UNPCard from './UNPCard';
 import { UNPBaseCategory, UNPBaseType } from '../../types/models/common';
 
 export interface UNPShowcaseGridProps {
   simple?: boolean;
   baseType: UNPBaseType | null;
-  selectedCategory: string | null; // Allow null for selectedCategory
+  selectedCategory: string | null;
   title: string;
   customNavigationPrefix?: string;
   items: any;
   mini?: boolean;
-  // {
-  //   id: string; // Unique identifier for the item
-  //   title: string; // Title of the card
-  //   description: string; // Description for the card
-  //   imgURL: string; // Image URL for the card
-  //   rating: number; // Rating for the card
-  //   category: UNPBaseCategory; // Category for the card
-  //   clientId: string; // Unique ID for the client
-  //   number: number;
-  //   numberTitle: string;
-  //   profileImgURL: string;
-  //   baseType: UNPBaseType;
-  // }[]
 }
 
-const UNPShowcaseGrid: React.FC<UNPShowcaseGridProps> = ({ simple, title, customNavigationPrefix, items, selectedCategory, baseType, mini }) => {
-  // Filter items based on the selected category
-  // Filter items based on the selected baseType and category
+const UNPShowcaseGrid: React.FC<UNPShowcaseGridProps> = ({
+  simple,
+  title,
+  customNavigationPrefix,
+  items,
+  selectedCategory,
+  baseType,
+  mini,
+}) => {
   let typeItems = baseType
-    ? items.filter((item: any) => item.baseType === baseType) // Use '===' for comparison
+    ? items.filter((item: any) => item.baseType === baseType)
     : items;
 
   typeItems = selectedCategory
     ? typeItems.filter((item: any) => item.category === selectedCategory)
     : typeItems;
 
-  const navigate = useNavigate(); // Hook for navigation
-  console.log(baseType, typeItems)
+  const navigate = useNavigate();
+  const showcaseContainerRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // Handle card click to navigate to the specific route
+  useEffect(() => {
+    const handleScroll = (container: HTMLDivElement) => {
+      setCanScrollLeft(container.scrollLeft > 0);
+      setCanScrollRight(
+        container.scrollWidth > container.clientWidth + container.scrollLeft
+      );
+    };
+
+    if (showcaseContainerRef.current) {
+      const container = showcaseContainerRef.current;
+      handleScroll(container);
+      const onScroll = () => handleScroll(container);
+      container.addEventListener('scroll', onScroll);
+
+      return () => {
+        container.removeEventListener('scroll', onScroll);
+      };
+    }
+  }, [items, baseType, selectedCategory]);
+
   const handleCardClick = (baseType: UNPBaseType, id: string, item: any) => {
-    console.log(item)
-    navigate(`${ customNavigationPrefix ? `/${customNavigationPrefix}` : ``}/${baseType}/${id}`); // Navigate to the dynamic route
+    navigate(
+      `${customNavigationPrefix ? `/${customNavigationPrefix}` : ''}/${baseType}/${id}`
+    );
   };
+
+  const scrollLeft = () => {
+    if (showcaseContainerRef.current) {
+      showcaseContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (showcaseContainerRef.current) {
+      showcaseContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
+
+  const isMobile = window.innerWidth <= 768;
+
   return (
-    <div className="showcase-grid shadow-lg p-3 mt-5" style={{ backgroundColor: 'white', borderRadius: 15}}>
-      <h3 className="mb-3">{title}</h3>
-      <Row className="overflow-auto mx-auto flex-nowrap">
-        {typeItems.map((item: any) => (
-          <Col xs={11} md={6} lg={5} xl={4} xxl={3} key={item.id} className="p-1">
-            <UNPCard
-              mini={mini}
-              simple={simple}
-              baseType={item.baseType}
-              numberTitle={item.numberTitle}
-              number={item.number}
-              profileImgURL={item.profileImgURL}
-              title={item.title}
-              description={item.description}
-              imgURL={item.imgURL}
-              rating={item.rating}
-              category={item.category}
-              clientId={item.clientId}
-              className="unp-card"
-              onClick={() => handleCardClick(item.baseType, item.id, item)} // Add onClick to navigate
-            />
-          </Col>
-        ))}
-      </Row>
+    <div
+      className="showcase-grid-container"
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <h3 className="showcase-title mb-3">{title}</h3>
+      <div className="position-relative">
+        {!isMobile && isHovered && (
+          <>
+            {canScrollLeft && (
+              <button className="scroll-button left" onClick={scrollLeft}>
+                ←
+              </button>
+            )}
+            {canScrollRight && (
+              <button className="scroll-button right" onClick={scrollRight}>
+                →
+              </button>
+            )}
+          </>
+        )}
+        <div
+          className="d-flex overflow-hidden showcase-cards-container"
+          ref={showcaseContainerRef}
+        >
+          {typeItems.map((item: any) => (
+            <div key={item.id} className="showcase-card-wrapper">
+              <UNPCard
+                mini={mini}
+                simple={simple}
+                baseType={item.baseType}
+                numberTitle={item.numberTitle}
+                number={item.number}
+                profileImgURL={item.profileImgURL}
+                title={item.title}
+                description={item.description}
+                imgURL={item.imgURL}
+                rating={item.rating}
+                category={item.category}
+                clientId={item.clientId}
+                className="unp-card"
+                onClick={() => handleCardClick(item.baseType, item.id, item)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

@@ -68,7 +68,7 @@ export default function App() {
 
 
   return (
-    <div className="p-0 p-md-3" style={{ backgroundColor: 'offwhite' }}>
+    <div className="p-0 p-md-3" style={{ backgroundColor: 'aliceblue' }}>
       <>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -118,7 +118,7 @@ export default function App() {
       </Row>
       <Row>
         <Col />
-        <Col xs={10}>
+        <Col>
           <UNPShowcaseGrid selectedCategory={selectedCategory} title="Fundaciones" items={items} baseType={'organizacion'} />
         </Col>
         <Col />
