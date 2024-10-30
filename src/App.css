@@ -20,8 +20,8 @@ body {
 
 .btn-primary:hover {
   background-color: #8137FF !important;
-  color: #38F9B9 !important;
-  border-color: #38F9B9 !important;
+  color: #D1CFFF !important;
+  border-color: #D1CFFF !important;
 }
 
 .btn-secondary, .btn-secondary:active, .btn-secondary:visited {
