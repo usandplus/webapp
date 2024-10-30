@@ -119,7 +119,7 @@ const showcaseGridItems = [
 
 const componentsList = [
   { name: 'UNPButton', version: '1.2', component: <UNPButton label="Boton" onClick={() => alert('Hola!')} /> },
-  { name: 'UNPCard', version: '1.1', component: <UNPCard baseType='convocatoria' title='Convocatoria XYZ' description="Lorem ipsum" imgURL='./full_logo.png' profileImgURL='./full_logo.png' rating={4.3} category='ciencia' onClick={() => alert('hola!')} clientId='101010' number={512} numberTitle="Voluntarios" /> },
+  { name: 'UNPCard', version: '1.2', component: <UNPCard baseType='convocatoria' title='Convocatoria XYZ' description="Lorem ipsum" imgURL='./full_logo.png' profileImgURL='./full_logo.png' rating={4.3} category='ciencia' onClick={() => alert('hola!')} clientId='101010' number={512} numberTitle="Voluntarios" /> },
   { name: 'UNPDropdown', version: '1.1', component: <UNPDropdown title="Dropdown" options={[{ label: 'Option 1', value: '1' }, { label: 'Option 2', value: '2' }]} onSelect={(e) => alert(e)} /> },
   { name: 'UNPFooter', version: '1.1', component: <UNPFooter /> },
   { name: 'UNPInput', version: '1.2', component: <UNPInput type='email' value='admin@usandplus.io' label='Correo Electronico' onChange={() => alert('que haces chico!?')} /> },

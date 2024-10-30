@@ -39,6 +39,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
 
   // Handle carousel control clicks without stopping propagation
   const handlePrevClick = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent default behavior to stop scroll
     e.stopPropagation();
     setActiveIndex((prevIndex) =>
       prevIndex === 0 ? 2 : prevIndex - 1 // Loop carousel
@@ -46,6 +47,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
   };
 
   const handleNextClick = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent default behavior to stop scroll
     e.stopPropagation();
     setActiveIndex((prevIndex) =>
       prevIndex === 2 ? 0 : prevIndex + 1 // Loop carousel
@@ -112,38 +114,50 @@ const UNPCard: React.FC<UNPCardProps> = ({
               simple ? (
                 <></>
               ) : (
-                <span
+                <button
                   onClick={handlePrevClick} // Navigate to the previous slide
                   style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '40px',
+                    height: '40px',
                     backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     borderRadius: '50%',
-                    padding: '10px',
                     color: 'white',
-                    zIndex: 2, // Ensure arrows stay on top
+                    zIndex: 2,
                     position: 'relative',
+                    border: 'none', // Remove default button border
+                    cursor: 'pointer', // Show pointer to indicate it's clickable
                   }}
                 >
                   <FaChevronLeft />
-                </span>
+                </button>
               )
             }
             nextIcon={
               simple ? (
                 <></>
               ) : (
-                <span
+                <button
                   onClick={handleNextClick} // Navigate to the next slide
                   style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '40px',
+                    height: '40px',
                     backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     borderRadius: '50%',
-                    padding: '10px',
                     color: 'white',
-                    zIndex: 2, // Ensure arrows stay on top
+                    zIndex: 2,
                     position: 'relative',
+                    border: 'none', // Remove default button border
+                    cursor: 'pointer', // Show pointer to indicate it's clickable
                   }}
                 >
                   <FaChevronRight />
-                </span>
+                </button>
               )
             }
           >
