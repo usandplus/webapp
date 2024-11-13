@@ -9,10 +9,10 @@ const UNPFooter: React.FC = () => {
       <Container>
         <Row>
           <Col>
-            <p>© 2024 MyCompany. All rights reserved.</p>
+            <p>© 2024 Us & Plus. Todos los derechos reservados.</p>
           </Col>
           <Col className="text-end">
-            <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+            <a href="/privacy" style={{color: '#D1CFFF'}}>Politica de Privacidad</a> | <a href="/terms" style={{color: '#D1CFFF'}}>Terminos y Condiciones</a>
           </Col>
         </Row>
       </Container>
