@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
 import { Card, CardProps, Row, Col, Image, Carousel } from 'react-bootstrap';
+import { FaChevronLeft, FaChevronRight, FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import { UNPBaseType, UNPBaseCategory } from '../../types/models/common';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Icons for arrows
-
+import styles from '../../Utils/styles.json'
 interface UNPCardProps extends CardProps {
-  mini?: boolean;  // New prop to determine if it's the mini version
+  mini?: boolean;
   simple?: boolean;
   title: string;
   description: string;
-  imgURL: string; // Main image URL
-  profileImgURL: string; // Profile image URL
+  imgURL: string;
+  profileImgURL: string;
   rating: number;
   baseType: UNPBaseType;
   category: any;
   clientId: string;
-  number: number; // Number of volunteers
+  number: number;
   numberTitle: string;
-  onClick?: () => void; // Add onClick prop
+  onClick?: () => void;
 }
 
 const UNPCard: React.FC<UNPCardProps> = ({
-  mini,  // Added mini prop
+  mini,
   simple,
   title,
   description,
@@ -35,26 +35,34 @@ const UNPCard: React.FC<UNPCardProps> = ({
   numberTitle,
   ...props
 }) => {
-  const [activeIndex, setActiveIndex] = useState(0); // Manage carousel state
-
-  // Handle carousel control clicks without stopping propagation
+  const [activeIndex, setActiveIndex] = useState(0);
   const handlePrevClick = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent default behavior to stop scroll
+    e.preventDefault();
     e.stopPropagation();
-    setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? 2 : prevIndex - 1 // Loop carousel
-    );
+    setActiveIndex((prevIndex) => (prevIndex === 0 ? 2 : prevIndex - 1));
   };
 
   const handleNextClick = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent default behavior to stop scroll
+    e.preventDefault();
     e.stopPropagation();
-    setActiveIndex((prevIndex) =>
-      prevIndex === 2 ? 0 : prevIndex + 1 // Loop carousel
+    setActiveIndex((prevIndex) => (prevIndex === 2 ? 0 : prevIndex + 1));
+  };
+
+  // Helper function to render stars based on the rating
+  const renderStars = () => {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - fullStars - halfStar;
+
+    return (
+      <>
+        {Array(fullStars).fill(<FaStar color={styles.palette.primary.main} />)}
+        {halfStar === 1 && <FaStarHalfAlt color={styles.palette.primary.main} />}
+        {Array(emptyStars).fill(<FaRegStar color={styles.palette.primary.main} />)}
+      </>
     );
   };
 
-  // Mini version dimensions
   const miniCardStyle = {
     maxWidth: '150px',
     maxHeight: '200px',
@@ -63,7 +71,6 @@ const UNPCard: React.FC<UNPCardProps> = ({
     cursor: 'pointer',
   };
 
-  // Normal version dimensions
   const normalCardStyle = {
     maxWidth: '300px',
     border: 'none',
@@ -71,21 +78,18 @@ const UNPCard: React.FC<UNPCardProps> = ({
     cursor: 'pointer',
   };
 
-  // Mini version image style (occupying the top third of the mini card)
-
-  const fixedHeight = 300; // Set a consistent height for the carousel items
+  const fixedHeight = 300;
 
   return (
     <Card
       {...props}
-      onClick={onClick} // Trigger card onClick only when clicking outside of the carousel arrows
-      style={mini ? miniCardStyle : normalCardStyle}  // Apply mini card styles if mini is true
+      onClick={onClick}
+      style={mini ? miniCardStyle : normalCardStyle}
       className={`unp-card ${props.className || ''}`}
     >
       {mini ? (
-        // Mini Version
         <div className='border'>
-          <div >
+          <div>
             <img
               src={imgURL}
               alt="Top image"
@@ -93,7 +97,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
                 height: '50px',
                 width: '100%',
                 objectFit: 'cover',
-              }} // Apply mini image style
+              }}
             />
           </div>
           <div style={{ backgroundColor: 'white', padding: '5px' }}>
@@ -102,20 +106,19 @@ const UNPCard: React.FC<UNPCardProps> = ({
           </div>
         </div>
       ) : (
-        // Full Version
         <>
           <Carousel
             activeIndex={activeIndex}
             variant="dark"
             onSelect={(selectedIndex) => setActiveIndex(selectedIndex)}
-            interval={null} // Disable auto-slide
-            indicators={false} // No indicators for simple version
+            interval={null}
+            indicators={false}
             prevIcon={
               simple ? (
                 <></>
               ) : (
                 <button
-                  onClick={handlePrevClick} // Navigate to the previous slide
+                  onClick={handlePrevClick}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -127,8 +130,8 @@ const UNPCard: React.FC<UNPCardProps> = ({
                     color: 'white',
                     zIndex: 2,
                     position: 'relative',
-                    border: 'none', // Remove default button border
-                    cursor: 'pointer', // Show pointer to indicate it's clickable
+                    border: 'none',
+                    cursor: 'pointer',
                     marginLeft: '10px',
                     minWidth: '40px'
                   }}
@@ -142,7 +145,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
                 <></>
               ) : (
                 <button
-                  onClick={handleNextClick} // Navigate to the next slide
+                  onClick={handleNextClick}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -154,8 +157,8 @@ const UNPCard: React.FC<UNPCardProps> = ({
                     color: 'white',
                     zIndex: 2,
                     position: 'relative',
-                    border: 'none', // Remove default button border
-                    cursor: 'pointer', // Show pointer to indicate it's clickable
+                    border: 'none',
+                    cursor: 'pointer',
                     marginRight: '10px',
                     minWidth: '40px'
                   }}
@@ -165,25 +168,21 @@ const UNPCard: React.FC<UNPCardProps> = ({
               )
             }
           >
-            {/* First Carousel Item - Image */}
             <Carousel.Item>
               <img
                 className="d-block w-100"
                 src={imgURL}
                 alt="Main image"
                 style={{
-                  height: `${fixedHeight}px`, // Set a fixed height
-                  // objectFit: 'cover',
+                  height: `${fixedHeight}px`,
                 }}
               />
             </Carousel.Item>
-
-            {/* Second Carousel Item - Custom Component 1 */}
             <Carousel.Item>
               <div
                 className="d-flex flex-column align-items-center justify-content-center"
                 style={{
-                  height: `${fixedHeight}px`, // Set the same fixed height
+                  height: `${fixedHeight}px`,
                   backgroundColor: '#f8f9fa',
                 }}
               >
@@ -191,13 +190,11 @@ const UNPCard: React.FC<UNPCardProps> = ({
                 <h6>Category: {category}</h6>
               </div>
             </Carousel.Item>
-
-            {/* Third Carousel Item - Custom Component 2 */}
             <Carousel.Item>
               <div
                 className="d-flex flex-column align-items-center justify-content-center"
                 style={{
-                  height: `${fixedHeight}px`, // Set the same fixed height
+                  height: `${fixedHeight}px`,
                   backgroundColor: '#f8f9fa',
                 }}
               >
@@ -216,32 +213,29 @@ const UNPCard: React.FC<UNPCardProps> = ({
                   style={{ width: '100%', height: 'auto' }}
                 />
               </Col>
-
               <Col xs={10} className="ps-2">
                 <Row>
                   <h5 className="mb-0">{title}</h5>
                 </Row>
-                {simple ? (
-                  <></>
-                ) : (
+                {!simple && (
                   <Row>
-                    <p className="mb-0">Rating: {rating}</p>
+                    <div className="d-flex align-items-center">
+                        {renderStars()}{rating}
+                    </div>
                   </Row>
                 )}
               </Col>
             </Row>
-            {simple ? (
-              <></>
-            ) : (
+            {!simple && (
               <>
                 <Card.Text className="mt-2">{description}</Card.Text>
-                <Row>
+                {/* <Row>
                   <Col>
                     <p className="mb-0">
                       {number} <span className="fw-normal">{numberTitle}</span>
                     </p>
                   </Col>
-                </Row>
+                </Row> */}
               </>
             )}
           </Card.Body>
