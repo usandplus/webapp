@@ -43,6 +43,19 @@ body {
   color: #8137FF !important;
 }
 
+a.nav-link {
+  color: #8137FF;
+}
+
+a.nav-link:hover {
+  color: #8137FF;
+  border-bottom: 1px solid #8137FF; /* Set width, style, and color */
+}
+
+a.nav-link:active {
+  background-color: #8137FF;
+  color: #D1CFFF
+}
 
 .navbar {
   border-bottom: 1px solid lightgrey;
