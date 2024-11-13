@@ -44,7 +44,7 @@ body {
 }
 
 .navbar-link {
-  transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease; /* Smooth transition */
   border-bottom: 1px solid transparent; /* Invisible border to reserve space */
   color: #8137FF;
   padding-bottom: 1;
