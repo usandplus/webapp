@@ -129,8 +129,8 @@ const UNPAnalytics: React.FC = () => {
           label: 'Engagement Score',
           data: values,
           fill: false,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
+          backgroundColor: '#D1CFFF',
+          borderColor: '#D1CFFF',
         },
       ],
     };
