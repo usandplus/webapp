@@ -65,7 +65,7 @@ export default function App() {
 
 
   return (
-    <div className="p-0 p-md-3" style={{ backgroundColor: 'aliceblue' }}>
+    <div className="p-0 p-md-3" >
       <>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>

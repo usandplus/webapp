@@ -43,16 +43,19 @@ body {
   color: #8137FF !important;
 }
 
-a.nav-link {
+.navbar-link {
+  transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+  border-bottom: 1px solid transparent; /* Invisible border to reserve space */
   color: #8137FF;
+  padding-bottom: 1;
 }
 
-a.nav-link:hover {
+.navbar-link:hover {
   color: #8137FF;
   border-bottom: 1px solid #8137FF; /* Set width, style, and color */
 }
 
-a.nav-link:active {
+.navbar-link:active {
   background-color: #8137FF;
   color: #D1CFFF
 }
@@ -92,8 +95,14 @@ a.dropdown-item:active {
 }
 
 button.scroll-button {
+  opacity: 0;
   background: 'white';
   background: linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(129,55,255,.5) 50%, rgba(255,255,255,.5) 100%);
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.showcase-grid-container:hover button.scroll-button {
+  opacity: 1;
 }
 
 button.scroll-button:hover {

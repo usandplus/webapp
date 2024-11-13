@@ -87,12 +87,12 @@ const UNPShowcaseGrid: React.FC<UNPShowcaseGridProps> = ({
         {!isMobile && isHovered && (
           <>
             {canScrollLeft && (
-              <button className="scroll-button left" onClick={scrollLeft}>
+              <button className="scroll-button left" style={{fontSize: 40}} onClick={scrollLeft}>
                 ←
               </button>
             )}
             {canScrollRight && (
-              <button className="scroll-button right" onClick={scrollRight}>
+              <button className="scroll-button right" style={{fontSize: 40}} onClick={scrollRight}>
                 →
               </button>
             )}

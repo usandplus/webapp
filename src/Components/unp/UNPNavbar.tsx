@@ -28,7 +28,7 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             {fixed_links.map((link) => (
-              <Nav.Link key={link.name} href={link.path}>
+              <Nav.Link key={link.name} href={link.path} className='navbar-link'>
                 {link.name}
               </Nav.Link>
             ))}
