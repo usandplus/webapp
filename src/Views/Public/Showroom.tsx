@@ -118,18 +118,18 @@ const showcaseGridItems = [
 ]
 
 const componentsList = [
-  { name: 'UNPButton', version: '1.2', component: <UNPButton label="Boton" onClick={() => alert('Hola!')} /> },
-  { name: 'UNPCard', version: '1.2', component: <UNPCard baseType='convocatoria' title='Convocatoria XYZ' description="Lorem ipsum" imgURL='./full_logo.png' profileImgURL='./full_logo.png' rating={4.3} category='ciencia' onClick={() => alert('hola!')} clientId='101010' number={512} numberTitle="Voluntarios" /> },
-  { name: 'UNPDropdown', version: '1.1', component: <UNPDropdown title="Dropdown" options={[{ label: 'Option 1', value: '1' }, { label: 'Option 2', value: '2' }]} onSelect={(e) => alert(e)} /> },
-  { name: 'UNPFooter', version: '1.1', component: <UNPFooter /> },
-  { name: 'UNPInput', version: '1.2', component: <UNPInput type='email' value='admin@usandplus.io' label='Correo Electronico' onChange={() => alert('que haces chico!?')} /> },
-  { name: 'UNPNavbar', version: '1.1', component: <UNPNavbar links={[{ name: 'Home', path: '/showroom' }]} /> },
-  { name: 'UNPShowcaseGrid', version: '1.4', component: <UNPShowcaseGrid selectedCategory={'educacion'} title="Fundaciones" items={showcaseGridItems} baseType={'organizacion'} /> },
-  { name: 'UNPDocumentManager', version: '1.1', component: <UNPDocumentManager /> },
+  { name: 'UNPAnalytics', version: '1.2', component: <UNPAnalytics /> },
+  { name: 'UNPButton', version: '1.3', component: <UNPButton label="Boton" onClick={() => alert('Hola!')} /> },
+  { name: 'UNPCard', version: '1.3', component: <UNPCard baseType='convocatoria' title='Convocatoria XYZ' description="Lorem ipsum" imgURL='./full_logo.png' profileImgURL='./full_logo.png' rating={4.3} category='ciencia' onClick={() => alert('hola!')} clientId='101010' number={512} numberTitle="Voluntarios" /> },
   { name: 'UNPCollaboratorManager', version: '1.1', component: <UNPCollaboratorManager /> },
-  { name: 'UNPAnalytics', version: '1.1', component: <UNPAnalytics /> },
-  { name: 'UNPReviews', version: '1.1', component: <UNPReviews reviews={reviews} averageRating={4.3} aiReview='Aqui va un review por inteligencia artificial' /> },
-  { name: 'UNPProfileBanner', version: '1.1', component: <UNPProfileBanner avatarURL="/full_logo.png" categories="Photographer, Traveler" title="John Doe" achievements={['Top Contributor', 'Gold Member', '500K Followers']} /> },
+  { name: 'UNPDocumentManager', version: '1.1', component: <UNPDocumentManager /> },
+  { name: 'UNPDropdown', version: '1.2', component: <UNPDropdown title="Dropdown" options={[{ label: 'Option 1', value: '1' }, { label: 'Option 2', value: '2' }]} onSelect={(e) => alert(e)} /> },
+  { name: 'UNPFooter', version: '1.2', component: <UNPFooter /> },
+  { name: 'UNPInput', version: '1.2', component: <UNPInput type='email' value='admin@usandplus.io' label='Correo Electronico' onChange={() => alert('que haces chico!?')} /> },
+  { name: 'UNPNavbar', version: '1.2', component: <UNPNavbar links={[{ name: 'Home', path: '/showroom' }]} /> },
+  { name: 'UNPProfileBanner', version: '1.2', component: <UNPProfileBanner avatarURL="/full_logo.png" categories="Photographer, Traveler" title="John Doe" achievements={['Top Contributor', 'Gold Member', '500K Followers']} /> },
+  { name: 'UNPReviews', version: '1.2', component: <UNPReviews reviews={reviews} averageRating={4.3} aiReview='Aqui va un review por inteligencia artificial' /> },
+  { name: 'UNPShowcaseGrid', version: '1.5', component: <UNPShowcaseGrid selectedCategory={'educacion'} title="Fundaciones" items={showcaseGridItems} baseType={'organizacion'} /> },
 ];
 
 const Showroom: React.FC = () => {
