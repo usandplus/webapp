@@ -57,6 +57,10 @@ a.nav-link:active {
   color: #D1CFFF
 }
 
+span.badge.rounded-pill.bg-primary {
+  background-color: #8137FF !important
+}
+
 .navbar {
   border-bottom: 1px solid lightgrey;
 }

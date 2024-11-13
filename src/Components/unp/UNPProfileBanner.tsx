@@ -48,7 +48,7 @@ const UNPProfileBanner: React.FC<UNPProfileBannerProps> = ({ avatarURL, categori
                     <Row>
                         {achievements.map((achievement, index) => (
                             <Col >
-                                <Badge key={index} pill bg="primary" >
+                                <Badge key={index} pill>
                                     {achievement}
                                 </Badge>
                             </Col>
