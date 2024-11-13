@@ -52,6 +52,71 @@ const reviews = [
 
 const showcaseGridItems = [
   {
+    "id": "65",
+    "title": "Sample Title",
+    "description": "This is a sample description.",
+    "imgURL": "/full_logo.png",
+    "rating": 4.5,
+    "category": "educacion",
+    "clientId": "6",
+    "number": 107,
+    "numberTitle": "Volunteers",
+    "profileImgURL": "/full_logo.png",
+    "baseType": "organizacion"
+  },
+  {
+    "id": "150",
+    "title": "Sample Title",
+    "description": "This is a sample description.",
+    "imgURL": "/full_logo.png",
+    "rating": 4.5,
+    "category": "educacion",
+    "clientId": "10",
+    "number": 293,
+    "numberTitle": "Volunteers",
+    "profileImgURL": "/full_logo.png",
+    "baseType": "organizacion"
+  },
+  {
+    "id": "153",
+    "title": "Sample Title",
+    "description": "This is a sample description.",
+    "imgURL": "/full_logo.png",
+    "rating": 4.5,
+    "category": "educacion",
+    "clientId": "13",
+    "number": 256,
+    "numberTitle": "Volunteers",
+    "profileImgURL": "/full_logo.png",
+    "baseType": "organizacion"
+  },
+  {
+    "id": "154",
+    "title": "Sample Title",
+    "description": "This is a sample description.",
+    "imgURL": "/full_logo.png",
+    "rating": 4.5,
+    "category": "educacion",
+    "clientId": "14",
+    "number": 213,
+    "numberTitle": "Volunteers",
+    "profileImgURL": "/full_logo.png",
+    "baseType": "organizacion"
+  },
+  {
+    "id": "195",
+    "title": "Sample Title",
+    "description": "This is a sample description.",
+    "imgURL": "/full_logo.png",
+    "rating": 4.5,
+    "category": "educacion",
+    "clientId": "19",
+    "number": 297,
+    "numberTitle": "Volunteers",
+    "profileImgURL": "/full_logo.png",
+    "baseType": "organizacion"
+  },
+  {
     "id": "6",
     "title": "Sample Title",
     "description": "This is a sample description.",

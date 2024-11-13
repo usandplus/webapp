@@ -1,6 +1,7 @@
 
 import React, {useState} from 'react';
 import withEditMode from '../../Components/hocs/withEditMode';
+import UNPButton from '../../Components/unp/UNPButton';
 
 interface OrganizationViewProps {
     editMode: boolean;
@@ -36,7 +37,7 @@ const OrganizationView: React.FC<OrganizationViewProps> = ({ editMode }) => {
                             onChange={(e) => setDescription(e.target.value)}
                         ></textarea>
                     </div>
-                    <button type="submit">Save Changes</button>
+                    <UNPButton type="submit">Save Changes</UNPButton>
                 </form>
             ) : (
                 <div>
