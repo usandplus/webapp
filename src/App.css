@@ -1,3 +1,7 @@
+a#profile-dropdown.dropdown-toggle.nav-link::after {
+  display: none;
+}
+
 main {
   text-align: center;
   vertical-align: center;
