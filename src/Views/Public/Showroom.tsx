@@ -15,6 +15,7 @@ import UNPCollaboratorManager from '../../Components/unp/UNPCollaboratorManager'
 import UNPAnalytics from '../../Components/unp/UNPAnalytics';
 import UNPReviews from '../../Components/unp/UNPReviews';
 import UNPProfileBanner from '../../Components/unp/UNPProfileBanner';
+import { useAuthContext } from '../../firebase/auth/AuthProvider';
 
 const reviews = [
   {
@@ -133,6 +134,7 @@ const componentsList = [
 ];
 
 const Showroom: React.FC = () => {
+  const {user} = useAuthContext()
   const [cookies, setCookie] = useCookies<string>([]);
   const [suggestions, setSuggestions] = useState<{ [key: string]: string }>({});
 
@@ -154,7 +156,9 @@ const Showroom: React.FC = () => {
         version: version,
         suggestion: suggestions[componentName],
         timestamp: new Date(),
+        user: user?.displayName || null
       });
+      
       alert('Suggestion sent successfully!');
       setSuggestions({ ...suggestions, [componentName]: '' });
     } catch (error) {
