@@ -89,7 +89,16 @@ a.dropdown-item:active {
 .navbar-expand .navbar-nav .dropdown-menu[data-bs-popper] {
   transform: translateX(-50%);
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
 
+button.scroll-button {
+  background: 'white';
+  background: linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(129,55,255,.5) 50%, rgba(255,255,255,.5) 100%);
+}
+
+button.scroll-button:hover {
+  background-color: #8137FF;
+  opacity: .9;
 }
 
 #navbarpill {
