@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useAuth } from '../../firebase/contexts/AuthContext';
+import UNPButton from '../../Components/unp/UNPButton';
 
 const ProfileView: React.FC = () => {
     const { user, role, logout } = useAuth();
@@ -14,7 +15,7 @@ const ProfileView: React.FC = () => {
         <div>
             <h1>Welcome, {user.displayName || user.email}</h1>
             <p>Your Role: {role}</p>
-            <button onClick={logout}>Logout</button>
+            <UNPButton onClick={logout}>Logout</UNPButton>
         </div>
     );
 };

@@ -10,6 +10,7 @@ import {
   InputGroup,
   Modal,
 } from 'react-bootstrap';
+import UNPButton from './UNPButton';
 import { firestore } from './../../firebase/firebaseConfig'; // Adjust import based on your Firebase setup
 import {
   collection,
@@ -90,9 +91,9 @@ const UNPCollaboratorManager: React.FC = () => {
 
       <Row className="mb-3">
         <Col md={4} xs={12}>
-          <Button variant="primary" onClick={() => setShowInviteModal(true)}>
+          <UNPButton variant="primary" onClick={() => setShowInviteModal(true)}>
             Invitar Personas
-          </Button>
+          </UNPButton>
         </Col>
       </Row>
 
@@ -114,9 +115,9 @@ const UNPCollaboratorManager: React.FC = () => {
               <td>{collab.email}</td>
               <td>{collab.role}</td>
               <td>
-                <Button variant="link" onClick={() => handleDelete(collab.id)}>
+                <UNPButton variant="link" onClick={() => handleDelete(collab.id)}>
                   Remover
-                </Button>
+                </UNPButton>
               </td>
             </tr>
           ))}
@@ -163,12 +164,12 @@ const UNPCollaboratorManager: React.FC = () => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowInviteModal(false)}>
+          <UNPButton variant="secondary" onClick={() => setShowInviteModal(false)}>
             Cerrar
-          </Button>
-          <Button variant="primary" onClick={handleInvite} disabled={!name || !email}>
+          </UNPButton>
+          <UNPButton variant="primary" onClick={handleInvite} disabled={!name || !email}>
             Invitar
-          </Button>
+          </UNPButton>
         </Modal.Footer>
       </Modal>
     </Container>

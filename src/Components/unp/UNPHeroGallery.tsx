@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Image, Button } from 'react-bootstrap';
+import UNPButton from './UNPButton';
 
 interface UNPHeroGalleryProps {
   images: string[]; // Array of image URLs
@@ -51,20 +52,20 @@ const UNPHeroGallery: React.FC<UNPHeroGalleryProps> = ({ images }) => {
           fluid
           style={{ width: '100%', height: '50vh' }}
         />
-        <Button
+        <UNPButton
           variant="light"
           className="position-absolute top-50 start-0 translate-middle-y"
           onClick={handlePrev}
         >
           &#8249;
-        </Button>
-        <Button
+        </UNPButton>
+        <UNPButton
           variant="light"
           className="position-absolute top-50 end-0 translate-middle-y"
           onClick={handleNext}
         >
           &#8250;
-        </Button>
+        </UNPButton>
       </div>
     </Container>
   );

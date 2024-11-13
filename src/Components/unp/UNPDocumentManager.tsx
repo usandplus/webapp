@@ -11,6 +11,8 @@ import {
   Dropdown,
   Modal,
 } from 'react-bootstrap';
+import UNPButton from './UNPButton';
+
 import { storage, firestore } from './../../firebase/firebaseConfig'; // Adjust import based on your Firebase setup
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import {
@@ -132,9 +134,9 @@ const UNPDocumentManager: React.FC = () => {
 
       <Row className="mb-3">
         <Col md={4} xs={12}>
-          <Button variant="primary" onClick={() => setShowUploadModal(true)}>
+          <UNPButton variant="primary" onClick={() => setShowUploadModal(true)}>
             + Nuevo
-          </Button>
+          </UNPButton>
         </Col>
 
         <Col md={8} xs={12}>
@@ -198,19 +200,19 @@ const UNPDocumentManager: React.FC = () => {
               <td>{doc.type}</td>
               <td>{new Date(doc.createdAt).toLocaleDateString()}</td>
               <td>
-                <Button variant="link" href={doc.url} target="_blank">
+                <UNPButton variant="link" href={doc.url} target="_blank">
                   View
-                </Button>
-                <Button variant="link" onClick={() => handleDelete(doc.id)}>
+                </UNPButton>
+                <UNPButton variant="link" onClick={() => handleDelete(doc.id)}>
                   Delete
-                </Button>
-                <Button
+                </UNPButton>
+                <UNPButton
                   variant="link"
                   onClick={() => toggleStar(doc.id)}
                   className={doc.starred ? 'text-warning' : ''}
                 >
                   {doc.starred ? 'Unstar' : 'Star'}
-                </Button>
+                </UNPButton>
               </td>
             </tr>
           ))}
@@ -237,12 +239,12 @@ const UNPDocumentManager: React.FC = () => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowUploadModal(false)}>
+          <UNPButton variant="secondary" onClick={() => setShowUploadModal(false)}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleUpload} disabled={uploading || !file}>
+          </UNPButton>
+          <UNPButton variant="primary" onClick={handleUpload} disabled={uploading || !file}>
             {uploading ? 'Uploading...' : 'Upload'}
-          </Button>
+          </UNPButton>
         </Modal.Footer>
       </Modal>
     </Container>

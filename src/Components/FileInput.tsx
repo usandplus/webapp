@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button } from 'react-bootstrap';
-
+import UNPButton from './unp/UNPButton';
 // Update props type to handle multiple files
 interface FileInputProps {
   onFileSelect?: (file: File | File[]) => void; // Can pass a single file or an array of files
@@ -60,7 +60,7 @@ const FileInput: React.FC<FileInputProps> = ({ onFileSelect, multiple, name, acc
         accept={acceptedValues}
       />
       <span>{name || renderFileNames()} </span>
-      <Button onClick={handleButtonClick}>Seleccionar</Button>
+      <UNPButton onClick={handleButtonClick}>Seleccionar</UNPButton>
     </div>
   );
 };

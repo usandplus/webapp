@@ -3,6 +3,7 @@ import { Navbar, Nav, Container, Image, NavDropdown, Button } from 'react-bootst
 import { LinkContainer } from "react-router-bootstrap";
 import { signInWithGoogle, signOutUser } from '../../firebase/auth/authService';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
+import UNPButton from './UNPButton';
 
 interface UNPNavbarProps {
   links?: { name: string; path: string }[];
@@ -65,9 +66,9 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links }) => {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <Button variant="outline-primary" onClick={signInWithGoogle}>
+              <UNPButton variant="outline-primary" onClick={signInWithGoogle}>
                 Iniciar sesión
-              </Button>
+              </UNPButton>
             )}
           </Nav>
         </Navbar.Collapse>

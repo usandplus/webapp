@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardProps, Row, Col, Image, Carousel } from 'react-bootstrap';
 import { FaChevronLeft, FaChevronRight, FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import { UNPBaseType, UNPBaseCategory } from '../../types/models/common';
+import UNPButton from './UNPButton';
 import styles from '../../Utils/styles.json'
 interface UNPCardProps extends CardProps {
   mini?: boolean;
@@ -117,14 +118,14 @@ const UNPCard: React.FC<UNPCardProps> = ({
               simple ? (
                 <></>
               ) : (
-                <button
+                <UNPButton
                   onClick={handlePrevClick}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '40px',
-                    height: '40px',
+                    width: '10px',
+                    height: '10px',
                     backgroundColor: 'rgba(129, 55, 255, 0.75)',
                     borderRadius: '50%',
                     color: 'white',
@@ -132,26 +133,26 @@ const UNPCard: React.FC<UNPCardProps> = ({
                     position: 'relative',
                     border: 'none',
                     cursor: 'pointer',
-                    marginLeft: '10px',
-                    minWidth: '40px'
+                    marginLeft: '15px',
+                    minWidth: '10px'
                   }}
                 >
                   <FaChevronLeft />
-                </button>
+                </UNPButton>
               )
             }
             nextIcon={
               simple ? (
                 <></>
               ) : (
-                <button
+                <UNPButton
                   onClick={handleNextClick}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '40px',
-                    height: '40px',
+                    width: '10px',
+                    height: '10px',
                     backgroundColor: 'rgba(129, 55, 255, 0.75)',
                     borderRadius: '50%',
                     color: 'white',
@@ -160,11 +161,11 @@ const UNPCard: React.FC<UNPCardProps> = ({
                     border: 'none',
                     cursor: 'pointer',
                     marginRight: '10px',
-                    minWidth: '40px'
+                    minWidth: '10px'
                   }}
                 >
                   <FaChevronRight />
-                </button>
+                </UNPButton>
               )
             }
           >
@@ -220,7 +221,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
                 {!simple && (
                   <Row>
                     <div className="d-flex align-items-center">
-                        {renderStars()}{rating}
+                      {renderStars()}{rating}
                     </div>
                   </Row>
                 )}

@@ -2,6 +2,7 @@ import React from 'react';
 import { UNPBaseCategory } from '../../types/models/common';
 import { Button, ButtonGroup } from 'react-bootstrap';
 // import './UNPFilterBar.css'; // Custom CSS for better control
+import UNPButton from './UNPButton';
 
 interface UNPFilterBarProps {
   onFilterChange: (category: UNPBaseCategory | null) => void;
@@ -27,15 +28,15 @@ const UNPFilterBar: React.FC<UNPFilterBarProps> = ({ onFilterChange, selectedCat
   return (
     <div className="filter-bar-wrapper">
       <ButtonGroup className="filter-bar" aria-label="Filter categories">
-        <Button
+        <UNPButton
           variant={selectedCategory === null ? 'primary' : 'light'}
           className={`filter-button ${selectedCategory === null ? 'active' : ''}`}
           onClick={() => handleCategorySelect(null)}
         >
           <i className="bi bi-filter-circle" /> All
-        </Button>
+        </UNPButton>
         {categories.map(({ name, icon }) => (
-          <Button
+          <UNPButton
             key={name}
             variant={selectedCategory === name ? 'primary' : 'light'}
             className={`filter-button ${selectedCategory === name ? 'active' : ''}`}
@@ -45,7 +46,7 @@ const UNPFilterBar: React.FC<UNPFilterBarProps> = ({ onFilterChange, selectedCat
             }}
           >
             <i className={`bi bi-${icon}`} /> {name.charAt(0).toUpperCase() + name.slice(1)}
-          </Button>
+          </UNPButton>
         ))}
       </ButtonGroup>
     </div>

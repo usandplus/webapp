@@ -3,7 +3,7 @@ import { Container, Row, Col, Nav, Button, Modal, ListGroup } from 'react-bootst
 import { firestore } from './../../firebase/firebaseConfig'; // Adjust import based on your Firebase setup
 import { collection, getDocs } from 'firebase/firestore'; // Import Firestore methods
 import { useNavigate } from 'react-router-dom';
-
+import UNPButton from './UNPButton';
 interface Section {
   name: string;
   label: string;
@@ -71,9 +71,9 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
         <Col md={3} className="p-0 bg-light">
           <Nav className="flex-column p-3">
             <h4>{currentEntity || 'Select Entity'}</h4>
-            <Button variant="primary" onClick={() => setShowModal(true)} className="mb-2">
+            <UNPButton variant="primary" onClick={() => setShowModal(true)} className="mb-2">
               Cambiar
-            </Button>
+            </UNPButton>
             {sections.map((section) => (
               <Nav.Link
                 key={section.name}
@@ -108,9 +108,9 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
           </ListGroup>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <UNPButton variant="secondary" onClick={() => setShowModal(false)}>
             Close
-          </Button>
+          </UNPButton>
         </Modal.Footer>
       </Modal>
     </Container>

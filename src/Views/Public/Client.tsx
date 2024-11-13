@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Footer from './../../Components/Footer'
 import GoogleMaps from './../../Components/GoogleMaps'
 import StarRatings from './../../Components/StarRatings'
-
+import UNPButton from '../../Components/unp/UNPButton';
 export interface ClientProps {
   amount_reviews?: number;
   campaigns?: Array<{ id: number, title: string, description: string, src: string }>;
@@ -421,13 +421,13 @@ const Client: FC<ClientProps> = ({
                   </ListGroup>
                 </Row>
               </Card.Body>
-              <Button
+              <UNPButton
                 className="w-75 mx-auto mb-3"
                 variant="secondary"
                 href="https://donate.stripe.com/bIYcOh94K8US6v6dQR"
                 target="_blank">
                 Donar Ahora
-              </Button>
+              </UNPButton>
             </Card>
           </Col>
         </Row>
@@ -527,9 +527,9 @@ const Client: FC<ClientProps> = ({
             {/* Button */}
             < Row className="pt-3" >
               <Col xs={4}>
-                <Button variant='primary' onClick={handleShow}>
+                <UNPButton variant='primary' onClick={handleShow}>
                   Ver todas las calificaciones
-                </Button>
+                </UNPButton>
               </Col>
             </Row>
           </Row>
@@ -653,9 +653,9 @@ const Client: FC<ClientProps> = ({
             {/* Button */}
             <Row className="pt-3">
               <Col xs={4}>
-                <Button variant='primary' onClick={handleShow}>
+                <UNPButton variant='primary' onClick={handleShow}>
                   Ver todas ({_featuresAll.length})
-                </Button>
+                </UNPButton>
               </Col>
             </Row>
           </Row>
@@ -733,12 +733,12 @@ const Client: FC<ClientProps> = ({
             }
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <UNPButton variant="secondary" onClick={handleClose}>
               Close
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
+            </UNPButton>
+            <UNPButton variant="primary" onClick={handleClose}>
               Save Changes
-            </Button>
+            </UNPButton>
           </Modal.Footer>
         </Modal>
       </>

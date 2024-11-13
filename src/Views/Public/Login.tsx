@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Form, Button, Container, Row, Col, Card, Spinner } from 'react-bootstrap'
 import styles from './../../Utils/styles.json'
 import { signInWithGoogle } from '../../firebase/auth/authService'
+import UNPButton from '../../Components/unp/UNPButton'
 
 function Login() {
   const [loading, setLoading] = useState(false)
@@ -50,12 +51,12 @@ function Login() {
                     alt="Us & Plus" />
                   {
                     !loading
-                      ? <Button
+                      ? <UNPButton
                         variant="primary"
                         onClick={login}
                         className="w-100 mt-3">
                         Iniciar Sesión con Google
-                      </Button>
+                      </UNPButton>
                       : <Spinner className="mt-3" />
                   }
                 </Form.Group>

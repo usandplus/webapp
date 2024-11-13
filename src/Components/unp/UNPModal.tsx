@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Modal, ModalProps, Button } from 'react-bootstrap';
+import UNPButton from './UNPButton';
 
 interface UNPModalProps extends ModalProps {
   // Optional additional props can go here, such as a confirm button handler
@@ -16,13 +17,13 @@ const UNPModal: React.FC<UNPModalProps> = ({ children, onConfirm, ...props }) =>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <UNPButton variant="secondary" onClick={props.onHide}>
           Close
-        </Button>
+        </UNPButton>
         {onConfirm && (
-          <Button variant="primary" onClick={onConfirm}>
+          <UNPButton variant="primary" onClick={onConfirm}>
             Confirm
-          </Button>
+          </UNPButton>
         )}
       </Modal.Footer>
     </Modal>

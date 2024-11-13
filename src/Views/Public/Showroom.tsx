@@ -120,7 +120,7 @@ const showcaseGridItems = [
 
 const componentsList = [
   { name: 'UNPAnalytics', version: '1.2', component: <UNPAnalytics /> },
-  { name: 'UNPButton', version: '1.3', component: <UNPButton label="Boton" onClick={() => alert('Hola!')} /> },
+  { name: 'UNPButton', version: '1.3', component: <UNPButton onClick={() => alert('Hola!')} >Hola!</UNPButton> },
   { name: 'UNPCard', version: '1.3', component: <UNPCard baseType='convocatoria' title='Convocatoria XYZ' description="Lorem ipsum" imgURL='./full_logo.png' profileImgURL='./full_logo.png' rating={4.3} category='ciencia' onClick={() => alert('hola!')} clientId='101010' number={512} numberTitle="Voluntarios" /> },
   { name: 'UNPCollaboratorManager', version: '1.1', component: <UNPCollaboratorManager /> },
   { name: 'UNPDocumentManager', version: '1.1', component: <UNPDocumentManager /> },
@@ -202,20 +202,20 @@ const Showroom: React.FC = () => {
                             onChange={(e) => setSuggestions({ ...suggestions, [name]: e.target.value })}
                           />
                         </Form.Group>
-                        <Button
+                        <UNPButton
                           variant="primary"
                           className="mt-2"
                           onClick={() => handleSendSuggestion(name, version)}
                         >
                           Send Suggestion
-                        </Button>
-                        <Button
+                        </UNPButton>
+                        <UNPButton
                           variant="success"
                           className="mt-2"
                           onClick={() => handleSendSuggestion(name, version, false)}
                         >
                           OK
-                        </Button>
+                        </UNPButton>
                       </Form>
                     </Col>
                   </Row>

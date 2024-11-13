@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { ClientProps } from '../Public/Client';
+import UNPButton from '../../Components/unp/UNPButton';
 
 export const defaultClientProps: ClientProps = {
   amount_reviews: 0,
@@ -55,9 +56,9 @@ const ClientProfileForm: React.FC = () => {
         ) : (
           <p>No form fields available</p>
         )}
-        <Button variant="primary" type="submit">
+        <UNPButton variant="primary" type="submit">
           Submit
-        </Button>
+        </UNPButton>
       </Form>
     </Container>
   );

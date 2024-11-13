@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Offcanvas } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import UNPProfileBanner from './UNPProfileBanner';
+import UNPButton from './UNPButton';
 
 interface UNPStickyLayoutProps {
     dataTitle: string;  // The title for the card
@@ -49,7 +50,7 @@ const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ dataTitle, dataConten
 
             {/* Mobile Layout: Bottom Sticky Bar */}
             <div className="d-md-none">
-                <Button
+                <UNPButton
                     variant="light"
                     className="sticky-bar"
                     style={{
@@ -72,7 +73,7 @@ const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ dataTitle, dataConten
                     <div style={{ fontSize: '24px', fontWeight: 'bold' }}>▲</div>
                     {/* Text Under Arrow */}
                     <div>View Details</div>
-                </Button>
+                </UNPButton>
 
                 {/* Offcanvas for mobile view */}
                 <Offcanvas show={showOffcanvas} onHide={handleClose} placement="bottom">

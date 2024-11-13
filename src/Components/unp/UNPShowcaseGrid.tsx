@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useRef, useState, useEffect } from 'react';
 import UNPCard from './UNPCard';
 import { UNPBaseCategory, UNPBaseType } from '../../types/models/common';
+import UNPButton from './UNPButton';
 
 export interface UNPShowcaseGridProps {
   simple?: boolean;
@@ -35,23 +36,25 @@ const UNPShowcaseGrid: React.FC<UNPShowcaseGridProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = (container: HTMLDivElement) => {
-      setCanScrollLeft(container.scrollLeft > 0);
-      setCanScrollRight(
-        container.scrollWidth > container.clientWidth + container.scrollLeft
-      );
-    };
-
+  const TOLERANCE = 5
+  const handleScroll = () => {
     if (showcaseContainerRef.current) {
       const container = showcaseContainerRef.current;
-      handleScroll(container);
-      const onScroll = () => handleScroll(container);
-      container.addEventListener('scroll', onScroll);
+      setCanScrollLeft(container.scrollLeft > 0);
+      setCanScrollRight(
+        container.scrollWidth > container.clientWidth + container.scrollLeft + TOLERANCE
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (showcaseContainerRef.current) {
+      const container = showcaseContainerRef.current;
+      handleScroll();
+      container.addEventListener('scroll', handleScroll);
 
       return () => {
-        container.removeEventListener('scroll', onScroll);
+        container.removeEventListener('scroll', handleScroll);
       };
     }
   }, [items, baseType, selectedCategory]);
@@ -62,16 +65,34 @@ const UNPShowcaseGrid: React.FC<UNPShowcaseGridProps> = ({
     );
   };
 
+  const smoothScroll = (distance: number, duration: number) => {
+    const start = showcaseContainerRef.current?.scrollLeft || 0;
+    const startTime = performance.now();
+  
+    const animateScroll = (currentTime: number) => {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min(elapsedTime / duration, 1);
+  
+      if (showcaseContainerRef.current) {
+        showcaseContainerRef.current.scrollLeft = start + distance * progress;
+      }
+  
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      } else {
+        handleScroll(); // Update scroll state after scrolling completes
+      }
+    };
+  
+    requestAnimationFrame(animateScroll);
+  };
+
   const scrollLeft = () => {
-    if (showcaseContainerRef.current) {
-      showcaseContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
+    smoothScroll(-600, 500); // 600px to the left over 500 milliseconds
   };
 
   const scrollRight = () => {
-    if (showcaseContainerRef.current) {
-      showcaseContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
+    smoothScroll(600, 500); // 600px to the right over 500 milliseconds
   };
 
   const isMobile = window.innerWidth <= 768;
@@ -87,14 +108,14 @@ const UNPShowcaseGrid: React.FC<UNPShowcaseGridProps> = ({
         {!isMobile && isHovered && (
           <>
             {canScrollLeft && (
-              <button className="scroll-button left" style={{fontSize: 40}} onClick={scrollLeft}>
+              <UNPButton className="scroll-button left" style={{ fontSize: 40 }} onClick={scrollLeft}>
                 ←
-              </button>
+              </UNPButton>
             )}
             {canScrollRight && (
-              <button className="scroll-button right" style={{fontSize: 40}} onClick={scrollRight}>
+              <UNPButton className="scroll-button right" style={{ fontSize: 40 }} onClick={scrollRight}>
                 →
-              </button>
+              </UNPButton>
             )}
           </>
         )}

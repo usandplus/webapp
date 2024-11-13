@@ -11,6 +11,7 @@ import UNPFilterBar from '../../Components/unp/UNPFilterBar'
 import UNPCard from '../../Components/unp/UNPCard'
 import UNPShowcaseGrid, { UNPShowcaseGridProps } from '../../Components/unp/UNPShowcaseGrid'
 import { UNPBaseCategory, UNPBaseType } from '../../types/models/common';
+import UNPButton from '../../Components/unp/UNPButton'
 
 export default function App() {
   const navigate = useNavigate()
@@ -42,7 +43,7 @@ export default function App() {
       'negocio',]
 
     const generateDummyData = () => {
-      const dummyData = Array.from({ length: 20 }, (_, index) => ({
+      const dummyData = Array.from({ length: 50 }, (_, index) => ({
         id: `${index + 1}`,
         title: `Sample Title`,
         description: 'This is a sample description.',
@@ -92,12 +93,12 @@ export default function App() {
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <UNPButton variant="secondary" onClick={handleClose}>
               Close
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
+            </UNPButton>
+            <UNPButton variant="primary" onClick={handleClose}>
               Save Changes
-            </Button>
+            </UNPButton>
           </Modal.Footer>
         </Modal>
       </>
@@ -108,7 +109,7 @@ export default function App() {
         <Col className="d-flex align-items-end pb-3" >
           <Row>
             <Col md={2}>
-              <Button onClick={handleShow}>Filtros</Button>
+              <UNPButton onClick={handleShow}>Filtros</UNPButton>
             </Col>
           </Row>
         </Col>

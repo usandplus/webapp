@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Alert, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UNPButton from './UNPButton';
 
 interface Review {
     avatar: string;
@@ -134,9 +135,9 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                     ))}
 
                     {/* See All Reviews Button */}
-                    <Button variant="primary" className="w-100 mt-3" onClick={handleShowModal}>
+                    <UNPButton variant="primary" className="w-100 mt-3" onClick={handleShowModal}>
                         See All Reviews
-                    </Button>
+                    </UNPButton>
                 </Col>
             </Row>
 
@@ -186,43 +187,43 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                     {/* Responsive Pagination Controls */}
                     <Row className="d-none d-md-flex justify-content-between mb-3">
                         <Col>
-                            <Button
+                            <UNPButton
                                 variant="secondary"
                                 onClick={handlePrevPage}
                                 disabled={currentPage === 0}
                             >
                                 Previous
-                            </Button>
+                            </UNPButton>
                         </Col>
                         <Col md={2} xl={1}>
-                            <Button
+                            <UNPButton
                                 variant="secondary"
                                 onClick={handleNextPage}
                                 disabled={currentPage === totalPages - 1}
                             >
                                 Next
-                            </Button>
+                            </UNPButton>
                         </Col>
                     </Row>
 
                     {/* Small Buttons for Mobile */}
                     <div className="d-md-none d-flex justify-content-between">
-                        <Button
+                        <UNPButton
                             variant="secondary"
                             onClick={handlePrevPage}
                             disabled={currentPage === 0}
                             className="flex-fill me-1"
                         >
                             Prev
-                        </Button>
-                        <Button
+                        </UNPButton>
+                        <UNPButton
                             variant="secondary"
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages - 1}
                             className="flex-fill ms-1"
                         >
                             Next
-                        </Button>
+                        </UNPButton>
                     </div>
                 </Modal.Body>
             </Modal>

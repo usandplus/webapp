@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Container, Button, Row, Col, Form, ListGroup, ProgressBar } from 'react-bootstrap';
+import { Image, Container, Row, Col, Form, ListGroup, ProgressBar } from 'react-bootstrap';
 import FileInput from '../../Components/FileInput';
 import DismissableAlert from '../../Components/DismissableAlert';
 import { NewClientData } from '../../types/models';
+import UNPButton from '../../Components/unp/UNPButton';
 
 const NewClient = () => {
   // Form data state
@@ -84,9 +85,9 @@ const NewClient = () => {
       justifyContent: 'space-between',
       padding: '0 50px'
     }}>
-      <Button className="h-75 mt-1" onClick={goBack} disabled={currentStep === 1}>
+      <UNPButton className="h-75 mt-1" onClick={goBack} disabled={currentStep === 1}>
         Atras
-      </Button>
+      </UNPButton>
       {currentStep !== 1 && (
         <>
           <ProgressBar now={(currentStep - 1) * 33.33} style={{ width: '25%' }} />
@@ -94,9 +95,9 @@ const NewClient = () => {
           <ProgressBar now={(currentStep * 33.33) - 200} style={{ width: '25%' }} />
         </>
       )}
-      <Button className="h-75 mt-1" onClick={goForward} disabled={currentStep === 30}>
+      <UNPButton className="h-75 mt-1" onClick={goForward} disabled={currentStep === 30}>
         Siguiente
-      </Button>
+      </UNPButton>
     </div>
   );
 
@@ -316,13 +317,13 @@ const NewClient = () => {
               key={index}
               className="m-2"
               xs={12} sm={6} md={4} lg={3}>
-              <Button
+              <UNPButton
                 style={{ height: 125, width: '100%' }} // Adjust width to '100%' for full column width
                 variant="outline-primary"
                 onClick={() => console.log('Category selected:', category)}>
                 <i className="bi bi-person fs-1"></i>
                 <p>{category.name}</p>
-              </Button>
+              </UNPButton>
             </Col>
           ))}
         </Row>
