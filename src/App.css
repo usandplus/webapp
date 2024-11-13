@@ -48,6 +48,20 @@ body {
   border-bottom: 1px solid lightgrey;
 }
 
+a.dropdown-item {
+  color: #8137FF;
+}
+
+a.dropdown-item:hover {
+  background-color: #D1CFFF;
+  color: #8137FF;
+}
+
+a.dropdown-item:active {
+  background-color: #8137FF;
+  color: #D1CFFF
+}
+
 .navbar-expand .navbar-nav .dropdown-menu[data-bs-popper] {
   transform: translateX(-50%);
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
