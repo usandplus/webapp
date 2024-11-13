@@ -55,7 +55,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                 <i
                     key={i}
                     className={`bi bi-star${i <= rating ? '-fill' : ''}`}
-                    style={{ color: i <= rating ? '#f8e825' : '#e4e5e9', fontSize: 36 }}
+                    style={{ color: i <= rating ? '#8137FF' : '#8137FF', fontSize: 36 }}
                 />
             );
         }
@@ -98,7 +98,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                     <Row>
                         {/* AI-generated Review */}
                         <Col className="mb-3">
-                            <Alert variant="info">
+                            <Alert className='ai_review'>
                                 {aiReview}
                             </Alert>
                         </Col>

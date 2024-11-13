@@ -61,6 +61,13 @@ span.badge.rounded-pill.bg-primary {
   background-color: #8137FF !important
 }
 
+.ai_review { 
+  background-color: #D1CFFF;
+  border-color: #8137FF;
+  color: #8137ff;
+  font-weight: 500;
+}
+
 .navbar {
   border-bottom: 1px solid lightgrey;
 }
