@@ -10,7 +10,7 @@ interface UNPButtonProps {
 
 const UNPButton: React.FC<UNPButtonProps> = ({ label, onClick }) => {
   return (
-    <Button onClick={onClick}>
+    <Button onClick={onClick} style={{ fontSize: '20px' }}>
       {label} {/* Render the label */}
     </Button>
   );
