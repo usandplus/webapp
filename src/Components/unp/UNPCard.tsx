@@ -3,7 +3,8 @@ import { Card, CardProps, Row, Col, Image, Carousel } from 'react-bootstrap';
 import { FaChevronLeft, FaChevronRight, FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import { UNPBaseType, UNPBaseCategory } from '../../types/models/common';
 import UNPButton from './UNPButton';
-import styles from '../../Utils/styles.json'
+import styles from '../../Utils/styles.json';
+
 interface UNPCardProps extends CardProps {
   mini?: boolean;
   simple?: boolean;
@@ -37,6 +38,10 @@ const UNPCard: React.FC<UNPCardProps> = ({
   ...props
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+
+  // Detect if the screen is mobile
+  const isMobile = window.innerWidth <= 768;
+
   const handlePrevClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -49,7 +54,6 @@ const UNPCard: React.FC<UNPCardProps> = ({
     setActiveIndex((prevIndex) => (prevIndex === 2 ? 0 : prevIndex + 1));
   };
 
-  // Helper function to render stars based on the rating
   const renderStars = () => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5 ? 1 : 0;
@@ -108,102 +112,116 @@ const UNPCard: React.FC<UNPCardProps> = ({
         </div>
       ) : (
         <>
-          <Carousel
-            activeIndex={activeIndex}
-            variant="dark"
-            onSelect={(selectedIndex) => setActiveIndex(selectedIndex)}
-            interval={null}
-            indicators={false}
-            prevIcon={
-              simple ? (
-                <></>
-              ) : (
-                <UNPButton
-                  onClick={handlePrevClick}
+          {!isMobile ? (
+            // Render the Carousel on non-mobile screens
+            <Carousel
+              activeIndex={activeIndex}
+              variant="dark"
+              onSelect={(selectedIndex) => setActiveIndex(selectedIndex)}
+              interval={null}
+              indicators={false}
+              prevIcon={
+                simple ? (
+                  <></>
+                ) : (
+                  <UNPButton
+                    onClick={handlePrevClick}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '10px',
+                      height: '10px',
+                      backgroundColor: 'rgba(129, 55, 255, 0.75)',
+                      borderRadius: '50%',
+                      color: 'white',
+                      zIndex: 2,
+                      position: 'relative',
+                      border: 'none',
+                      cursor: 'pointer',
+                      marginLeft: '15px',
+                      minWidth: '10px'
+                    }}
+                  >
+                    <FaChevronLeft style={{fontSize: '1rem'}} />
+                  </UNPButton>
+                )
+              }
+              nextIcon={
+                simple ? (
+                  <></>
+                ) : (
+                  <UNPButton
+                    onClick={handleNextClick}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '10px',
+                      height: '10px',
+                      backgroundColor: 'rgba(129, 55, 255, 0.75)',
+                      borderRadius: '50%',
+                      color: 'white',
+                      zIndex: 2,
+                      position: 'relative',
+                      border: 'none',
+                      cursor: 'pointer',
+                      marginRight: '15px',
+                      minWidth: '10px'
+                    }}
+                  >
+                    <FaChevronRight style={{fontSize: '1rem'}} />
+                    </UNPButton>
+                )
+              }
+            >
+              <Carousel.Item>
+                <img
+                  className="d-block w-100"
+                  src={imgURL}
+                  alt="Main image"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '10px',
-                    height: '10px',
-                    backgroundColor: 'rgba(129, 55, 255, 0.75)',
-                    borderRadius: '50%',
-                    color: 'white',
-                    zIndex: 2,
-                    position: 'relative',
-                    border: 'none',
-                    cursor: 'pointer',
-                    marginLeft: '15px',
-                    minWidth: '10px'
+                    height: `${fixedHeight}px`,
+                  }}
+                />
+              </Carousel.Item>
+              <Carousel.Item>
+                <div
+                  className="d-flex flex-column align-items-center justify-content-center"
+                  style={{
+                    height: `${fixedHeight}px`,
+                    backgroundColor: '#f8f9fa',
                   }}
                 >
-                  <FaChevronLeft />
-                </UNPButton>
-              )
-            }
-            nextIcon={
-              simple ? (
-                <></>
-              ) : (
-                <UNPButton
-                  onClick={handleNextClick}
+                  <h6>Base Type: {baseType}</h6>
+                  <h6>Category: {category}</h6>
+                </div>
+              </Carousel.Item>
+              <Carousel.Item>
+                <div
+                  className="d-flex flex-column align-items-center justify-content-center"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '10px',
-                    height: '10px',
-                    backgroundColor: 'rgba(129, 55, 255, 0.75)',
-                    borderRadius: '50%',
-                    color: 'white',
-                    zIndex: 2,
-                    position: 'relative',
-                    border: 'none',
-                    cursor: 'pointer',
-                    marginRight: '10px',
-                    minWidth: '10px'
+                    height: `${fixedHeight}px`,
+                    backgroundColor: '#f8f9fa',
                   }}
                 >
-                  <FaChevronRight />
-                </UNPButton>
-              )
-            }
-          >
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src={imgURL}
-                alt="Main image"
-                style={{
-                  height: `${fixedHeight}px`,
-                }}
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <div
-                className="d-flex flex-column align-items-center justify-content-center"
-                style={{
-                  height: `${fixedHeight}px`,
-                  backgroundColor: '#f8f9fa',
-                }}
-              >
-                <h6>Base Type: {baseType}</h6>
-                <h6>Category: {category}</h6>
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              <div
-                className="d-flex flex-column align-items-center justify-content-center"
-                style={{
-                  height: `${fixedHeight}px`,
-                  backgroundColor: '#f8f9fa',
-                }}
-              >
-                <h6>{number} Volunteers</h6>
-                <h6>{numberTitle}</h6>
-              </div>
-            </Carousel.Item>
-          </Carousel>
+                  <h6>{number} Volunteers</h6>
+                  <h6>{numberTitle}</h6>
+                </div>
+              </Carousel.Item>
+            </Carousel>
+          ) : (
+            // Render a static image on mobile
+            <img
+              className="d-block w-100"
+              src={imgURL}
+              alt="Main image"
+              style={{
+                height: `${fixedHeight}px`,
+                objectFit: 'cover',
+              }}
+            />
+          )}
 
           <Card.Body>
             <Row className="align-items-center">
@@ -230,13 +248,6 @@ const UNPCard: React.FC<UNPCardProps> = ({
             {!simple && (
               <>
                 <Card.Text className="mt-2">{description}</Card.Text>
-                {/* <Row>
-                  <Col>
-                    <p className="mb-0">
-                      {number} <span className="fw-normal">{numberTitle}</span>
-                    </p>
-                  </Col>
-                </Row> */}
               </>
             )}
           </Card.Body>

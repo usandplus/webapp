@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import UNPCard from './UNPCard';
 import { UNPBaseCategory, UNPBaseType } from '../../types/models/common';
 import UNPButton from './UNPButton';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 export interface UNPShowcaseGridProps {
   simple?: boolean;
@@ -108,13 +109,13 @@ const UNPShowcaseGrid: React.FC<UNPShowcaseGridProps> = ({
         {!isMobile && isHovered && (
           <>
             {canScrollLeft && (
-              <UNPButton className="scroll-button left" style={{ fontSize: 40 }} onClick={scrollLeft}>
-                ←
+              <UNPButton className="scroll-button left" onClick={scrollLeft}>
+                <FaChevronLeft />
               </UNPButton>
             )}
             {canScrollRight && (
-              <UNPButton className="scroll-button right" style={{ fontSize: 40 }} onClick={scrollRight}>
-                →
+              <UNPButton className="scroll-button right" onClick={scrollRight}>
+                <FaChevronRight />
               </UNPButton>
             )}
           </>
