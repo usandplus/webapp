@@ -1,7 +1,7 @@
 // src/firebase/auth/authService.ts
 
 import { auth } from '../firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, User, signInWithRedirect, getRedirectResult } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, User, signInWithRedirect, getRedirectResult, signInWithPopup } from 'firebase/auth';
 import { assignRole } from './roleService';
 
 // Sign up function with role assignment
@@ -29,7 +29,7 @@ export const signInWithEmail = async (email: string, password: string) => {
 const googleProvider = new GoogleAuthProvider();
 export const signInWithGoogle = async (): Promise<User | null> => {
     try {
-        await signInWithRedirect(auth, googleProvider);
+        await signInWithPopup(auth, googleProvider);
         // After redirect, you'll retrieve the result using getRedirectResult()
         const result = await getRedirectResult(auth);
         

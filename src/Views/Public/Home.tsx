@@ -4,7 +4,6 @@ import { Routes, Route, useNavigate, useLocation, useParams } from 'react-router
 import { Button, Row, Col, Modal, Container, Image } from 'react-bootstrap'
 import FilterCarousel from './../../Components/FilterCarousel'
 // import Dashboard from './Views/Private/Dashboard'
-import { useFirebase } from './../../Utils/Firebase'
 // import Profile from './Views/Private/Profile'
 import Card from './../../Components/Card';
 import DisabledCard from './../../Components/DisabledCard';
@@ -14,8 +13,6 @@ import UNPShowcaseGrid, { UNPShowcaseGridProps } from '../../Components/unp/UNPS
 import { UNPBaseCategory, UNPBaseType } from '../../types/models/common';
 
 export default function App() {
-  const currentUser = useFirebase()?.currentUser
-  const signOut = useFirebase()?.signOutFromGoogle
   const navigate = useNavigate()
   const location = useLocation()
   const fundaciones = [{}, {}, {}, {}, {}, {}, {}, {},]

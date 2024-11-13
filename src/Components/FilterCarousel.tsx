@@ -1,12 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Col, Navbar, Nav, NavDropdown, Image, Row, Button, Badge } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useFirebase } from './../Utils/Firebase';
 
 function FilterCarousel() {
-  const currentUser = useFirebase()?.currentUser;
-  const signOutFromGoogle = useFirebase()?.signOutFromGoogle;
-  const signInWithGoogle = useFirebase()?.signInWithGoogle;
   const fundaciones = [{}, {}, {}, {}, {}, {}, {}, {},]
   const linkContainer = () => {
     return <>

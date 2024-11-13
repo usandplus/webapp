@@ -1,13 +1,13 @@
 
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useFirebase } from './../../Utils/Firebase'
 import { useState } from 'react'
 import { Form, Button, Container, Row, Col, Card, Spinner } from 'react-bootstrap'
 import styles from './../../Utils/styles.json'
+import { signInWithGoogle } from '../../firebase/auth/authService'
 
 function Login() {
   const [loading, setLoading] = useState(false)
-  const signInWithGoogle = useFirebase()?.signInWithGoogle
+  
   let navigate = useNavigate()
   let location = useLocation()
   console.log(styles)

@@ -1,7 +1,6 @@
-// src/context/AuthProvider.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
+import { onAuthStateChanged, getRedirectResult, GoogleAuthProvider, User as FirebaseUser } from 'firebase/auth';
 import { getUserRole } from './roleService';
 
 interface AuthContextType {
@@ -10,11 +9,7 @@ interface AuthContextType {
   loading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  role: null,
-  loading: true,
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<FirebaseUser | null>(null);
@@ -22,6 +17,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const handleRedirectResult = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result) {
+          const firebaseUser = result.user;
+          setUser(firebaseUser);
+          const fetchedRole = await getUserRole(firebaseUser.uid);
+          setRole(fetchedRole);
+        }
+      } catch (error) {
+        console.error("Error retrieving redirect result:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    handleRedirectResult();
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
@@ -44,4 +57,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useAuthContext = () => useContext(AuthContext);
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuthContext must be used within an AuthProvider");
+  }
+  return context;
+};

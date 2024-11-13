@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import UNPShowcaseGrid, { UNPShowcaseGridProps } from '../../Components/unp/UNPShowcaseGrid';
 import { UNPBaseCategory, UNPBaseType } from '../../types/models/common';
-import { useFirebase } from './../../Utils/Firebase';
 import { Col, Row } from 'react-bootstrap';
 
 export default function MyFoundations() {
-  const currentUser = useFirebase()?.currentUser;
-  const signOut = useFirebase()?.signOutFromGoogle;
   const navigate = useNavigate();
   const location = useLocation();
   const { category, clientId } = useParams();
