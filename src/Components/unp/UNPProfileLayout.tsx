@@ -3,15 +3,33 @@ import { Container, Row, Col, Image, Badge, Card, Navbar } from 'react-bootstrap
 import UNPHeroGallery from './UNPHeroGallery';
 import UNPStickyLayout from './UNPStickyLayout';
 import UNPReviews from './UNPReviews';
+import UNPTextSection from './UNPTextSection';
+import UNPImportantPeople from './UNPImportantPeople';
+import UNPServicesOffered from './UNPServicesOffered';
+import UNPActiveCampaigns from './UNPActiveCampaigns';
+import UNPLocation from './UNPLocation';
 
 interface UNPProfileLayoutProps {
   heroImages: string[]; // Array of image URLs for the hero banner
   entityInfo: {
     name: string;
     description: string;
+    aboutUs?: string;
+    services?: string[];
     history: string;
-    locationAddress: string;
+    location: string;
     logo?: string;
+    ratingSummary?: Object;
+    campaigns?: {
+      name: string;
+      avatarURL: string;
+      url: string;
+    }[];
+    founders?: {
+      name: string;
+      avatarURL: string;
+      description: string;
+    }[];
   };
   children?: React.ReactNode; // This will be used to render additional components like analytics and reviews
 }
@@ -25,136 +43,23 @@ const UNPProfileLayout: FC<UNPProfileLayoutProps> = ({
   const someDataContent = 'This product is awesome because it has a lot of amazing features.';
 
   return (
-    <Container fluid   style={{backgroundColor: 'offwhite'}}>
+    <Container fluid style={{ backgroundColor: 'offwhite' }}>
       {/* Hero Section */}
       <UNPHeroGallery images={heroImages} />
-      <UNPStickyLayout dataTitle={someDataTitle} dataContent={someDataContent}>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
-        <div>
-          <h2>Left Column Content</h2>
-          <p>This is the content that will appear on the left column and scrolls with the page.</p>
-          <p>Feel free to add more content here!</p>
-        </div>
+      <UNPStickyLayout dataTitle={someDataTitle} dataContent={someDataContent} entityInfo={entityInfo}>
+        {entityInfo.aboutUs && <Row><UNPTextSection title='Sobre Nosotros' text={entityInfo.aboutUs} /></Row>}
+        {entityInfo.services && <Row><UNPServicesOffered services={entityInfo.services} /></Row>}
+        {entityInfo.founders && <Row><UNPImportantPeople founders={entityInfo.founders} /></Row>}
+        {entityInfo.campaigns && <Row><UNPActiveCampaigns campaigns={entityInfo.campaigns} /></Row>}
+        <Row>
+          <UNPLocation locations={[{
+            description: 'Test',
+            lat: 152,
+            lng: 1535
+          }]} />
+        </Row>
       </UNPStickyLayout>
-      {/* Main Info Section */}
-      {/* <Row className="p-4">
-        <Col md={7} className="scrollable-column">
-          <h1>{entityInfo.name}</h1>
-          <p>{entityInfo.description}</p>
-          <h3>History</h3>
-          <p>{entityInfo.history}</p>
-          <h3>Location</h3>
-          <p>{entityInfo.locationAddress}</p>
-        </Col>
-        <Col md={5} className="static-column">
-          <Card className="info-card">
-            {entityInfo.logo && (
-              <Card.Img variant="top" src={entityInfo.logo} />
-            )}
-            <Card.Body>
-              <Card.Title>{entityInfo.name}</Card.Title>
-              <Card.Text>{entityInfo.description}</Card.Text>
-              <Badge bg="secondary">More Info</Badge>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row> */}
 
-      {/* Additional Sections */}
       <Row className="mt-4">
         <Col>
           {children} {/* This will render analytics, reviews, etc. */}

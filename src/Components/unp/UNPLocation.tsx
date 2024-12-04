@@ -8,24 +8,24 @@ interface Location {
   lng: number;
 }
 
-interface GoogleMapsProps {
+interface UNPLocationProps {
   locations: Location[];
 }
 
-interface GoogleMapsState {
+interface UNPLocationState {
   selectedLocation: Location | null;
 }
 
 const Marker = (props: any) => <div {...props}><i className="fa-solid fa-map-pin fa-beat fa-2xl" style={{ color: '#8137ff' }}></i></div>;
 
-class GoogleMaps extends React.Component<GoogleMapsProps, GoogleMapsState> {
+class UNPLocation extends React.Component<UNPLocationProps, UNPLocationState> {
 
   static defaultProps = {
     center: { lat: 25.658622, lng: -100.362934 },
     zoom: 11
   };
 
-  state: GoogleMapsState = {
+  state: UNPLocationState = {
     selectedLocation: null
   };
 
@@ -68,4 +68,4 @@ class GoogleMaps extends React.Component<GoogleMapsProps, GoogleMapsState> {
   }
 }
 
-export default GoogleMaps;
+export default UNPLocation;

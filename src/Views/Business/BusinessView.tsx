@@ -53,11 +53,11 @@ const BusinessView = () => {
     },
   ];
   
-  return (
-    <UNPProfileLayout heroImages={heroImages} entityInfo={entityInfo}>
-      {/* Additional components can be added here */}
-      <UNPReviews reviews={reviews} aiReview='Aqui va un review hecho por inteligencia artificial' averageRating={4.3} />
-    </UNPProfileLayout>
+  return ( <></>
+    // <UNPProfileLayout heroImages={heroImages} entityInfo={entityInfo}>
+    //   {/* Additional components can be added here */}
+    //   <UNPReviews reviews={reviews} aiReview='Aqui va un review hecho por inteligencia artificial' averageRating={4.3} />
+    // </UNPProfileLayout>
   );
 };
 

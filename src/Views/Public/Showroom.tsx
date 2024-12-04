@@ -193,7 +193,7 @@ const componentsList = [
   { name: 'UNPFooter', version: '1.2', component: <UNPFooter /> },
   { name: 'UNPInput', version: '1.2', component: <UNPInput type='email' value='admin@usandplus.io' label='Correo Electronico' onChange={() => alert('que haces chico!?')} /> },
   { name: 'UNPNavbar', version: '1.2', component: <UNPNavbar links={[{ name: 'Home', path: '/showroom' }]} /> },
-  { name: 'UNPProfileBanner', version: '1.2', component: <UNPProfileBanner avatarURL="/full_logo.png" categories="Photographer, Traveler" title="John Doe" achievements={['Top Contributor', 'Gold Member', '500K Followers']} /> },
+  { name: 'UNPProfileBanner', version: '1.2', component: <UNPProfileBanner location="San Pedro Garza Garcia" avatarURL="/full_logo.png" categories="Photographer, Traveler" name="John Doe" achievements={['Top Contributor', 'Gold Member', '500K Followers']} /> },
   { name: 'UNPReviews', version: '1.2', component: <UNPReviews reviews={reviews} averageRating={4.3} aiReview='Aqui va un review por inteligencia artificial' /> },
   { name: 'UNPShowcaseGrid', version: '1.5', component: <UNPShowcaseGrid selectedCategory={'educacion'} title="Fundaciones" items={showcaseGridItems} baseType={'organizacion'} /> },
 ];

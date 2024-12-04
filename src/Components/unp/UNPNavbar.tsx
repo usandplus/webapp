@@ -6,13 +6,14 @@ import { useAuthContext } from '../../firebase/auth/AuthProvider';
 import UNPButton from './UNPButton';
 
 interface UNPNavbarProps {
-  links?: { name: string; path: string }[];
+  links?: { name: string; path: string; external?: boolean; }[];
 }
 
 const UNPNavbar: React.FC<UNPNavbarProps> = ({ links }) => {
   const { user } = useAuthContext()
 
   const fixed_links: UNPNavbarProps["links"] = [
+    { name: 'Unete al directorio', path: 'www.usandplus.io/', external: true },
     { name: "Directorio", path: "/" },
     { name: "Showroom", path: "/showroom" },
     { name: "Dashboard", path: "/dashboard" },
@@ -29,9 +30,12 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             {fixed_links.map((link) => (
-              <Nav.Link key={link.name} href={link.path} className='navbar-link'>
-                {link.name}
-              </Nav.Link>
+              link.external ?
+                <a href={link.path}>{link.name}</a>
+                :
+                <Nav.Link key={link.name} href={link.path} className='navbar-link'>
+                  {link.name}
+                </Nav.Link>
             ))}
           </Nav>
           <Nav>

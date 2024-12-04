@@ -65,7 +65,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
 
     return (
         <Container fluid className="p-3">
-            <h2 className="mt-3 mb-5">Calificaciones</h2>
+            <h2 className="mt-3 mb-5 main-text fw-bolder">Calificaciones</h2>
             <Row>
                 {/* Left Column: Average Rating and AI Review */}
                 <Col>
@@ -78,7 +78,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                                     maxHeight: 200,
                                 }}
                             />
-                                <h3>Fundacion Perritos y Gatitos</h3>
+                            <h3>Fundacion Perritos y Gatitos</h3>
                         </Col>
                     </Row>
                     <Row>
@@ -136,7 +136,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
 
                     {/* See All Reviews Button */}
                     <UNPButton variant="primary" className="w-100 mt-3" onClick={handleShowModal}>
-                        See All Reviews
+                        Ver todas las calificaciones
                     </UNPButton>
                 </Col>
             </Row>

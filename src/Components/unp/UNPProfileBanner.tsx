@@ -1,15 +1,17 @@
 import React from 'react';
-import { Container, Row, Col, Image, Badge } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col, Image, Badge, Stack } from 'react-bootstrap';
+import styles from '../../Utils/styles.json'
 
 interface UNPProfileBannerProps {
     avatarURL: string;  // URL for the avatar image
-    categories: string;  // Tiny text above the title (e.g., categories or labels)
-    title: string;  // Main title, like the profile's name
-    achievements: string[];  // Array of achievements or ranks for badges
+    categories?: string;  // Tiny text above the name (e.g., categories or labels)
+    name: string;  // Main name, like the profile's name
+    location?: string;  // location
+    achievements?: string[];  // Array of achievements or ranks for badges
+    mini?: boolean;
 }
 
-const UNPProfileBanner: React.FC<UNPProfileBannerProps> = ({ avatarURL, categories, title, achievements }) => {
+const UNPProfileBanner: React.FC<UNPProfileBannerProps> = ({ avatarURL, categories, name, location, achievements, mini }) => {
     return (
         <Container fluid className="profile-banner py-4">
             <Row className="align-items-center">
@@ -18,7 +20,7 @@ const UNPProfileBanner: React.FC<UNPProfileBannerProps> = ({ avatarURL, categori
                     <Image
                         src={avatarURL}
                         roundedCircle
-                        className="avatar-image"
+                        className="avatar-image border"
                         style={{
                             height: '100%',
                             width: '100%',
@@ -28,35 +30,40 @@ const UNPProfileBanner: React.FC<UNPProfileBannerProps> = ({ avatarURL, categori
                     />
                 </Col>
 
-                {/* Right Column: Profile Info */}
-                <Col xs={12} md={9} className="d-flex flex-column justify-content-center">
-                    {/* Top Row: Categories or Tiny Text */}
-                    <Row>
-                        <Col>
-                            <small className="text-muted">{categories}</small>
-                        </Col>
-                    </Row>
-
-                    {/* Middle Row: Big Title */}
-                    <Row>
-                        <Col>
-                            <h1>{title}</h1>
-                        </Col>
-                    </Row>
-
-                    {/* Bottom Row: Achievements or Badges */}
-                    <Row>
-                        {achievements.map((achievement, index) => (
-                            <Col >
-                                <Badge key={index} pill>
-                                    {achievement}
-                                </Badge>
+                {mini ? <></> :
+                    < Col xs={12} md={9} className="d-flex flex-column justify-content-center">
+                        {/* Top Row: Categories or Tiny Text */}
+                        <Row>
+                            <Col>
+                                <small className="fw-lighter">{categories}</small>
                             </Col>
-                        ))}
-                    </Row>
-                </Col>
+                        </Row>
+                        {/* Middle Row: Big name */}
+                        <Row>
+                            <Col>
+                                <h1 className="main-text fw-bolder">{name}</h1>
+                                <small className="fw-normal">{location}</small>
+                            </Col>
+                        </Row>
+
+                        {/* Bottom Row: Achievements or Badges */}
+                        {achievements && achievements?.length > 0
+                            ?
+                            <Row className="mt-3">
+                                <Stack direction="horizontal" gap={2}>
+                                    {achievements.map((achievement, index) => (
+                                        <Badge key={index} pill bg="light" className="main-text">
+                                            {achievement}
+                                        </Badge>
+                                    ))}
+                                </Stack>
+                            </Row>
+                            : <></>
+                        }
+                    </Col>
+                }
             </Row>
-        </Container>
+        </Container >
     );
 };
 

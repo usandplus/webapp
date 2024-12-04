@@ -20,9 +20,10 @@ const CampaignView = () => {
   };
 
   return (
-    <UNPProfileLayout heroImages={heroImages} entityInfo={entityInfo}>
-      {/* Additional components can be added here */}
-    </UNPProfileLayout>
+    <></>
+    // <UNPProfileLayout heroImages={heroImages} entityInfo={entityInfo}>
+    //   {/* Additional components can be added here */}
+    // </UNPProfileLayout>
   );
 };
 

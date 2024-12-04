@@ -1,3 +1,7 @@
+.main-text {
+  color: #8137FF !important;
+}
+
 a#profile-dropdown.dropdown-toggle.nav-link::after {
   display: none;
 }
@@ -58,10 +62,6 @@ body {
 .navbar-link:active {
   background-color: #8137FF;
   color: #D1CFFF
-}
-
-span.badge.rounded-pill.bg-primary {
-  background-color: #8137FF !important
 }
 
 .ai_review { 

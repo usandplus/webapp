@@ -17,12 +17,15 @@ const FundraiserView = () => {
     history: 'A detailed history of the entity.',
     locationAddress: '1234 Street Name, City, Country',
     logo: './full_logo.png',
+    aboutUs: 'aaha',
+    services: ['Ayudamos a niños','Ayudamos a niños','Ayudamos a niños','Ayudamos a niños','Ayudamos a niños','Ayudamos a niños','Ayudamos a niños','Ayudamos a niños',]
   };
 
   return (
-    <UNPProfileLayout heroImages={heroImages} entityInfo={entityInfo}>
-      {/* Additional components can be added here */}
-    </UNPProfileLayout>
+    <></>
+    // <UNPProfileLayout heroImages={heroImages} entityInfo={entityInfo}>
+    //   {/* Additional components can be added here */}
+    // </UNPProfileLayout>
   );
 };
 
