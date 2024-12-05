@@ -61,9 +61,9 @@ const UNPCard: React.FC<UNPCardProps> = ({
 
     return (
       <>
-        {Array(fullStars).fill(<FaStar color={styles.palette.primary.main} />)}
-        {halfStar === 1 && <FaStarHalfAlt color={styles.palette.primary.main} />}
-        {Array(emptyStars).fill(<FaRegStar color={styles.palette.primary.main} />)}
+        {Array(fullStars).fill(<FaStar className="text-primary" />)}
+        {halfStar === 1 && <FaStarHalfAlt className="text-primary"/>}
+        {Array(emptyStars).fill(<FaRegStar className="text-primary" />)}
       </>
     );
   };

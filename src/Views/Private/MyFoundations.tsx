@@ -3,8 +3,11 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import UNPShowcaseGrid, { UNPShowcaseGridProps } from '../../Components/unp/UNPShowcaseGrid';
 import { UNPBaseCategory, UNPBaseType } from '../../types/models/common';
 import { Col, Row } from 'react-bootstrap';
+import { useAuthContext } from '../../firebase/auth/AuthProvider';
 
 export default function MyFoundations() {
+  const { user } = useAuthContext()
+
   const navigate = useNavigate();
   const location = useLocation();
   const { category, clientId } = useParams();
@@ -69,7 +72,7 @@ export default function MyFoundations() {
 
   return (
     <div className="p-0 p-md-3">
-      <h1 className="mt-3">Bienvenido, Comotellames</h1>
+      <h1 className="mt-3">Bienvenido, {user?.displayName}</h1>
       <Row >
         <Col/>
         <Col xs={10} >

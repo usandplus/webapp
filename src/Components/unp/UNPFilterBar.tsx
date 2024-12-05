@@ -29,7 +29,7 @@ const UNPFilterBar: React.FC<UNPFilterBarProps> = ({ onFilterChange, selectedCat
     <div className="filter-bar-wrapper">
       <ButtonGroup className="filter-bar" aria-label="Filter categories">
         <UNPButton
-          variant={selectedCategory === null ? 'primary' : 'light'}
+          variant={selectedCategory === null ? 'primary' : 'unpbackground'}
           className={`filter-button ${selectedCategory === null ? 'active' : ''}`}
           onClick={() => handleCategorySelect(null)}
         >
@@ -38,7 +38,7 @@ const UNPFilterBar: React.FC<UNPFilterBarProps> = ({ onFilterChange, selectedCat
         {categories.map(({ name, icon }) => (
           <UNPButton
             key={name}
-            variant={selectedCategory === name ? 'primary' : 'light'}
+            variant={selectedCategory === name ? 'primary' : 'unpbackground'}
             className={`filter-button ${selectedCategory === name ? 'active' : ''}`}
             onClick={() => handleCategorySelect(name)}
             style={{

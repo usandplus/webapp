@@ -1,0 +1,23 @@
+// Define custom variables
+$unpbackground: #D1CFFF;
+$contrast: #38F9B9;
+
+// Override Bootstrap defaults
+$primary: #8137FF; // Your new primary color
+$secondary: #3C2089; // Your new secondary color
+$success: #28a745;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #dc3545;
+
+// Generate utilities for custom colors
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "contrast": $contrast,
+  "unpbackground": $unpbackground,
+
+);
+
+// Import Bootstrap
+@import '~bootstrap/scss/bootstrap';

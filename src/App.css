@@ -20,17 +20,17 @@ body {
   border: 1px solid black !important
 } */
 
-.btn-primary, .btn-primary:active, .btn-primary:visited {
+/* .btn-primary, .btn-primary:active, .btn-primary:visited {
   background-color: #D1CFFF !important;
   color: #8137FF !important;
   border-color: #D1CFFF !important;
-}
+} */
 
-.btn-primary:hover {
+/* .btn-primary:hover {
   background-color: #8137FF !important;
   color: #D1CFFF !important;
   border-color: #D1CFFF !important;
-}
+} */
 
 .btn-secondary, .btn-secondary:active, .btn-secondary:visited {
   background-color: #8137FF !important;

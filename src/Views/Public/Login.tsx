@@ -1,88 +1,63 @@
+import React, { useEffect } from 'react';
+import { Card, Button, Form, Container, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useAuthContext } from '../../firebase/auth/AuthProvider';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useState } from 'react'
-import { Form, Button, Container, Row, Col, Card, Spinner } from 'react-bootstrap'
-import styles from './../../Utils/styles.json'
-import { signInWithGoogle } from '../../firebase/auth/authService'
-import UNPButton from '../../Components/unp/UNPButton'
+const Login: React.FC = () => {
+  const {user} = useAuthContext()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect')
 
-function Login() {
-  const [loading, setLoading] = useState(false)
-  
-  let navigate = useNavigate()
-  let location = useLocation()
-  console.log(styles)
-  const login = async () => {
-    setLoading(true)
-    await signInWithGoogle()
-      .then(() => {
-        setLoading(false)
-      })
-      .catch(() => {
-        setLoading(false)
-      })
-  }
+  useEffect(()=>{
+    if (user) 
+      if (redirect) navigate(redirect)
+        else navigate('/dashboard')
+  },[user])
 
   return (
-    <Container style={{ maxWidth: '100vw' }}>
-      <Row >
-        {/* Login Form Column */}
-        <Col
-          xs={12}
-          md={6}
-          style={{
-            backgroundImage: `linear-gradient(45deg, ${styles.palette.primary.main}, ${styles.palette.primary.dark})`,
-            height: '100vh'
-          }}>
-          <Card
-            className="p-4 shadow-lg mx-auto"
-            style={{
-              marginTop: '25vh',
-              width: 350
-            }}>
-            <Card.Body className="text-center">
-              <Card.Title className="mb-4">
-              </Card.Title>
+    <Container fluid className="d-flex justify-content-center align-items-center mt-5">
+      <Row className="w-100 justify-content-center">
+        <Col sm={12} md={8} lg={6} xl={4}>
+          <Card className="shadow-lg">
+            <Card.Body>
+              <h3 className="text-center mb-4">Inicia Sesion</h3>
               <Form>
-                <Form.Group className="">
-                  <img
-                    src="/name_rectangle.png"
-                    className="img-fluid"
-                    alt="Us & Plus" />
-                  {
-                    !loading
-                      ? <UNPButton
-                        variant="primary"
-                        onClick={login}
-                        className="w-100 mt-3">
-                        Iniciar Sesión con Google
-                      </UNPButton>
-                      : <Spinner className="mt-3" />
-                  }
+                <Form.Group controlId="email" className="mb-3">
+                  <Form.Label>Correo Electronico</Form.Label>
+                  <Form.Control type="email" placeholder="ejemplo@usandplus.io" />
                 </Form.Group>
+                <Form.Group controlId="password" className="mb-3">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" placeholder="Enter your password" />
+                </Form.Group>
+                <Button variant="primary" className="w-100 mb-3" type="submit">
+                  Iniciar Sesion
+                </Button>
               </Form>
+              <div className="text-center my-3">
+                <span className="text-muted">o inicia sesion con</span>
+              </div>
+              <div className="d-grid gap-2">
+                <Button variant="outline-primary" size="lg">
+                  <i className="bi bi-google me-2"></i> Google
+                </Button>
+                <Button variant="outline-primary" size="lg">
+                  <i className="bi bi-facebook me-2"></i> Facebook
+                </Button>
+              </div>
             </Card.Body>
+            <Card.Footer className="text-center">
+              <small className="text-muted">
+                No tienes una cuenta? <a href="/signup">Crea una ahora</a>
+              </small>
+            </Card.Footer>
           </Card>
-
-        </Col>
-
-        {/* Information Column */}
-        <Col
-          className="d-sm-none d-md-block vh-100"
-          style={{
-            backgroundImage: `linear-gradient(to left, ${styles.palette.background.default}, #FFF)`
-          }}
-          md={6}
-        >
-          <img
-            style={{ marginTop: '25vh' }}
-            src="/full_logo.png"
-            className="img-fluid"
-            alt="Us & Plus" />
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Alert, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import UNPButton from './UNPButton';
+import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 
 interface Review {
     avatar: string;
@@ -49,23 +50,24 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
     };
 
     // Create array to handle star rendering (1 to 5 stars)
+
     const renderStars = (rating: number) => {
-        const stars = [];
-        for (let i = 1; i <= 5; i++) {
-            stars.push(
-                <i
-                    key={i}
-                    className={`bi bi-star${i <= rating ? '-fill' : ''}`}
-                    style={{ color: i <= rating ? '#8137FF' : '#8137FF', fontSize: 36 }}
-                />
-            );
-        }
-        return stars;
-    };
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
+    
+        return (
+          <>
+            {Array(fullStars).fill(<FaStar className="text-primary" />)}
+            {halfStar === 1 && <FaStarHalfAlt className="text-primary"/>}
+            {Array(emptyStars).fill(<FaRegStar className="text-primary" />)}
+          </>
+        );
+      };
 
     return (
         <Container fluid className="p-3">
-            <h2 className="mt-3 mb-5 main-text fw-bolder">Calificaciones</h2>
+            <h2 className="mt-3 mb-5 text-primary fw-bolder">Calificaciones</h2>
             <Row>
                 {/* Left Column: Average Rating and AI Review */}
                 <Col>
@@ -188,7 +190,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                     <Row className="d-none d-md-flex justify-content-between mb-3">
                         <Col>
                             <UNPButton
-                                variant="secondary"
+                                variant="primary"
                                 onClick={handlePrevPage}
                                 disabled={currentPage === 0}
                             >
@@ -197,7 +199,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                         </Col>
                         <Col md={2} xl={1}>
                             <UNPButton
-                                variant="secondary"
+                                variant="primary"
                                 onClick={handleNextPage}
                                 disabled={currentPage === totalPages - 1}
                             >
@@ -209,7 +211,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                     {/* Small Buttons for Mobile */}
                     <div className="d-md-none d-flex justify-content-between">
                         <UNPButton
-                            variant="secondary"
+                            variant="primary"
                             onClick={handlePrevPage}
                             disabled={currentPage === 0}
                             className="flex-fill me-1"
@@ -217,7 +219,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                             Prev
                         </UNPButton>
                         <UNPButton
-                            variant="secondary"
+                            variant="primary"
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages - 1}
                             className="flex-fill ms-1"

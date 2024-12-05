@@ -143,7 +143,7 @@ const UNPDocumentManager: React.FC = () => {
           <Row>
             <Col md={4} xs={12}>
               <Dropdown>
-                <Dropdown.Toggle variant="secondary" id="filter-type-dropdown">
+                <Dropdown.Toggle variant="primary" id="filter-type-dropdown">
                   {filterType}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -158,7 +158,7 @@ const UNPDocumentManager: React.FC = () => {
 
             <Col md={4} xs={12}>
               <Dropdown>
-                <Dropdown.Toggle variant="secondary" id="filter-date-dropdown">
+                <Dropdown.Toggle variant="primary" id="filter-date-dropdown">
                   {filterDate}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -222,11 +222,11 @@ const UNPDocumentManager: React.FC = () => {
       {/* Upload Modal */}
       <Modal show={showUploadModal} onHide={() => setShowUploadModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Upload Document</Modal.Title>
+          <Modal.Title>Subir Documento</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group controlId="formFile">
-            <Form.Label>Select Document</Form.Label>
+            <Form.Label>Selecciona el documento</Form.Label>
             <Form.Control
               type="file"
               onChange={(e) => {
@@ -239,11 +239,11 @@ const UNPDocumentManager: React.FC = () => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <UNPButton variant="secondary" onClick={() => setShowUploadModal(false)}>
-            Close
+          <UNPButton variant="error" onClick={() => setShowUploadModal(false)}>
+            Cancelar
           </UNPButton>
           <UNPButton variant="primary" onClick={handleUpload} disabled={uploading || !file}>
-            {uploading ? 'Uploading...' : 'Upload'}
+            {uploading ? 'Subiendo...' : 'Subir'}
           </UNPButton>
         </Modal.Footer>
       </Modal>

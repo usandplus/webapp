@@ -164,7 +164,7 @@ const UNPCollaboratorManager: React.FC = () => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <UNPButton variant="secondary" onClick={() => setShowInviteModal(false)}>
+          <UNPButton variant="error" onClick={() => setShowInviteModal(false)}>
             Cerrar
           </UNPButton>
           <UNPButton variant="primary" onClick={handleInvite} disabled={!name || !email}>

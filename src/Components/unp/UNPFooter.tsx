@@ -12,7 +12,7 @@ const UNPFooter: React.FC = () => {
             <p>© 2024 Us & Plus. Todos los derechos reservados.</p>
           </Col>
           <Col className="text-end">
-            <a href="/privacy" style={{color: '#D1CFFF'}}>Politica de Privacidad</a> | <a href="/terms" style={{color: '#D1CFFF'}}>Terminos y Condiciones</a>
+            <a href="/privacy" className="text-primary">Politica de Privacidad</a> | <a href="/terms" className="text-primary">Terminos y Condiciones</a>
           </Col>
         </Row>
       </Container>

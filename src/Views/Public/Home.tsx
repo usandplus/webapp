@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../../Utils/styles.json'
-import { Routes, Route, useNavigate, useLocation, useParams } from 'react-router-dom'
-import { Button, Row, Col, Modal, Container, Image } from 'react-bootstrap'
-import FilterCarousel from './../../Components/FilterCarousel'
-// import Dashboard from './Views/Private/Dashboard'
-// import Profile from './Views/Private/Profile'
-import Card from './../../Components/Card';
-import DisabledCard from './../../Components/DisabledCard';
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { Row, Col, Modal } from 'react-bootstrap'
 import UNPFilterBar from '../../Components/unp/UNPFilterBar'
 import UNPCard from '../../Components/unp/UNPCard'
 import UNPShowcaseGrid, { UNPShowcaseGridProps } from '../../Components/unp/UNPShowcaseGrid'

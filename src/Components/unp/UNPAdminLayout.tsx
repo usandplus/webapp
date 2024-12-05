@@ -108,7 +108,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
           </ListGroup>
         </Modal.Body>
         <Modal.Footer>
-          <UNPButton variant="secondary" onClick={() => setShowModal(false)}>
+          <UNPButton variant="primary" onClick={() => setShowModal(false)}>
             Close
           </UNPButton>
         </Modal.Footer>

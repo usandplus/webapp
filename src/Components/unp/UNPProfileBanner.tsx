@@ -41,7 +41,7 @@ const UNPProfileBanner: React.FC<UNPProfileBannerProps> = ({ avatarURL, categori
                         {/* Middle Row: Big name */}
                         <Row>
                             <Col>
-                                <h1 className="main-text fw-bolder">{name}</h1>
+                                <h1 className="text-primary fw-bolder">{name}</h1>
                                 <small className="fw-normal">{location}</small>
                             </Col>
                         </Row>
@@ -52,7 +52,7 @@ const UNPProfileBanner: React.FC<UNPProfileBannerProps> = ({ avatarURL, categori
                             <Row className="mt-3">
                                 <Stack direction="horizontal" gap={2}>
                                     {achievements.map((achievement, index) => (
-                                        <Badge key={index} pill bg="light" className="main-text">
+                                        <Badge key={index} pill bg="light" className="text-primary">
                                             {achievement}
                                         </Badge>
                                     ))}

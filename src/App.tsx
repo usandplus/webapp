@@ -14,6 +14,8 @@ import FundraiserAdmin from './Views/Fundraiser/FundraiserAdmin';
 import CampaignView from './Views/Campaign/CampaignView';
 import { useAuthContext } from './firebase/auth/AuthProvider'
 import SuggestionsTable from './Views/Private/Suggestions'
+import JoinUs from './Views/Public/JoinUs'
+import Login from './Views/Public/Login'
 
 export default function App() {
   const { user, loading } = useAuthContext();  // Get user and loading state from AuthProvider
@@ -27,6 +29,8 @@ export default function App() {
         <Container fluid className="p-0">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/unete" element={<JoinUs />} />
             <Route path="/showroom" element={<Showroom />} />
             <Route path="/dashboard" element={<MyFoundations />} />
             <Route path="/admin/organizacion/:id" element={<OrganizationAdmin />} />

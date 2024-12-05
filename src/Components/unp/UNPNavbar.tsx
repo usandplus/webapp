@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { signInWithGoogle, signOutUser } from '../../firebase/auth/authService';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
 import UNPButton from './UNPButton';
+import { useNavigate } from 'react-router-dom';
 
 interface UNPNavbarProps {
   links?: { name: string; path: string; external?: boolean; }[];
@@ -11,9 +12,9 @@ interface UNPNavbarProps {
 
 const UNPNavbar: React.FC<UNPNavbarProps> = ({ links }) => {
   const { user } = useAuthContext()
+  const navigate = useNavigate()
 
   const fixed_links: UNPNavbarProps["links"] = [
-    { name: 'Unete al directorio', path: 'www.usandplus.io/', external: true },
     { name: "Directorio", path: "/" },
     { name: "Showroom", path: "/showroom" },
     { name: "Dashboard", path: "/dashboard" },
@@ -29,11 +30,14 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
+            <UNPButton variant="primary" onClick={() => navigate('/unete')}>
+              Unete al directorio
+            </UNPButton>
             {fixed_links.map((link) => (
               link.external ?
                 <a href={link.path}>{link.name}</a>
                 :
-                <Nav.Link key={link.name} href={link.path} className='navbar-link'>
+                <Nav.Link key={link.name} href={link.path} className='navbar-link text-primary'>
                   {link.name}
                 </Nav.Link>
             ))}
@@ -70,7 +74,7 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links }) => {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <UNPButton variant="outline-primary" onClick={signInWithGoogle}>
+              <UNPButton variant="primary" onClick={()=>navigate('/login')}>
                 Iniciar sesión
               </UNPButton>
             )}
