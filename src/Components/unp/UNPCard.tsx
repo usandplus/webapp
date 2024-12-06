@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Card, CardProps, Row, Col, Image, Carousel } from 'react-bootstrap';
 import { FaChevronLeft, FaChevronRight, FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import { UNPBaseType, UNPBaseCategory } from '../../types/models/common';
-import UNPButton from './UNPButton';
 import styles from '../../Utils/styles.json';
 
 interface UNPCardProps extends CardProps {
@@ -62,7 +61,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
     return (
       <>
         {Array(fullStars).fill(<FaStar className="text-primary" />)}
-        {halfStar === 1 && <FaStarHalfAlt className="text-primary"/>}
+        {halfStar === 1 && <FaStarHalfAlt className="text-primary" />}
         {Array(emptyStars).fill(<FaRegStar className="text-primary" />)}
       </>
     );
@@ -74,6 +73,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
     border: 1,
     backgroundColor: 'offwhite',
     cursor: 'pointer',
+    // borderRadius: 5
   };
 
   const normalCardStyle = {
@@ -81,9 +81,10 @@ const UNPCard: React.FC<UNPCardProps> = ({
     border: 'none',
     backgroundColor: 'offwhite',
     cursor: 'pointer',
+    // borderRadius: 5
   };
 
-  const fixedHeight = 300;
+  const fixedHeight = 200;
 
   return (
     <Card
@@ -115,69 +116,70 @@ const UNPCard: React.FC<UNPCardProps> = ({
           {!isMobile ? (
             // Render the Carousel on non-mobile screens
             <Carousel
+              controls={false}
               activeIndex={activeIndex}
               variant="dark"
               onSelect={(selectedIndex) => setActiveIndex(selectedIndex)}
               interval={null}
               indicators={false}
-              prevIcon={
-                simple ? (
-                  <></>
-                ) : (
-                  <UNPButton
-                    onClick={handlePrevClick}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '10px',
-                      height: '10px',
-                      backgroundColor: 'rgba(129, 55, 255, 0.75)',
-                      borderRadius: '50%',
-                      color: 'white',
-                      zIndex: 2,
-                      position: 'relative',
-                      border: 'none',
-                      cursor: 'pointer',
-                      marginLeft: '15px',
-                      minWidth: '10px'
-                    }}
-                  >
-                    <FaChevronLeft style={{fontSize: '1rem'}} />
-                  </UNPButton>
-                )
-              }
-              nextIcon={
-                simple ? (
-                  <></>
-                ) : (
-                  <UNPButton
-                    onClick={handleNextClick}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '10px',
-                      height: '10px',
-                      backgroundColor: 'rgba(129, 55, 255, 0.75)',
-                      borderRadius: '50%',
-                      color: 'white',
-                      zIndex: 2,
-                      position: 'relative',
-                      border: 'none',
-                      cursor: 'pointer',
-                      marginRight: '15px',
-                      minWidth: '10px'
-                    }}
-                  >
-                    <FaChevronRight style={{fontSize: '1rem'}} />
-                    </UNPButton>
-                )
-              }
+            // prevIcon={
+            //   simple ? (
+            //     <></>
+            //   ) : (
+            //     <UNPButton
+            //       onClick={handlePrevClick}
+            //       style={{
+            //         display: 'flex',
+            //         alignItems: 'center',
+            //         justifyContent: 'center',
+            //         width: '10px',
+            //         height: '10px',
+            //         backgroundColor: 'rgba(129, 55, 255, 0.75)',
+            //         borderRadius: '50%',
+            //         color: 'white',
+            //         zIndex: 2,
+            //         position: 'relative',
+            //         border: 'none',
+            //         cursor: 'pointer',
+            //         marginLeft: '15px',
+            //         minWidth: '10px'
+            //       }}
+            //     >
+            //       <FaChevronLeft style={{fontSize: '1rem'}} />
+            //     </UNPButton>
+            //   )
+            // }
+            // nextIcon={
+            //   simple ? (
+            //     <></>
+            //   ) : (
+            //     <UNPButton
+            //       onClick={handleNextClick}
+            //       style={{
+            //         display: 'flex',
+            //         alignItems: 'center',
+            //         justifyContent: 'center',
+            //         width: '10px',
+            //         height: '10px',
+            //         backgroundColor: 'rgba(129, 55, 255, 0.75)',
+            //         borderRadius: '50%',
+            //         color: 'white',
+            //         zIndex: 2,
+            //         position: 'relative',
+            //         border: 'none',
+            //         cursor: 'pointer',
+            //         marginRight: '15px',
+            //         minWidth: '10px'
+            //       }}
+            //     >
+            //       <FaChevronRight style={{fontSize: '1rem'}} />
+            //       </UNPButton>
+            //   )
+            // }
             >
               <Carousel.Item>
                 <img
-                  className="d-block w-100"
+                  className="d-block w-100 rounded-top"
                   src={imgURL}
                   alt="Main image"
                   style={{
@@ -185,7 +187,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
                   }}
                 />
               </Carousel.Item>
-              <Carousel.Item>
+              {/* <Carousel.Item>
                 <div
                   className="d-flex flex-column align-items-center justify-content-center"
                   style={{
@@ -208,7 +210,7 @@ const UNPCard: React.FC<UNPCardProps> = ({
                   <h6>{number} Volunteers</h6>
                   <h6>{numberTitle}</h6>
                 </div>
-              </Carousel.Item>
+              </Carousel.Item> */}
             </Carousel>
           ) : (
             // Render a static image on mobile

@@ -16,7 +16,7 @@ interface UNPStickyLayoutProps {
 const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ dataTitle, dataContent, entityInfo, children }) => {
     const [showOffcanvas, setShowOffcanvas] = useState(false);
     const testData = {
-        logo: "/full_logo.png",
+        logo: "/stock/stock (4).jpg",
         categories: "Photographer, Traveler",
         location: "San Pedro Garza Garcia",
         achievements: ['Top Contributor', 'Gold Member', '500K Followers'],
@@ -30,16 +30,16 @@ const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ dataTitle, dataConten
             { name: 'Estadistica Cuatro', rating: 3.5 }
         ],
     activeCampaigns: [
-        { url: '/campana/1', name: 'Campaña Uno', avatarURL: '/full_logo.png' },
-        { url: '/campana/2', name: 'Campaña Dos', avatarURL: '/full_logo.png' },
-        { url: '/campana/3', name: 'Campaña Tres', avatarURL: '/full_logo.png' },
-        { url: '/campana/4', name: 'Campaña Cuatro', avatarURL: '/full_logo.png' }
+        { url: '/campana/1', name: 'Campaña Uno', avatarURL: '/stock/stock (4).jpg' },
+        { url: '/campana/2', name: 'Campaña Dos', avatarURL: '/stock/stock (2).jpg' },
+        { url: '/campana/3', name: 'Campaña Tres', avatarURL: '/stock/stock (1).jpg' },
+        { url: '/campana/4', name: 'Campaña Cuatro', avatarURL: '/stock/stock (0).jpg' }
     ],
         founders: [
-            { id: 'founder1', name: 'Founder Uno', avatarURL: '/full_logo.png' },
-            { id: 'founder2', name: 'Founder Dos', avatarURL: '/full_logo.png' },
-            { id: 'founder3', name: 'Founder Tres', avatarURL: '/full_logo.png' },
-            { id: 'founder4', name: 'Founder Cuatro', avatarURL: '/full_logo.png' }
+            { id: 'founder1', name: 'Founder Uno', avatarURL: '/stock/stock (8).jpg' },
+            { id: 'founder2', name: 'Founder Dos', avatarURL: '/stock/stock (7).jpg' },
+            { id: 'founder3', name: 'Founder Tres', avatarURL: '/stock/stock (5).jpg' },
+            { id: 'founder4', name: 'Founder Cuatro', avatarURL: '/stock/stock (3).jpg' }
         ],
         aboutUs: 'EmpowerChange Foundation is a nonprofit organization dedicated to creating opportunities for underserved communities worldwide. Through education, healthcare initiatives, and sustainable development programs, we aim to break cycles of poverty and empower individuals to thrive. Our team collaborates with local leaders and volunteers to deliver impactful solutions tailored to specific needs. By fostering resilience, equity, and innovation, EmpowerChange is building a brighter future for everyone. Join us in making a lasting difference, one community at a time. Together, we transform lives!',
         services: ['Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños',]

@@ -36,13 +36,24 @@ export default function App() {
       'arte',
       'tecnologia',
       'negocio',]
+    const fakeUrls = [
+      '/stock/stock (1).jpg',
+      '/stock/stock (2).jpg',
+      '/stock/stock (3).jpg',
+      '/stock/stock (4).jpg',
+      '/stock/stock (5).jpg',
+      '/stock/stock (6).jpg',
+      '/stock/stock (7).jpg',
+      '/stock/stock (8).jpg',
+      '/stock/stock (9).jpg',
+    ]
 
     const generateDummyData = () => {
       const dummyData = Array.from({ length: 50 }, (_, index) => ({
         id: `${index + 1}`,
         title: `Sample Title`,
         description: 'This is a sample description.',
-        imgURL: '/full_logo.png', // Placeholder image
+        imgURL: fakeUrls[Math.floor(Math.random()*fakeUrls.length)], // Placeholder image
         rating: 4.5, // Fixed rating
         category: categoryTypes[Math.floor(Math.random() * categoryTypes.length)] as UNPBaseCategory, // Fixed category
         clientId: `${index + 1}`,

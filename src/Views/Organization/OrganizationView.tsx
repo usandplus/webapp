@@ -4,16 +4,19 @@ import UNPReviews from "../../Components/unp/UNPReviews";
 
 const OrganizationView = () => {
   const heroImages = [
-    '/wordmark.png',
-    '/full_logo.png',
-    '/wordmark.png',
-    '/full_logo.png',
-    '/logo512.png',
-    // Add more images as needed
-  ];
+    '/stock/stock (1).jpg',
+    '/stock/stock (2).jpg',
+    '/stock/stock (3).jpg',
+    '/stock/stock (4).jpg',
+    '/stock/stock (5).jpg',
+    '/stock/stock (6).jpg',
+    '/stock/stock (7).jpg',
+    '/stock/stock (8).jpg',
+    '/stock/stock (9).jpg',
+  ]
 
   const entityInfo = {
-    logo: "/full_logo.png",
+    logo: "/stock/stock (3).jpg",
     categories: "Photographer, Traveler",
     location: "San Pedro Garza Garcia",
     achievements: ['Top Contributor', 'Gold Member', '500K Followers'],
@@ -27,16 +30,16 @@ const OrganizationView = () => {
       { 'rating4': 4 },
     ],
     founders: [
-      { description: 'ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ', id: 'founder1', name: 'Founder Uno', avatarURL: '/full_logo.png' },
-      { description: 'ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ', id: 'founder2', name: 'Founder Dos', avatarURL: '/full_logo.png' },
-      { description: 'ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ', id: 'founder3', name: 'Founder Tres', avatarURL: '/full_logo.png' },
-      { description: 'ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ', id: 'founder4', name: 'Founder Cuatro', avatarURL: '/full_logo.png' }
+      { description: 'ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ', id: 'founder1', name: 'Founder Uno', avatarURL: '/stock/stock (7).jpg' },
+      { description: 'ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ', id: 'founder2', name: 'Founder Dos', avatarURL: '/stock/stock (6).jpg' },
+      { description: 'ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ', id: 'founder3', name: 'Founder Tres', avatarURL: '/stock/stock (4).jpg' },
+      { description: 'ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ahuevo el mejor founder del mundo wuwuw ', id: 'founder4', name: 'Founder Cuatro', avatarURL: '/stock/stock (5).jpg' }
     ],
     campaigns: [
-      { url: '/campana/1', name: 'Campaña Uno', avatarURL: '/full_logo.png' },
-      { url: '/campana/2', name: 'Campaña Dos', avatarURL: '/full_logo.png' },
-      { url: '/campana/3', name: 'Campaña Tres', avatarURL: '/full_logo.png' },
-      { url: '/campana/4', name: 'Campaña Cuatro', avatarURL: '/full_logo.png' }
+      { url: '/campana/1', name: 'Campaña Uno', avatarURL: '/stock/stock (4).jpg' },
+      { url: '/campana/2', name: 'Campaña Dos', avatarURL: '/stock/stock (3).jpg' },
+      { url: '/campana/3', name: 'Campaña Tres', avatarURL: '/stock/stock (2).jpg' },
+      { url: '/campana/4', name: 'Campaña Cuatro', avatarURL: '/stock/stock (1).jpg' }
     ],
     aboutUs: 'EmpowerChange Foundation is a nonprofit organization dedicated to creating opportunities for underserved communities worldwide. Through education, healthcare initiatives, and sustainable development programs, we aim to break cycles of poverty and empower individuals to thrive. Our team collaborates with local leaders and volunteers to deliver impactful solutions tailored to specific needs. By fostering resilience, equity, and innovation, EmpowerChange is building a brighter future for everyone. Join us in making a lasting difference, one community at a time. Together, we transform lives!',
     services: ['Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños',]

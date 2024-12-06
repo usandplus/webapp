@@ -74,7 +74,7 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                     <Row>
                         <Col className="text-center">
                             <img
-                                src={'/full_logo.png'}
+                                src={'/stock/stock (6).jpg'}
                                 alt={'Fundacion'}
                                 style={{
                                     maxHeight: 200,
