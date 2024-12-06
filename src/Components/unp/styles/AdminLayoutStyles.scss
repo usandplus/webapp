@@ -1,0 +1,44 @@
+.admin-layout {
+  height: 100vh;
+  overflow: hidden; // If you want a locked layout
+  
+  .sidebar {
+    background: #f8f9fa; // A standard light gray for differentiation
+    border-right: 1px solid #dee2e6;
+  }
+
+  .sidebar-header {
+    .entity-dropdown {
+      .dropdown-toggle {
+        text-align: left;
+      }
+    }
+  }
+
+  .sidebar-link {
+    color: #0d6efd;
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: #e9f2ff;
+      border-radius: 0.25rem;
+    }
+  }
+
+  .active-section {
+    background-color: #0d6efd;
+    color: #fff !important;
+    border-radius: 0.25rem;
+  }
+
+  .content-card {
+    border: none;
+    border-radius: 0.5rem;
+  }
+}
+
+.entity-list-item {
+  cursor: pointer;
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}

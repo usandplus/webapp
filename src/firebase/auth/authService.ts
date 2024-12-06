@@ -4,6 +4,7 @@ import { auth } from '../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, User, signInWithRedirect, getRedirectResult, signInWithPopup } from 'firebase/auth';
 import { assignRole } from './roleService';
 
+
 // Sign up function with role assignment
 export const signUpWithEmail = async (email: string, password: string, role: string) => {
     try {

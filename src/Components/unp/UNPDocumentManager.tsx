@@ -23,6 +23,7 @@ import {
   doc,
   updateDoc,
 } from 'firebase/firestore';
+import { FaFileArchive } from 'react-icons/fa';
 
 interface Document {
   id: string;
@@ -37,7 +38,7 @@ const UNPDocumentManager: React.FC = () => {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStarred, setFilterStarred] = useState(false);
-  const [filterType, setFilterType] = useState<string>('Tipo de Documento');
+  const [filterType, setFilterType] = useState<string>('Tipo');
   const [filterDate, setFilterDate] = useState<string>('Fecha');
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -121,133 +122,125 @@ const UNPDocumentManager: React.FC = () => {
 
   return (
     <Container>
-      <h3>Administracion de Documentos</h3>
-
-      <InputGroup className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder="Buscar documentos..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </InputGroup>
-
-      <Row className="mb-3">
-        <Col md={4} xs={12}>
+      <Row>
+        <Col xs={12} md={4}>
+          <InputGroup className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Buscar documentos..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </InputGroup>
+        </Col>
+        <Col md={2} xs={3}>
           <UNPButton variant="primary" onClick={() => setShowUploadModal(true)}>
             + Nuevo
           </UNPButton>
         </Col>
-
-        <Col md={8} xs={12}>
-          <Row>
-            <Col md={4} xs={12}>
-              <Dropdown>
-                <Dropdown.Toggle variant="primary" id="filter-type-dropdown">
-                  {filterType}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => setFilterType('Tipo de Documento')}>Tipo de Documento</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setFilterType('pdf')}>PDF</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setFilterType('doc')}>DOC</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setFilterType('xls')}>Excel</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setFilterType('ppt')}>PowerPoint</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Col>
-
-            <Col md={4} xs={12}>
-              <Dropdown>
-                <Dropdown.Toggle variant="primary" id="filter-date-dropdown">
-                  {filterDate}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => setFilterDate('Fecha')}>Fecha</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setFilterDate(new Date().toLocaleDateString())}>Today</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setFilterDate(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toLocaleDateString())}>Last 7 Days</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setFilterDate(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toLocaleDateString())}>Last 30 Days</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Col>
-
-            <Col md={4} xs={12}>
-              <Form.Check
-                type="checkbox"
-                label="Show Starred"
-                checked={filterStarred}
-                onChange={(e) => setFilterStarred(e.target.checked)}
-              />
-            </Col>
-          </Row>
+        <Col md={2} xs={3}>
+          <Dropdown>
+            <Dropdown.Toggle variant="primary" id="filter-type-dropdown">
+              {filterType}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setFilterType('Tipo')}>Tipo</Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilterType('pdf')}>PDF</Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilterType('doc')}>DOC</Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilterType('xls')}>Excel</Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilterType('ppt')}>PowerPoint</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Col>
-      </Row>
+        <Col md={2} xs={3}>
+          <Dropdown>
+            <Dropdown.Toggle variant="primary" id="filter-date-dropdown">
+              {filterDate}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setFilterDate('Fecha')}>Fecha</Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilterDate(new Date().toLocaleDateString())}>Today</Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilterDate(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toLocaleDateString())}>Last 7 Days</Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilterDate(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toLocaleDateString())}>Last 30 Days</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Col>
+        <Col md={1} xs={3}>
+          <Form.Check
+            type="checkbox"
+            label="Show Starred"
+            checked={filterStarred}
+            onChange={(e) => setFilterStarred(e.target.checked)}
+          />
+        </Col>
+    </Row>
 
-      {filteredDocuments.length === 0 && <Alert variant="warning">No documents found.</Alert>}
+      { filteredDocuments.length === 0 && <Alert variant="warning">No documents found.</Alert> }
 
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Date Uploaded</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredDocuments.map((doc) => (
-            <tr key={doc.id}>
-              <td>{doc.name}</td>
-              <td>{doc.type}</td>
-              <td>{new Date(doc.createdAt).toLocaleDateString()}</td>
-              <td>
-                <UNPButton variant="link" href={doc.url} target="_blank">
-                  View
-                </UNPButton>
-                <UNPButton variant="link" onClick={() => handleDelete(doc.id)}>
-                  Delete
-                </UNPButton>
-                <UNPButton
-                  variant="link"
-                  onClick={() => toggleStar(doc.id)}
-                  className={doc.starred ? 'text-warning' : ''}
-                >
-                  {doc.starred ? 'Unstar' : 'Star'}
-                </UNPButton>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+  <Table striped bordered hover responsive>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Date Uploaded</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {filteredDocuments.map((doc) => (
+        <tr key={doc.id}>
+          <td>{doc.name}</td>
+          <td>{doc.type}</td>
+          <td>{new Date(doc.createdAt).toLocaleDateString()}</td>
+          <td>
+            <UNPButton variant="link" href={doc.url} target="_blank">
+              View
+            </UNPButton>
+            <UNPButton variant="link" onClick={() => handleDelete(doc.id)}>
+              Delete
+            </UNPButton>
+            <UNPButton
+              variant="link"
+              onClick={() => toggleStar(doc.id)}
+              className={doc.starred ? 'text-warning' : ''}
+            >
+              {doc.starred ? 'Unstar' : 'Star'}
+            </UNPButton>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </Table>
 
-      {/* Upload Modal */}
-      <Modal show={showUploadModal} onHide={() => setShowUploadModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Subir Documento</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group controlId="formFile">
-            <Form.Label>Selecciona el documento</Form.Label>
-            <Form.Control
-              type="file"
-              onChange={(e) => {
-                const target = e.target as HTMLInputElement; // Type assertion
-                if (target.files && target.files.length > 0) {
-                  setFile(target.files[0]);
-                }
-              }}  
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <UNPButton variant="error" onClick={() => setShowUploadModal(false)}>
-            Cancelar
-          </UNPButton>
-          <UNPButton variant="primary" onClick={handleUpload} disabled={uploading || !file}>
-            {uploading ? 'Subiendo...' : 'Subir'}
-          </UNPButton>
-        </Modal.Footer>
-      </Modal>
-    </Container>
+  {/* Upload Modal */ }
+  <Modal show={showUploadModal} onHide={() => setShowUploadModal(false)}>
+    <Modal.Header closeButton>
+      <Modal.Title>Subir Documento</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <Form.Group controlId="formFile">
+        <Form.Label>Selecciona el documento</Form.Label>
+        <Form.Control
+          type="file"
+          onChange={(e) => {
+            const target = e.target as HTMLInputElement; // Type assertion
+            if (target.files && target.files.length > 0) {
+              setFile(target.files[0]);
+            }
+          }}
+        />
+      </Form.Group>
+    </Modal.Body>
+    <Modal.Footer>
+      <UNPButton variant="error" onClick={() => setShowUploadModal(false)}>
+        Cancelar
+      </UNPButton>
+      <UNPButton variant="primary" onClick={handleUpload} disabled={uploading || !file}>
+        {uploading ? 'Subiendo...' : 'Subir'}
+      </UNPButton>
+    </Modal.Footer>
+  </Modal>
+    </Container >
   );
 };
 

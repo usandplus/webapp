@@ -3,6 +3,7 @@ import { Card, Button, Form, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { signInWithGoogle } from '../../firebase/auth/authService';
 
 const Login: React.FC = () => {
   const {user} = useAuthContext()
@@ -40,7 +41,7 @@ const Login: React.FC = () => {
                 <span className="text-muted">o inicia sesion con</span>
               </div>
               <div className="d-grid gap-2">
-                <Button variant="outline-primary" size="lg">
+                <Button variant="outline-primary" size="lg" onClick={signInWithGoogle}>
                   <i className="bi bi-google me-2"></i> Google
                 </Button>
                 <Button variant="outline-primary" size="lg">

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Nav, Button, Modal, ListGroup } from 'react-bootstrap';
-import { firestore } from './../../firebase/firebaseConfig'; // Adjust import based on your Firebase setup
-import { collection, getDocs } from 'firebase/firestore'; // Import Firestore methods
+import { Container, Dropdown, Row, Col, Nav, Button, Modal, Offcanvas, ListGroup, Card, Image } from 'react-bootstrap';
+import { firestore } from './../../firebase/firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import UNPButton from './UNPButton';
+import './styles/AdminLayoutStyles.scss';
+import { FaArrowAltCircleUp } from 'react-icons/fa';
+import { useAuthContext } from '../../firebase/auth/AuthProvider';
+
 interface Section {
   name: string;
   label: string;
@@ -20,33 +23,38 @@ interface Entity {
   path: string;
 }
 
-// UNPAdminLayout Component
 const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSection }) => {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
+  const {user, loading} = useAuthContext();
   const [activeSection, setActiveSection] = useState(defaultSection || sections[0].name);
   const [showModal, setShowModal] = useState(false);
-  const [entities, setEntities] = useState<Entity[]>([{name: 'Gatitos', path:'/admin/organizacion/2'}]);
-  const [currentEntity, setCurrentEntity] = useState<string | null>('Perritos y Animalitos');
+  const [showMobileModal, setShowMobileModal] = useState(false);
+  const [entities, setEntities] = useState<Entity[]>([
+    { name: 'Default', path: '/dashboard/' },
+    { name: 'Gatitos', path: '/admin/organizacion/1' },
+    { name: 'Gatitos', path: '/admin/organizacion/2' },
+  ]);
+  const [currentEntity, setCurrentEntity] = useState<string | null>(user && user.displayName);
 
-  // Fetch entities from Firestore on component mount
+  useEffect(()=>{user &&  setCurrentEntity(user.displayName)},[loading])
+
   useEffect(() => {
     const fetchEntities = async () => {
       try {
-        const userRef = collection(firestore, 'users'); // Adjust collection name based on your Firestore structure
+        const userRef = collection(firestore, 'users');
         const userSnapshot = await getDocs(userRef);
         const entityList: Entity[] = [];
 
         userSnapshot.forEach((doc) => {
-          // Assuming the user document has an array of accessible entities
           const data = doc.data();
-          if (data.entities) {
-            entityList.push(...data.entities); // Add entities to the list
-          } 
+          if (data.memberships) {
+            entityList.push(...data.memberships);
+          }
         });
 
         setEntities(entityList);
       } catch (error) {
-        console.error("Error fetching entities:", error);
+        console.error('Error fetching entities:', error);
       }
     };
 
@@ -55,65 +63,134 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
 
   const handleEntityChange = (entity: Entity) => {
     setCurrentEntity(entity.name);
-    navigate(entity.path)
-    setActiveSection(sections[0].name); 
-    // Reset to default section if needed
-    setShowModal(false); // Close the modal
+    navigate(entity.path);
+    setActiveSection(sections[0].name);
+    setShowModal(false);
+    setShowMobileModal(false);
   };
-  console.log(entities)
-  // Find the component for the active section
+
   const activeComponent = sections.find((section) => section.name === activeSection)?.component || null;
 
-  return (
-    <Container fluid>
-      <Row>
-        {/* Sidebar */}
-        <Col md={3} className="p-0 bg-light">
-          <Nav className="flex-column p-3">
-            <h4>{currentEntity || 'Select Entity'}</h4>
-            <UNPButton variant="primary" onClick={() => setShowModal(true)} className="mb-2">
-              Cambiar
-            </UNPButton>
-            {sections.map((section) => (
-              <Nav.Link
-                key={section.name}
-                active={activeSection === section.name}
-                onClick={() => setActiveSection(section.name)}
-                className="mb-2"
-              >
-                {section.label}
-              </Nav.Link>
-            ))}
-          </Nav>
-        </Col>
-        
-        {/* Main Content Area */}
-        <Col md={9} className="p-3">
-          {activeComponent}
-        </Col>
-      </Row>
-
-      {/* Modal for Changing Entity */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Select an Entity</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <ListGroup>
+  const sidebarContent = (
+    <div className="d-flex flex-column h-100 p-3">
+      <div className="sidebar-header text-center mb-4">
+        <Image
+          rounded
+          src="/kasasa_logo.png"
+          alt="Logo"
+          className="mb-3"
+          style={{ maxHeight: '60px', objectFit: 'contain' }}
+        />
+        <Dropdown className="entity-dropdown">
+          <Dropdown.Toggle variant="primary" id="entity-dropdown-toggle" className="w-100 text-center">
+            {currentEntity}
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="w-100">
             {entities.map((entity, index) => (
-              <ListGroup.Item key={index} action onClick={() => handleEntityChange(entity)}>
+              <Dropdown.Item
+                key={index}
+                onClick={() => handleEntityChange(entity)}
+                className="text-primary"
+              >
                 {entity.name}
-              </ListGroup.Item>
+              </Dropdown.Item>
             ))}
-          </ListGroup>
-        </Modal.Body>
-        <Modal.Footer>
-          <UNPButton variant="primary" onClick={() => setShowModal(false)}>
-            Close
-          </UNPButton>
-        </Modal.Footer>
-      </Modal>
-    </Container>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+
+      <Nav className="flex-column mt-3">
+        {sections.map((section) => {
+          const isActive = activeSection === section.name;
+          return (
+            <Nav.Link
+              key={section.name}
+              active={isActive}
+              onClick={() => setActiveSection(section.name)}
+              className={`mb-2 ${isActive ? 'bg-primary text-white' : 'text-secondary'}`}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {section.label}
+            </Nav.Link>
+          );
+        })}
+      </Nav>
+    </div>
+  );
+
+  return (
+    <>
+      <Container fluid className="admin-layout p-0">
+        <Row noGutters>
+          {/* Sidebar: Visible on md and above with full viewport height */}
+          <Col md={3} className="sidebar d-none d-md-block bg-light border-end vh-100">
+            {sidebarContent}
+          </Col>
+
+          {/* Main Content Area */}
+          <Col md={9} className="main-content p-3">
+            <Card className="shadow-sm content-card">
+              <Card.Body className="p-4">
+                {activeComponent}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* Modal for Changing Entity (Desktop) */}
+        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Selecciona tu entidad</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <ListGroup>
+              {entities.map((entity, index) => (
+                <ListGroup.Item
+                  key={index}
+                  action
+                  onClick={() => handleEntityChange(entity)}
+                  className="entity-list-item"
+                >
+                  {entity.name}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Cerrar
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </Container>
+
+      {/* Mobile Offcanvas Menu */}
+      <div className="d-block d-md-none">
+        <Button
+          variant="primary"
+          onClick={() => setShowMobileModal(true)}
+          className="fixed-bottom m-3 shadow-lg rounded-pill d-flex align-items-center"
+          style={{ zIndex: 1050 }}
+          aria-label="Open menu"
+        >
+          <span className="flex-grow-1 text-start">{currentEntity}</span>
+          <FaArrowAltCircleUp className="ms-2" />
+        </Button>
+
+        <Offcanvas
+          show={showMobileModal}
+          onHide={() => setShowMobileModal(false)}
+          placement="bottom"
+          className="h-75"
+          aria-labelledby="mobile-menu-title"
+          scroll={true}
+        >
+          <Offcanvas.Body className="p-0 overflow-auto">
+            {sidebarContent}
+          </Offcanvas.Body>
+        </Offcanvas>
+      </div>
+    </>
   );
 };
 
