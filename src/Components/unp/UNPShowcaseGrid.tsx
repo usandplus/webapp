@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import UNPCard from './UNPCard';
-import { UNPBaseCategory, UNPBaseType } from '../../types/models/common';
+import { UNPBaseType } from '../../types/models/common';
 import UNPButton from './UNPButton';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { Container, Row, Col } from 'react-bootstrap';
 
 export interface UNPShowcaseGridProps {
   simple?: boolean;
@@ -11,7 +11,7 @@ export interface UNPShowcaseGridProps {
   selectedCategory: string | null;
   title: string;
   customNavigationPrefix?: string;
-  items: any;
+  items: any[];
   mini?: boolean;
 }
 
@@ -24,41 +24,21 @@ const UNPShowcaseGrid: React.FC<UNPShowcaseGridProps> = ({
   baseType,
   mini,
 }) => {
-  let typeItems = baseType
+  const navigate = useNavigate();
+
+  // Filter items by baseType and category
+  let filteredItems = baseType
     ? items.filter((item: any) => item.baseType === baseType)
     : items;
 
-  typeItems = selectedCategory
-    ? typeItems.filter((item: any) => item.category === selectedCategory)
-    : typeItems;
+  filteredItems = selectedCategory
+    ? filteredItems.filter((item: any) => item.category === selectedCategory)
+    : filteredItems;
 
-  const navigate = useNavigate();
-  const showcaseContainerRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-  const TOLERANCE = 5
-  const handleScroll = () => {
-    if (showcaseContainerRef.current) {
-      const container = showcaseContainerRef.current;
-      setCanScrollLeft(container.scrollLeft > 0);
-      setCanScrollRight(
-        container.scrollWidth > container.clientWidth + container.scrollLeft + TOLERANCE
-      );
-    }
-  };
-
-  useEffect(() => {
-    if (showcaseContainerRef.current) {
-      const container = showcaseContainerRef.current;
-      handleScroll();
-      container.addEventListener('scroll', handleScroll);
-
-      return () => {
-        container.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, [items, baseType, selectedCategory]);
+  // Pagination states
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 20;
+  const visibleItems = filteredItems.slice(0, page * itemsPerPage);
 
   const handleCardClick = (baseType: UNPBaseType, id: string, item: any) => {
     navigate(
@@ -66,87 +46,40 @@ const UNPShowcaseGrid: React.FC<UNPShowcaseGridProps> = ({
     );
   };
 
-  const smoothScroll = (distance: number, duration: number) => {
-    const start = showcaseContainerRef.current?.scrollLeft || 0;
-    const startTime = performance.now();
-  
-    const animateScroll = (currentTime: number) => {
-      const elapsedTime = currentTime - startTime;
-      const progress = Math.min(elapsedTime / duration, 1);
-  
-      if (showcaseContainerRef.current) {
-        showcaseContainerRef.current.scrollLeft = start + distance * progress;
-      }
-  
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll);
-      } else {
-        handleScroll(); // Update scroll state after scrolling completes
-      }
-    };
-  
-    requestAnimationFrame(animateScroll);
-  };
+  const hasMore = filteredItems.length > visibleItems.length;
 
-  const scrollLeft = () => {
-    smoothScroll(-600, 500); // 600px to the left over 500 milliseconds
-  };
+  return (<>
+      <Row noGutters className=''>
+        {visibleItems.map((item: any) => (
+          <Col key={item.id} xs={11} md={5} lg={2} className='mb-3 mx-lg-0 mx-auto'>
+            <UNPCard
+              mini={mini}
+              simple={simple}
+              baseType={item.baseType}
+              numberTitle={item.numberTitle}
+              number={item.number}
+              profileImgURL={item.profileImgURL}
+              title={item.title}
+              description={item.description}
+              imgURL={item.imgURL}
+              rating={item.rating}
+              category={item.category}
+              clientId={item.clientId}
+              className="unp-card h-100"
+              onClick={() => handleCardClick(item.baseType, item.id, item)}
+            />
+          </Col>
+        ))}
+      </Row>
 
-  const scrollRight = () => {
-    smoothScroll(600, 500); // 600px to the right over 500 milliseconds
-  };
-
-  const isMobile = window.innerWidth <= 768;
-
-  return (
-    <div
-      className="showcase-grid-container"
-      onMouseEnter={() => !isMobile && setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <h3 className="showcase-title mb-3">{title}</h3>
-      <div className="position-relative">
-        {!isMobile && isHovered && (
-          <>
-            {canScrollLeft && (
-              <UNPButton className="scroll-button left" onClick={scrollLeft}>
-                <FaChevronLeft />
-              </UNPButton>
-            )}
-            {canScrollRight && (
-              <UNPButton className="scroll-button right" onClick={scrollRight}>
-                <FaChevronRight />
-              </UNPButton>
-            )}
-          </>
-        )}
-        <div
-          className="d-flex overflow-hidden showcase-cards-container"
-          ref={showcaseContainerRef}
-        >
-          {typeItems.map((item: any) => (
-            <div key={item.id} className="showcase-card-wrapper">
-              <UNPCard
-                mini={mini}
-                simple={simple}
-                baseType={item.baseType}
-                numberTitle={item.numberTitle}
-                number={item.number}
-                profileImgURL={item.profileImgURL}
-                title={item.title}
-                description={item.description}
-                imgURL={item.imgURL}
-                rating={item.rating}
-                category={item.category}
-                clientId={item.clientId}
-                className="unp-card"
-                onClick={() => handleCardClick(item.baseType, item.id, item)}
-              />
-            </div>
-          ))}
+      {hasMore && (
+        <div className="d-flex justify-content-center my-4">
+          <UNPButton onClick={() => setPage(page + 1)}>
+            Load More
+          </UNPButton>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

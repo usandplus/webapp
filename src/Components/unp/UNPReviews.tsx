@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Alert, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Alert, Modal, Image } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import UNPButton from './UNPButton';
 import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
@@ -73,7 +73,8 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                 <Col>
                     <Row>
                         <Col className="text-center">
-                            <img
+                            <Image
+                                rounded
                                 src={'/stock/stock (6).jpg'}
                                 alt={'Fundacion'}
                                 style={{
@@ -113,7 +114,8 @@ const UNPReviews: React.FC<UNPReviewsProps> = ({ averageRating, aiReview, review
                         <Card key={index} className="mb-3">
                             <Card.Body>
                                 <div className="d-flex">
-                                    <img
+                                    <Image
+                                        rounded
                                         src={review.avatar}
                                         alt={review.name}
                                         style={{

@@ -71,7 +71,7 @@ export default function MyFoundations() {
   };
 
   return (
-    <div className="p-0 p-md-3">
+    <div className="">
       <h1 className="mt-3">Bienvenido, {user?.displayName}</h1>
       <Row >
         <Col/>

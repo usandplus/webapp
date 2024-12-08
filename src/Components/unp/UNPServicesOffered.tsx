@@ -11,13 +11,13 @@ const UNPServicesOffered: React.FC<UNPServicesOfferedProps> = ({ services }) => 
 
   return (
     <Row className="border-top py-3">
-      <h3 className="fw-bold main-text pb-2">{title}</h3>
+      <h3 className="fw-bold text-primary pb-2">{title}</h3>
       {services
         ? <Stack direction='vertical'>
           {
             Object.entries(services).map((item, i) => {
               console.log(item)
-              return i < 5 ? <p className='main-text fw-bold'><FaStar /> {item[0]}: {item[1]}</p> : <></>
+              return i < 5 ? <p className='text-primary fw-bold'><FaStar /> {item[0]}: {item[1]}</p> : <></>
             })
           }
         </Stack>

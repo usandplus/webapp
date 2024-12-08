@@ -73,10 +73,10 @@ const JoinUs: React.FC = () => {
               onClick={() => handleSelect(option.link)}
             >
               <Card.Body className="d-flex flex-column">
-                <Card.Title className="text-center main-text fw-bold mb-3">{option.title}</Card.Title>
+                <Card.Title className="text-center text-primary fw-bold mb-3">{option.title}</Card.Title>
                 <Card.Text className="text-center text-muted">{option.description}</Card.Text>
                 <div className="mt-3">
-                  <h5 className="main-text fw-bold">Features:</h5>
+                  <h5 className="text-primary fw-bold">Features:</h5>
                   <ListGroup variant="flush">
                     {option.features.map((feature, idx) => (
                       <ListGroup.Item key={idx} className="border-0 ps-0">
@@ -87,7 +87,7 @@ const JoinUs: React.FC = () => {
                   </ListGroup>
                 </div>
                 <div className="mt-auto">
-                  <Card.Text className="text-center display-6 fw-bold main-text">
+                  <Card.Text className="text-center display-6 fw-bold text-primary">
                     {option.price}
                   </Card.Text>
                   <Button

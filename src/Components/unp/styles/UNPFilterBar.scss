@@ -1,0 +1,107 @@
+.filter-bar-container {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  padding: 0.5rem 0;
+}
+
+
+.filter-item {
+  background: none;
+  border: none;
+  outline: none;
+  margin: 0 1rem;
+  padding: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #717171; /* gray text for inactive state */
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.filter-item .icon-wrapper {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-item.active,
+.filter-item:hover {
+  color: #000; /* darker text and icon when active or hover */
+}
+
+.filter-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 2px;
+  background: #000;
+}
+
+.filter-item span {
+  display: block;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.filter-item.active span {
+  font-weight: 600;
+}
+
+
+/* Arrow buttons styling */
+.filter-arrow-button {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+
+  // &:hover {
+  //   background: #f8f8f8;
+  // }
+}
+.filter-bar-scroll-container {
+  -ms-overflow-style: none;
+}
+
+.filter-arrow-left {
+  left: 10px;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+.filter-arrow-right {
+  right: 10px;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+/* Show arrows only on desktop, hide on mobile */
+@media (max-width: 991px) {
+  .filter-arrow-button {
+    display: none;
+  }
+}

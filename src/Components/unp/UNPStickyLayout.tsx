@@ -1,59 +1,44 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Offcanvas } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col, Card, Button, Offcanvas, Image } from 'react-bootstrap';
 import UNPProfileBanner from './UNPProfileBanner';
 import UNPButton from './UNPButton';
 import UNPTextSection from './UNPTextSection';
 import UNPRatingSummary from './UNPRatingSummary';
 
 interface UNPStickyLayoutProps {
-    entityInfo: Object;
-    dataTitle: string;  // The title for the card
-    dataContent: string;  // The content inside the card
-    children: React.ReactNode;  // Children components to render in the left column
+    entityInfo: Record<string, unknown>; // Consider a stricter type if structure is known
+    dataTitle: string;
+    dataContent: string;
+    children: React.ReactNode;
 }
+
+// Example test data. In a real scenario, pass this through props or entityInfo.
+const testData = {
+    logo: "/stock/stock (4).jpg",
+    categories: "Photographer, Traveler",
+    location: "San Pedro Garza Garcia",
+    achievements: ['Top Contributor', 'Gold Member', '500K Followers'],
+    name: 'Us & Plus',
+    description: 'Una fundación es una organización privada sin fines de lucro...',
+    ratingSummary: [
+        { name: 'Estadistica Uno', rating: 3.5 },
+        { name: 'Estadistica Dos', rating: 3.5 },
+        { name: 'Estadistica Tres', rating: 3.5 },
+        { name: 'Estadistica Cuatro', rating: 3.5 }
+    ],
+};
 
 const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ dataTitle, dataContent, entityInfo, children }) => {
     const [showOffcanvas, setShowOffcanvas] = useState(false);
-    const testData = {
-        logo: "/stock/stock (4).jpg",
-        categories: "Photographer, Traveler",
-        location: "San Pedro Garza Garcia",
-        achievements: ['Top Contributor', 'Gold Member', '500K Followers'],
-        name: 'Us & Plus',
-        description: 'Una fundación es una organización privada sin fines de lucro que se caracteriza por perseguir objetivos de interés general para un grupo de beneficiarios. Se crea por la voluntad de una o varias personas, que destinan un patrimonio para la realización de sus fines. ',
-        history: 'A detailed history of the entity.',
-        ratingSummary: [
-            { name: 'Estadistica Uno', rating: 3.5 },
-            { name: 'Estadistica Dos', rating: 3.5 },
-            { name: 'Estadistica Tres', rating: 3.5 },
-            { name: 'Estadistica Cuatro', rating: 3.5 }
-        ],
-    activeCampaigns: [
-        { url: '/campana/1', name: 'Campaña Uno', avatarURL: '/stock/stock (4).jpg' },
-        { url: '/campana/2', name: 'Campaña Dos', avatarURL: '/stock/stock (2).jpg' },
-        { url: '/campana/3', name: 'Campaña Tres', avatarURL: '/stock/stock (1).jpg' },
-        { url: '/campana/4', name: 'Campaña Cuatro', avatarURL: '/stock/stock (0).jpg' }
-    ],
-        founders: [
-            { id: 'founder1', name: 'Founder Uno', avatarURL: '/stock/stock (8).jpg' },
-            { id: 'founder2', name: 'Founder Dos', avatarURL: '/stock/stock (7).jpg' },
-            { id: 'founder3', name: 'Founder Tres', avatarURL: '/stock/stock (5).jpg' },
-            { id: 'founder4', name: 'Founder Cuatro', avatarURL: '/stock/stock (3).jpg' }
-        ],
-        aboutUs: 'EmpowerChange Foundation is a nonprofit organization dedicated to creating opportunities for underserved communities worldwide. Through education, healthcare initiatives, and sustainable development programs, we aim to break cycles of poverty and empower individuals to thrive. Our team collaborates with local leaders and volunteers to deliver impactful solutions tailored to specific needs. By fostering resilience, equity, and innovation, EmpowerChange is building a brighter future for everyone. Join us in making a lasting difference, one community at a time. Together, we transform lives!',
-        services: ['Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños',]
-    }
+
     const handleClose = () => setShowOffcanvas(false);
     const handleShow = () => setShowOffcanvas(true);
 
     return (
-        <>
-            <Container fluid className="p-3">
-                {/* Desktop/Large Screen Layout */}
+            <Container fluid className="">
                 <Row>
-                    {/* Left Column: Scrollable Content */}
-                    <Col md={7} className="left-column">
+                    {/* Left Column */}
+                    <Col xs='auto' lg={7} className="left-column">
                         <UNPProfileBanner
                             avatarURL={testData.logo}
                             categories={testData.categories}
@@ -66,28 +51,34 @@ const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ dataTitle, dataConten
                         </div>
                     </Col>
 
-                    {/* Right Column: Sticky Card */}
-                    <Col md={5} className="d-none d-md-block">
-                        <div className="sticky-card shadow-lg " style={{ position: 'sticky', top: '10px' }}>
-                            <Card>
-                                <Card.Header className='bg-white'>
-                                    <Row><h3 className='main-text fw-bolder mt-1'>Dona Ahora</h3></Row>
-                                    <Row><p>Us&Plus no recibe dinero de tus donaciones</p></Row>
+                    {/* Right Column: Sticky Card on Desktop */}
+                    <Col lg={5} xxl={5} className="d-none d-lg-block ">
+                        <div className="position-sticky" style={{ top: '70px' }}>
+                            <Card className="shadow-lg">
+                                <Card.Header className="bg-white">
+                                    <h3 className="text-primary fw-bolder mt-1">Dona Ahora</h3>
+                                    <p className="mb-0">Us & Plus no recibe dinero de tus donaciones</p>
                                 </Card.Header>
                                 <Card.Body>
                                     <Card.Title>
-                                        <UNPProfileBanner
-                                            avatarURL={testData.logo}
-                                            name={testData.name}
-                                        /></Card.Title>
+                                        <Row className="g-0 align-items-center mx-auto">
+                                            <Col xs={12} xl={5} className="me-auto">
+                                                <h1 className="text-primary fw-bold">{testData.name}</h1>
+                                            </Col>
+                                        </Row>
+                                    </Card.Title>
                                     <Card.Text>{testData.description}</Card.Text>
-                                    <Card.Text>
-                                        <UNPRatingSummary ratings={testData.ratingSummary} />
-                                    </Card.Text>
+                                    {testData.ratingSummary && (
+                                        <Card.Text>
+                                            <UNPRatingSummary ratings={testData.ratingSummary} />
+                                        </Card.Text>
+                                    )}
                                 </Card.Body>
-                                <Card.Footer>
+                                <Card.Footer className=''>
                                     <div className="d-grid gap-2">
-                                        <UNPButton size='lg' className='fw-bolder'>Dona Ahora</UNPButton>
+                                        <UNPButton className="fw-bolder">
+                                            Dona Ahora
+                                        </UNPButton>
                                     </div>
                                 </Card.Footer>
                             </Card>
@@ -95,45 +86,6 @@ const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ dataTitle, dataConten
                     </Col>
                 </Row>
             </Container>
-
-            {/* Mobile Layout: Bottom Sticky Bar */}
-            <div className="d-md-none">
-                <UNPButton
-                    variant="light"
-                    className="sticky-bar"
-                    style={{
-                        borderRadius: 0,
-                        position: 'fixed',
-                        bottom: '0',
-                        left: '0',  // Ensures it starts from the very left of the screen
-                        right: '0', // Ensures it spans to the very right of the screen
-                        zIndex: 1000,
-                        backgroundColor: 'white',
-                        borderTop: '1px solid black',
-                        color: 'black',
-                        width: '100vw',  // Full viewport width
-                        padding: '10px 0',  // Adjust padding for a better look
-                        textAlign: 'center'
-                    }}
-                    onClick={handleShow}
-                >
-                    {/* Top Arrow */}
-                    <div style={{ fontSize: '24px', fontWeight: 'bold' }}>▲</div>
-                    {/* Text Under Arrow */}
-                    <div>View Details</div>
-                </UNPButton>
-
-                {/* Offcanvas for mobile view */}
-                <Offcanvas show={showOffcanvas} onHide={handleClose} placement="bottom">
-                    <Offcanvas.Header closeButton>
-                        <Offcanvas.Title>{dataTitle}</Offcanvas.Title>
-                    </Offcanvas.Header>
-                    <Offcanvas.Body>
-                        <p>{dataContent}</p>
-                    </Offcanvas.Body>
-                </Offcanvas>
-            </div>
-        </>
     );
 };
 

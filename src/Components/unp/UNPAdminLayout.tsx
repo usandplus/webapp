@@ -3,7 +3,7 @@ import { Container, Dropdown, Row, Col, Nav, Button, Modal, Offcanvas, ListGroup
 import { firestore } from './../../firebase/firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import './styles/AdminLayoutStyles.scss';
+import './styles/UNPAdminLayoutStyles.scss';
 import { FaArrowAltCircleUp } from 'react-icons/fa';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
 
@@ -25,7 +25,7 @@ interface Entity {
 
 const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSection }) => {
   const navigate = useNavigate();
-  const {user, loading} = useAuthContext();
+  const { user, loading } = useAuthContext();
   const [activeSection, setActiveSection] = useState(defaultSection || sections[0].name);
   const [showModal, setShowModal] = useState(false);
   const [showMobileModal, setShowMobileModal] = useState(false);
@@ -36,7 +36,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
   ]);
   const [currentEntity, setCurrentEntity] = useState<string | null>(user && user.displayName);
 
-  useEffect(()=>{user &&  setCurrentEntity(user.displayName)},[loading])
+  useEffect(() => { user && setCurrentEntity(user.displayName) }, [loading])
 
   useEffect(() => {
     const fetchEntities = async () => {
@@ -61,6 +61,11 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
     fetchEntities();
   }, [currentEntity]);
 
+  const changeActiveSection = (section: string) => {
+    setActiveSection(section)
+    setShowMobileModal(false);
+  }
+
   const handleEntityChange = (entity: Entity) => {
     setCurrentEntity(entity.name);
     navigate(entity.path);
@@ -76,7 +81,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
       <div className="sidebar-header text-center mb-4">
         <Image
           rounded
-          src="/kasasa_logo.png"
+          src="/full_logo.png"
           alt="Logo"
           className="mb-3"
           style={{ maxHeight: '60px', objectFit: 'contain' }}
@@ -106,7 +111,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
             <Nav.Link
               key={section.name}
               active={isActive}
-              onClick={() => setActiveSection(section.name)}
+              onClick={() => changeActiveSection(section.name)}
               className={`mb-2 ${isActive ? 'bg-primary text-white' : 'text-secondary'}`}
               aria-current={isActive ? 'page' : undefined}
             >
@@ -120,20 +125,16 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
 
   return (
     <>
-      <Container fluid className="admin-layout p-0">
+      <Container fluid className="admin-layout ">
         <Row noGutters>
           {/* Sidebar: Visible on md and above with full viewport height */}
-          <Col md={3} className="sidebar d-none d-md-block bg-light border-end vh-100">
+          <Col lg={4} className="sidebar d-none d-lg-block bg-light border-end vh-100">
             {sidebarContent}
           </Col>
 
           {/* Main Content Area */}
-          <Col md={9} className="main-content p-3">
-            <Card className="shadow-sm content-card">
-              <Card.Body className="p-4">
-                {activeComponent}
-              </Card.Body>
-            </Card>
+          <Col lg={7} className="admin-main-content p-5">
+            {activeComponent}
           </Col>
         </Row>
 
@@ -165,17 +166,22 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
       </Container>
 
       {/* Mobile Offcanvas Menu */}
-      <div className="d-block d-md-none">
-        <Button
-          variant="primary"
-          onClick={() => setShowMobileModal(true)}
-          className="fixed-bottom m-3 shadow-lg rounded-pill d-flex align-items-center"
-          style={{ zIndex: 1050 }}
-          aria-label="Open menu"
-        >
-          <span className="flex-grow-1 text-start">{currentEntity}</span>
-          <FaArrowAltCircleUp className="ms-2" />
-        </Button>
+      <div className="d-block d-lg-none">
+        {
+          showMobileModal
+            ? <></>
+            : <Button
+              variant="primary"
+              id="admin-layout-bottom-nav"
+              onClick={() => setShowMobileModal(true)}
+              className="m-3 fixed-bottom shadow-lg rounded-pill d-flex align-items-center"
+              style={{ zIndex: 1050 }}
+              aria-label="Open menu"
+            >
+              <span className="flex-grow-1 text-start">{currentEntity}</span>
+              <FaArrowAltCircleUp className="ms-2" />
+            </Button>
+        }
 
         <Offcanvas
           show={showMobileModal}
@@ -185,7 +191,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
           aria-labelledby="mobile-menu-title"
           scroll={true}
         >
-          <Offcanvas.Body className="p-0 overflow-auto">
+          <Offcanvas.Body className=" overflow-auto">
             {sidebarContent}
           </Offcanvas.Body>
         </Offcanvas>

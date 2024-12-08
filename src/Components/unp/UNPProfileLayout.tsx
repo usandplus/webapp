@@ -10,6 +10,7 @@ import UNPActiveCampaigns from './UNPActiveCampaigns';
 import UNPLocation from './UNPLocation';
 
 interface UNPProfileLayoutProps {
+  className?: string;
   heroImages: string[]; // Array of image URLs for the hero banner
   entityInfo: {
     name: string;
@@ -38,40 +39,36 @@ const UNPProfileLayout: FC<UNPProfileLayoutProps> = ({
   heroImages,
   entityInfo,
   children,
+  className
 }) => {
   const someDataTitle = 'Product Details';
   const someDataContent = 'This product is awesome because it has a lot of amazing features.';
 
   return (
-    <Container fluid style={{ backgroundColor: 'offwhite' }}>
+    <Container fluid style={{ backgroundColor: 'offwhite' }} className={`${className} px-md-5 pt-md-3`}>
       {/* Hero Section */}
       <UNPHeroGallery images={heroImages} />
-      <UNPStickyLayout dataTitle={someDataTitle} dataContent={someDataContent} entityInfo={entityInfo}>
-        {entityInfo.aboutUs && <Row><UNPTextSection title='Sobre Nosotros' text={entityInfo.aboutUs} /></Row>}
-        {entityInfo.services && <Row><UNPServicesOffered services={entityInfo.services} /></Row>}
-        {entityInfo.founders && <Row><UNPImportantPeople founders={entityInfo.founders} /></Row>}
-        {entityInfo.campaigns && <Row><UNPActiveCampaigns campaigns={entityInfo.campaigns} /></Row>}
-        <Row>
-          <UNPLocation locations={[{
-            description: 'Test',
-            lat: 152,
-            lng: 1535
-          }]} />
+      <div className='p-3'>
+        <UNPStickyLayout dataTitle={someDataTitle} dataContent={someDataContent} entityInfo={entityInfo}>
+          {entityInfo.aboutUs && <Row><UNPTextSection title='Sobre Nosotros' text={entityInfo.aboutUs} /></Row>}
+          {entityInfo.services && <Row><UNPServicesOffered services={entityInfo.services} /></Row>}
+          {entityInfo.founders && <Row><UNPImportantPeople founders={entityInfo.founders} /></Row>}
+          {entityInfo.campaigns && <Row><UNPActiveCampaigns campaigns={entityInfo.campaigns} /></Row>}
+          <Row>
+            <UNPLocation locations={[{
+              description: 'Test',
+              lat: 152,
+              lng: 1535
+            }]} />
+          </Row>
+        </UNPStickyLayout>
+
+        <Row className="mt-4">
+          <Col>
+            {children} {/* This will render analytics, reviews, etc. */}
+          </Col>
         </Row>
-      </UNPStickyLayout>
-
-      <Row className="mt-4">
-        <Col>
-          {children} {/* This will render analytics, reviews, etc. */}
-        </Col>
-      </Row>
-
-      {/* Bottom Navbar for small screens */}
-      <Navbar className="d-block d-md-none">
-        <Navbar.Brand href="#home">Home</Navbar.Brand>
-        <Navbar.Brand href="#analytics">Analytics</Navbar.Brand>
-        <Navbar.Brand href="#reviews">Reviews</Navbar.Brand>
-      </Navbar>
+      </div>
     </Container>
   );
 };

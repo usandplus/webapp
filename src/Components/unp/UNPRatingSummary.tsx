@@ -17,7 +17,7 @@ const UNPRatingSummary: React.FC<UNPRatingSummaryProps> = ({ ratings }) => {
           ? <Stack direction='vertical'>
             {
               ratings.map((rating, i) =>
-                i < 5 ? <p ><FaStar className='main-text' /> {rating.name}</p> : <></>
+                i < 5 ? <p ><FaStar className='text-primary' /> {rating.name}</p> : <></>
               )
             }
           </Stack>

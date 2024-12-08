@@ -1,10 +1,14 @@
-.main-text {
-  color: #8137FF !important;
+html {
+  scroll-behavior: smooth;
+}
+/* Global CSS or Home-specific CSS */
+body {
+  overflow-x: hidden !important; /* Prevent horizontal scrolling */
 }
 
-a#profile-dropdown.dropdown-toggle.nav-link::after {
+/* a#profile-dropdown.dropdown-toggle.nav-link::after {
   display: none;
-}
+} */
 
 main {
   text-align: center;
@@ -12,427 +16,104 @@ main {
   line-height: 100vh;
 }
 
-body {
-  overflow-x: 'hidden' !important
+.unp-navbar-expanded {
+  padding: 1rem 0;
+  transition: padding 0.3s ease;
 }
 
-/* img {
-  border: 1px solid black !important
-} */
-
-/* .btn-primary, .btn-primary:active, .btn-primary:visited {
-  background-color: #D1CFFF !important;
-  color: #8137FF !important;
-  border-color: #D1CFFF !important;
-} */
-
-/* .btn-primary:hover {
-  background-color: #8137FF !important;
-  color: #D1CFFF !important;
-  border-color: #D1CFFF !important;
-} */
-
-.btn-secondary, .btn-secondary:active, .btn-secondary:visited {
-  background-color: #8137FF !important;
-  color: #FFF !important;
+.unp-navbar-scrolled {
+  padding: 0.5rem 0;
+  transition: padding 0.3s ease;
 }
 
-.btn-secondary:hover {
-  background-color: #8137FF !important;
-  color: #38F9B9 !important;
-  border-color: #38F9B9 !important;
+.unp-navbar.sticky-top {
+  background: #fff;
 }
 
-.spinner-border {
-  color: #8137FF !important;
+/* Navbar scrolled effect */
+.navbar-scrolled {
+  border: 0 !important;
+  margin-bottom: 62.9
 }
 
-.navbar-link {
-  transition: color 0.5s ease, border-color 0.5s ease, background-color 0.5s ease; /* Smooth transition */
-  border-bottom: 1px solid transparent; /* Invisible border to reserve space */
-  color: #8137FF;
-  padding-bottom: 1;
-}
+@media (max-width: 991.98px) {
+  .search-bar-container {
+    will-change: transform;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1022; /* Higher than 1020 from navbar */
+    background-color: #fff; /* Ensure a solid background */
+    pointer-events: none; /* This means the container doesn’t receive clicks */
+  }
+  .filter-bar-container {
+    will-change: transform;
+    position: fixed;
+    top: 80px; /* Adjust based on search bar height */
+    width: 100%;
+    z-index: 1021; /* Just below search bar but above navbar */
+    background-color: #fff;
+    overflow: hidden !important; /* Prevent horizontal scrolling */
+  }
+  .main-content {
+    padding-top: 220px;
+    padding-bottom: 90px !important; /* Adjust based on the height of your bottom navbar */
+  }
+  .main-content-top {
+    padding-top: 220px;
+  }
+  .main-content-bottom {
+    padding-bottom: 90px !important; /* Adjust based on the height of your bottom navbar */
+  }
 
-.navbar-link:hover {
-  color: #8137FF;
-  border-bottom: 1px solid #8137FF; /* Set width, style, and color */
-}
-
-.navbar-link:active {
-  background-color: #8137FF;
-  color: #D1CFFF
-}
-
-.ai_review { 
-  background-color: #D1CFFF;
-  border-color: #8137FF;
-  color: #8137ff;
-  font-weight: 500;
-}
-
-.navbar {
-  border-bottom: 1px solid lightgrey;
-}
-
-/* a.dropdown-item {
-  color: #8137FF;
-} */
-
-/* a.dropdown-item:hover {
-  background-color: #D1CFFF;
-  color: #8137FF;
-} */
-
-/* a.dropdown-item:active {
-  background-color: #8137FF;
-  color: #D1CFFF
-} */
-
-.navbar-expand .navbar-nav .dropdown-menu[data-bs-popper] {
-  transform: translateX(-50%);
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
-}
-
-button.scroll-button {
-  font-size: 2rem !important;
-  opacity: 0;
-  background: 'white';
-  background: linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(129,55,255,.5) 50%, rgba(255,255,255,.5) 100%);
-  transition: background-color 0.5s ease, opacity 0.5s ease;
-}
-
-.showcase-grid-container:hover button.scroll-button {
-  opacity: 0.85;
-}
-
-button.scroll-button:hover {
-  background-color: #8137FF;
-  opacity: .01;
-}
-
-#navbarpill {
-  padding: 5px 15px !important;
-  border: 1px solid lightgrey;
-  border-radius: 25px;
-}
-
-/* FilterCarousel */
-/* default */
-.nav-pills .nav-link {
-  color: #8137FF;
-  border-radius: 0px !important;
-  border-bottom: 1px solid transparent !important;
-}
-
-/* default hover */
-.nav-pills .nav-link:hover {
-  border-bottom: 1px solid #dfcdfe !important;
-
-}
-
-/* active */
-.nav-pills .nav-link.active {
-  background-color: #FFF !important;
-  color: #8137FF !important;
-  font-weight: 500 !important;
-  border-bottom: 1px solid #8137FF !important;
-}
-
-
-#carouselCard {
-  border: 1px solid transparent !important;
-}
-
-.fundacionTitleCardRow {
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  line-height: 19px !important;
-  height: 55px !important;
-  padding-top: 0px !important;
-  margin-bottom: 0px !important;
-  color:#8137FF !important;
-}
-
-.star {
-  font-weight: 400 !important;
-  text-align: 'right !important';
-}
-
-.fundacionCardRow {
-  margin-bottom: 0px !important;
-  font-size: 15px !important;
-  font-weight: 400 !important;
-  /* line-height: 15px !important; */
-  height: 25px !important;
-  padding-top: 0px !important;
-  color: darkgrey !important;
-
-}
-
-.fundacionCardRowFooter {
-  margin-bottom: 0px !important;
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  line-height: 19px !important;
-  height: 25px !important;
-  padding-top: 0px !important;
-  color:#8137FF !important;
-}
-
-.horizontal-scrollable {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  overflow-x: auto !important;
-  overflow: hidden !important
-}
-
-.close-button {
-  position: absolute !important;
-  top: 1rem !important;
-  left: 1rem !important;
-  font-size: 20px !important;
-  font-weight: 400 !important;
-  color: #8137FF !important;
-  cursor: pointer !important;
-  z-index: 999 !important;
-
-}
-
-.subscription-client-title {
-  padding: 0 !important
-}
-
-.subscription-title {
-  color: #8137FF !important;
-  font-weight: 700 !important;
-  border-color: #ccaffd !important;
-}
-
-#subscriptionCard {
-  position: sticky;
-  top: 5%;
-}
-
-#reasonSubscriptionCard>* {
-  color:#8137FF !important;
-  border: 0;
-}
-
-.rating_bar {
-  height: 5px;
-  padding: 0px !important;
-}
-
-.progress-bar {
-  background-color: #8137FF !important;
-}
-
-.border-right {
-  border-right: 1px solid lightgrey !important;
-}
-
-small {
-  color: grey !important;
-}
-
-.client-title {
-  color:#8137FF !important;
-  font-weight: 700 !important;
-}
-
-.client-review {
-  margin-bottom: 5% !important;
-}
-
-.review-picture {
-  padding-right: 0px !important
-}
-
-.review-picture>img {
-  padding-right: 0px !important;
-  width: 100px !important;
-}
-
-.review-picture-mobile>img {
-  padding-right: 0px !important;
-  width: 100px !important;
-}
-
-.footer-link {
-  color: rgb(34, 34, 34) !important;
-  text-decoration: none !important;
-}
-
-.footer-link:hover {
-  color: rgb(34, 34, 34) !important;
-  text-decoration: underline !important;
-}
-
-.footer-titles {
-  padding-top: 2% !important;
-}
-
-/* .border-right {
-  border-right: 1.11px solid rgb(222, 226, 230 !important;
-  )
-
-.border-left.col-2 {
-  border-left: 1.11px solid rgb(222, 226, 230) !important;
-} */
-/* #donate {
-  border-radius-top-right: 0px !important;
-} */
-
-#new-client-first-step-left {
-  background-color: #8137FF !important;
-}
-
-.fill-height {
-  /* This makes the row flex and allows its children (the columns) to fill the available height */
-  flex: 1;
-}
-#new-client-welcome-title {
-  color: #dfcdfe !important;
-  font-weight: 700 !important;
-}
-
-
-.new-client-welcome-content {
-  font-weight: 700 !important;
-  color: #8137FF !important;
-}
-
-.new-client-main-content {
-  /* This ensures the content area is flex and fills the vertical space */
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 59.48px - 70px);
-}
-
-.primary-text {
-  color: #8137FF !important;
-}
-
-.secondary-text {
-  color: #ccaffd !important;
-}
-
-.form-label {
-font-weight: 500 !important
-}
-
-.unp-navbar {
-  background-color: #f8f9fa;
-  /* Other navbar styles */
-}
-
-.unp-sidebar {
-  width: 250px;
-  /* Custom sidebar styles */
-}
-
-.unp-footer {
-  padding: 20px;
-  background-color: #333;
-  color: white;
-}
-
-.unp-pagination {
-  margin-top: 20px;
-}
-
-.filter-bar-wrapper {
-  overflow-x: auto; /* Allow horizontal scrolling */
-  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
-  white-space: nowrap; /* Prevent wrapping */
-}
-
-.filter-bar {
-  display: inline-flex; /* Ensure inline display for scrolling */
-  width: 100%; /* Take up full width */
-}
-
-.filter-button {
-  flex-shrink: 0; /* Prevent buttons from shrinking */
-}
-
-@media (max-width: 768px) {
-  .filter-bar {
-    padding: 0.5rem; /* Add padding for smaller screens */
+  .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
-.bi-star-fill {
-  color: #f8e825; /* Filled star color */
-}
-
-.bi-star {
-  color: #e4e5e9; /* Empty star color */
-}
-
-.alert-info {
-  font-size: 0.9rem; /* Smaller font for AI-generated review */
-}
-
-
-/* UNPShowcaseGrid */
-
-.showcase-grid-container {
-  margin-top: 2rem;
-}
-
-.showcase-title {
-  margin-left: 1rem;
-}
-
-.showcase-cards-container {
-  gap: 1rem; /* Add some space between the cards */
-  padding: 1rem;
-  scroll-behavior: smooth;
-}
-
-.showcase-card-wrapper {
-  flex: 0 0 auto; /* Ensure cards are not squished */
-  width: 250px; /* Set a width suitable for each card */
-  margin: 0.5rem;
-  border-radius: 15px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Floating effect */
-  background-color: white; /* Ensure cards have their own white background */
-}
-
-@media (max-width: 768px) {
-  .showcase-cards-container {
-    gap: 0.5rem; /* Reduce gap for smaller screens */
-    padding: 0.5rem;
-    scroll-behavior: smooth;
+@media (min-width: 991.98px) {
+  .unp-showcase-grid-container {
+    padding-top: 180px;
   }
 
-  .showcase-card-wrapper {
-    width: 180px; /* Make cards smaller for mobile view */
+  .search-bar-container input, .search-bar-container button {
+    pointer-events: auto; /* The input itself can still be clicked/focused */
+  }
+
+  .search-bar-container {
+    will-change: transform;
+    position: fixed;
+    top: 70;
+    width: 100%;
+    z-index: 1022; /* Higher than 1020 from navbar */
+    background-color: #fff; /* Ensure a solid background */
+    pointer-events: none; /* This means the container doesn’t receive clicks */
+  }
+
+  .filter-bar-container {
+    will-change: transform;
+    position: fixed;
+    top: 130px; /* Adjust based on search bar height */
+    width: 100%;
+    z-index: 1021; /* Just below search bar but above navbar */
+    background-color: #fff;
+  }
+  /* Adjust transforms if needed */
+  .search-bar-container.scrolled {
+    transform: translateY(-70px) scale(0.85);
+    transition: 0.5s ease;
+    background-color: transparent !important;
+  }
+
+  .filter-bar-container.scrolled {
+    transform: translateY(-71px);
+    transition: 0.5s ease;
   }
 }
 
-.scroll-button.left {
-  left: 0;
-}
-
-.scroll-button.right {
-  right: 0;
-}
-
-.scroll-button:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-.scroll-button {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  cursor: pointer;
-  z-index: 10;
+.filter-bar-nav-link {
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-left: 0 !important;
 }
