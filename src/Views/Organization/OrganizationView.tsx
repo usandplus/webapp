@@ -1,7 +1,6 @@
 import UNPProfileLayout from "../../Components/unp/UNPProfileLayout";
 import UNPReviews from "../../Components/unp/UNPReviews";
 
-
 const OrganizationView = () => {
   const heroImages = [
     '/stock/stock (1).jpg',

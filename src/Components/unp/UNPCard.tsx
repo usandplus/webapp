@@ -65,6 +65,8 @@ const UNPCard: React.FC<UNPCardProps> = ({
     cursor: 'pointer',
   };
 
+  let roundedRating = rating.toString().slice(0, 3)
+
   return (
     <Card
       {...props}
@@ -95,29 +97,43 @@ const UNPCard: React.FC<UNPCardProps> = ({
           <Image
             className="d-block w-100 rounded"
             src={imgURL}
-              alt="Main image"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              aspectRatio: 4 / 3
+            }}
+            alt="Main image"
           />
         </Card.Title>
           <Card.Body className="pt-2 px-0">
             <Row className="">
               <Col xs={8} className="">
                 <Row>
-                  <h5 className="mb-0 text-primary">{title}</h5>
+                    <Card.Text className="mb-0 text-primary d-none d-md-flex">{title}</Card.Text>
+                    <h1 className="mb-0 text-primary d-flex d-md-none">{title}</h1>
                 </Row>
                 {!simple && (
-                  <Row>
-                    <div className="d-flex align-items-center">
-                      {renderStars()}{rating}
-                    </div>
+                  <Row className=''>
+                    <Card.Text className=" d-flex align-items-center justify-content-start  ">
+                      {renderStars()}
+                      {roundedRating}
+                    </Card.Text>
+
                   </Row>
                 )}
               </Col>
-              <Col xs={4} className='text-end px-0'>
+              <Col xs={4} className='text-end text-md-center px-0'>
                 <Image
                   className=""
                   src={profileImgURL}
                   roundedCircle
-                  style={{ width: '60%', height: 'auto' }}
+                  style={{
+                    width: '60%',
+                    height: 'auto',
+                    objectFit: 'cover',
+                    aspectRatio: 1
+                  }}
                 />
               </Col>
             </Row>

@@ -46,7 +46,7 @@ export default function App() {
       <div className="d-block d-lg-none">
         <UNPNavbar />
       </div>
-      <Container fluid className="">
+      <Container fluid className="gx-0">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

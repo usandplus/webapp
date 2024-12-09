@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Modal, ButtonGroup } from 'react-bootstrap';
 import UNPFilterBar from '../../Components/unp/UNPFilterBar';
 import UNPShowcaseGrid, { UNPShowcaseGridProps } from '../../Components/unp/UNPShowcaseGrid';
 import UNPButton from '../../Components/unp/UNPButton';
@@ -11,11 +11,12 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<UNPBaseCategory | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [items, setItems] = useState<UNPShowcaseGridProps['items']>([]);
+  const [selectedType, setSelectedType] = useState<UNPBaseType | null>(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleFilterChange = (category: UNPBaseCategory | null) => setSelectedCategory(category);
-
+  const handleTypeChange = (type: UNPBaseType | null) => setSelectedType(type);
   const handleSearchChange = (query: string) => setSearchQuery(query);
 
   useEffect(() => {
@@ -67,23 +68,29 @@ export default function Home() {
         title: `Sample Title ${index + 1}`,
         description: 'This is a sample description.',
         imgURL: fakeUrls[Math.floor(Math.random() * fakeUrls.length)],
-        rating: 4.5,
+        rating: (Math.random()*1.5 + 3.5).toFixed(2),
         category: categoryTypes[Math.floor(Math.random() * categoryTypes.length)],
         clientId: `${index + 1}`,
         number: Math.ceil(Math.random() * 500),
         numberTitle: 'Volunteers',
-        profileImgURL: '/full_logo.png',
-        baseType: 'organizacion' as UNPBaseType,
+        profileImgURL: fakeUrls[Math.floor(Math.random() * fakeUrls.length)],
+        baseType: 'organizacion'
+        // baseType: ['organizacion', 'campana', 'empresa', 'convocatoria'][
+        //   Math.floor(Math.random() * 4)
+        // ] as UNPBaseType,
       }));
     setItems(generateDummyData());
   }, []);
 
-  const filteredItems = searchQuery
-    ? items.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
-    : items;
+  // Apply both filters: search and type
+  const filteredItems = items.filter(item => {
+    const matchesSearch = !searchQuery || item.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesType = !selectedType || item.baseType === selectedType;
+    return matchesSearch && matchesType;
+  });
 
   return (
-    <div className="home-container main-content">
+    <Container className="main-content ">
       {/* Modal for Advanced Filters */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -119,8 +126,42 @@ export default function Home() {
         </Modal.Footer>
       </Modal>
 
+      {/* Entity Switch */}
+      {/* <Container fluid className="entity-switch-container d-none d-md-flex bg-transparent">
+        <Row className="justify-content-center">
+          <Col xs={12} md={12}>
+            <ButtonGroup size="sm" className="mb-2">
+              <UNPButton
+                onClick={() => handleTypeChange('organizacion')}
+                variant={selectedType === 'organizacion' ? 'outline-primary' : 'outline-light'}
+              >
+                Fundaciones
+              </UNPButton>
+              <UNPButton
+                onClick={() => handleTypeChange('campana')}
+                variant={selectedType === 'campana' ? 'outline-primary' : 'outline-light'}
+              >
+                Campañas
+              </UNPButton>
+              <UNPButton
+                onClick={() => handleTypeChange('empresa')}
+                variant={selectedType === 'empresa' ? 'outline-primary' : 'outline-light'}
+              >
+                Empresas
+              </UNPButton>
+              <UNPButton
+                onClick={() => handleTypeChange('convocatoria')}
+                variant={selectedType === 'convocatoria' ? 'outline-primary' : 'outline-light'}
+              >
+                Convocatoria
+              </UNPButton>
+            </ButtonGroup>
+          </Col>
+        </Row>
+      </Container> */}
+
       {/* Search Bar */}
-      <Container fluid className="search-bar-container bg-white">
+      <Container className="search-bar-container bg-white">
         <Row className="justify-content-center">
           <Col xs={12} md={8}>
             <UNPSearchBar onSearch={handleSearchChange} />
@@ -129,12 +170,12 @@ export default function Home() {
       </Container>
 
       {/* Filter Bar */}
-      <Container fluid className="filter-bar-container bg-white pt-0 mb-3">
-        <Row className="justify-content-center align-items-center">
-          <Col xs={12} md={9}>
+      <Container className="filter-bar-container bg-white pt-0 mb-3">
+        <Row className="align-items-center flex-nowrap">
+          <Col xs={12} md={10}>
             <UNPFilterBar onFilterChange={handleFilterChange} selectedCategory={selectedCategory} />
           </Col>
-          <Col xs="auto" className="d-none d-md-block">
+          <Col md={2} className="d-none d-md-block">
             <UNPButton onClick={handleShow}>Filtros</UNPButton>
           </Col>
         </Row>
@@ -146,9 +187,9 @@ export default function Home() {
           selectedCategory={selectedCategory}
           title=""
           items={filteredItems}
-          baseType="organizacion"
+          baseType={selectedType}
         />
       </Container>
-    </div>
+    </Container>
   );
 }

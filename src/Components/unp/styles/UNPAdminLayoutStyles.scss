@@ -1,12 +1,13 @@
 .admin-layout {
   height: 100vh;
-  overflow: hidden; // If you want a locked layout
   
   .sidebar {
     background: #f8f9fa; // A standard light gray for differentiation
     border-right: 1px solid #dee2e6;
+    position: sticky;
+    top: 0;
   }
-
+  
   .sidebar-header {
     .entity-dropdown {
       .dropdown-toggle {

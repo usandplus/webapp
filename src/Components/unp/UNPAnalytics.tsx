@@ -187,6 +187,14 @@ const UNPAnalytics: React.FC = () => {
         <h4>Estadistico 2</h4>
         <Bar data={getChartData()} />
       </div>
+      <div>
+        <h4>Estadistico 2</h4>
+        <Bar data={getChartData()} />
+      </div>
+      <div>
+        <h4>Estadistico 2</h4>
+        <Bar data={getChartData()} />
+      </div>
     </Container>
   );
 };

@@ -4,6 +4,8 @@ import UNPDocumentManager from '../../Components/unp/UNPDocumentManager';
 import UNPCollaboratorManager from '../../Components/unp/UNPCollaboratorManager';
 import UNPAnalytics from '../../Components/unp/UNPAnalytics';
 import UNPDashboard from '../../Components/unp/UNPDashboard';
+import UNPUserDocumentManager from '../../Components/unp/UNPUserDocumentManager';
+import UNPTransactionHistory from '../../Components/unp/UNPTransactionHistory';
 
 // Example sections for Empresa
 const UserAdmin: React.FC = () => {
@@ -29,9 +31,9 @@ const UserAdmin: React.FC = () => {
                 feedItems={['test']}
             />
         },
-        { name: 'Documentos', label: 'Documentos', component: <UNPDocumentManager /> },
-        { name: 'Personas', label: 'Personas', component: <UNPCollaboratorManager /> },
-        { name: 'Estadisticas', label: 'Estadisticas', component: <UNPAnalytics /> },];
+        { name: 'Documentos', label: 'Documentos', component: <UNPUserDocumentManager /> },
+        { name: 'Historial', label: 'Historial', component: <UNPTransactionHistory /> },
+    ];
 
     return (
         <UNPAdminLayout sections={sections} />

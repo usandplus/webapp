@@ -12,6 +12,7 @@ type SubscriptionOption = {
   link: string;
 };
 
+
 const JoinUs: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const navigate = useNavigate()
@@ -38,7 +39,7 @@ const JoinUs: React.FC = () => {
       title: 'Fundaciones',
       description: 'Exclusivo para donatarias autorizadas ante el SAT.',
       price: '$49.99/month',
-      features: ['Custom integrations', 'Unlimited users', 'Dedicated account manager', '24/7 support'],
+      features: ['Custom integrations', 'Campañas y suscripciones', 'Colaboracion con empresas', '0% comision'],
       link: 'https://empresa.usandplus.io/fundaciones'
     },
     {

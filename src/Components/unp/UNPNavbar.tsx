@@ -37,14 +37,29 @@ const BOTTOM_NAV_ITEMS_LOGGED_IN: NavLink[] = [
   { name: "Dashboard", path: "/dashboard" },
   { name: "Notificaciones", path: "/notificaciones" },
 ];
+const RIGHT_NAV_ITEMS_LOGGED_OUT: NavLink[] = [
+  { name: "Directorio", path: "/" },
+  { name: "Descubre", path: "/unete" },
+  { name: "Inicia Sesion", path: "/login" },
+];
+
+// Bottom nav items for users that **are** logged in (5 items)
+const RIGHT_NAV_ITEMS_LOGGED_IN: NavLink[] = [
+  // { name: "Directorio", path: "/" },
+  { name: "Dashboard", path: "/dashboard" },
+  { name: "Mensajes", path: "/mensajes" },
+  // { name: "Perfil", path: "/perfil" },
+  { name: "Notificaciones", path: "/notificaciones" },
+];
 
 const UNPNavbar: React.FC<UNPNavbarProps> = ({ links = [], isScrolled }) => {
   const { user, loading } = useAuthContext();
   const navigate = useNavigate();
-
+  const rightNavItems = user ? RIGHT_NAV_ITEMS_LOGGED_IN : RIGHT_NAV_ITEMS_LOGGED_OUT
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const handleCloseOffcanvas = () => setShowOffcanvas(false);
   const handleShowOffcanvas = () => setShowOffcanvas(true);
+  console.log('navbar', window.location)
 
   const desktopLinks = [...FIXED_LINKS, ...links].filter(link => {
     if (link.auth && !user) return false;
@@ -141,8 +156,8 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links = [], isScrolled }) => {
     return (
       <Navbar
         bg="light"
-        variant="light"
-        className="d-flex d-lg-none justify-content-around border-top"
+        variant="primary"
+        className="d-flex d-lg-none justify-content-around border-top mx-1"
         fixed="bottom"
         aria-label="Mobile bottom navigation"
       >
@@ -213,24 +228,78 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links = [], isScrolled }) => {
           <Offcanvas.Title>Menú</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
+          {loading ? (
+            <Spinner animation="border" variant="primary" size="sm" />
+          ) : user ? (
+            <div className='text-center border-bottom mb-2'>
+              <Image
+                roundedCircle
+                style={{ width: 96, height: 96 }}
+                src={user.photoURL || '/default-profile.png'}
+                alt={user.displayName || 'Profile'}
+              />
+                <h3 className='text-primary mt-3'>{user.displayName}</h3>
+            </div>
+          ) : (
+            <div className='text-center'>
+                  <FaUserCircle
+                    className='text-primary'
+                // style={{ width: 96, height: 96 }}
+                size='96' />
+            </div>
+          )}
           <Nav className="flex-column">
             {user ? (
               <>
-                <LinkContainer to="/perfil" onClick={handleCloseOffcanvas}>
-                  <Nav.Link>Perfil</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/mensajes" onClick={handleCloseOffcanvas}>
-                  <Nav.Link>Mensajes</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/notificaciones" onClick={handleCloseOffcanvas}>
-                  <Nav.Link>Notificaciones</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/dashboard" onClick={handleCloseOffcanvas}>
-                  <Nav.Link>Dashboard</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/ayuda" onClick={handleCloseOffcanvas}>
-                  <Nav.Link>Ayuda</Nav.Link>
-                </LinkContainer>
+
+                {rightNavItems.map((item) => {
+                  let iconClass = '';
+                  switch (item.name) {
+                    case 'Inicio':
+                    case 'Dashboard':
+                      iconClass = 'bi bi-speedometer2';
+                      break;
+                    case 'Directorio':
+                      iconClass = 'bi bi-house';
+                      break;
+                    case 'Perfil':
+                      iconClass = 'bi bi-person';
+                      break;
+                    case 'Inicia Sesion':
+                      iconClass = 'bi bi-person';
+                      break;
+                    case 'Mensajes':
+                      iconClass = 'bi bi-chat-dots';
+                      break;
+                    case 'Notificaciones':
+                      iconClass = 'bi bi-bell';
+                      break;
+                    case 'Ayuda':
+                      iconClass = 'bi bi-question-circle';
+                      break;
+                    case 'Descubre':
+                      iconClass = 'bi bi-person-plus';
+                      break;
+                    default:
+                      iconClass = 'bi bi-circle';
+                      break;
+                  }
+
+                  return (
+                    <LinkContainer key={item.name} to={item.path}
+                      style={{ zIndex: 1050 }}>
+                      <Nav.Link
+                        className="text-left text-muted"
+                        aria-label={item.name}
+                        active={window.location.pathname == item.path}
+                        onClick={handleCloseOffcanvas}
+                      >
+                        <i className={`${iconClass} text-primary`} style={{ marginRight: 5, fontSize: '1.2rem' }}></i>
+                        <small>{item.name}</small>
+                      </Nav.Link>
+                    </LinkContainer>
+                  );
+                })}
                 <Nav.Link onClick={() => { signOutUser(); handleCloseOffcanvas(); }}>Cerrar sesión</Nav.Link>
               </>
             ) : (
@@ -248,7 +317,7 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links = [], isScrolled }) => {
             )}
           </Nav>
         </Offcanvas.Body>
-      </Offcanvas>
+      </Offcanvas >
     </>
   );
 };

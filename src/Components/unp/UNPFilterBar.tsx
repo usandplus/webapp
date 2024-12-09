@@ -105,8 +105,8 @@ const UNPFilterBar: React.FC<UNPFilterBarProps> = ({ onFilterChange, selectedCat
             className="d-flex flex-column align-items-center text-muted px-3 py-2"
             style={selectedCategory === null ? { color: '#000', borderBottom: '2px solid #000' } : {}}
           >
-            <i className="bi bi-emoji-sunglasses" style={{ fontSize: '2.5rem' }}></i>
-            <span className="fw-semibold" style={{ fontSize: '1rem' }}>All</span>
+            <i className="bi bi-emoji-sunglasses" style={{ fontSize: '1.5rem' }}></i>
+            <span className="fw-semibold" style={{ fontSize: '1rem' }}>Todos</span>
           </Nav.Link>
         </Nav.Item>
 
@@ -117,10 +117,10 @@ const UNPFilterBar: React.FC<UNPFilterBarProps> = ({ onFilterChange, selectedCat
               <Nav.Link
                 eventKey={name}
                 onClick={() => handleCategorySelect(name)}
-                className="d-flex flex-column align-items-center text-muted px-3 py-2"
+                className="d-flex flex-column align-items-center text-muted px-3 pl-2"
                 style={isActive ? { color: '#000', borderBottom: '2px solid #000' } : {}}
               >
-                <i className={`bi bi-${icon}`} style={{ fontSize: '2.5rem' }}></i>
+                <i className={`bi bi-${icon}`} style={{ fontSize: '1.5rem' }}></i>
                 <span className="fw-semibold" style={{ fontSize: '1rem' }}>
                   {name.charAt(0).toUpperCase() + name.slice(1)}
                 </span>

@@ -46,7 +46,7 @@ const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ dataTitle, dataConten
                             location={testData.location}
                             achievements={testData.achievements}
                         />
-                        <div className="scrollable-content pt-3">
+                        <div className="pt-3">
                             {children}
                         </div>
                     </Col>

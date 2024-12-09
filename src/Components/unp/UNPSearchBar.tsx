@@ -37,14 +37,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <Container className="py-3" >
+    <Container fluid className="py-3" >
       <Row className="justify-content-center">
-        <Col xs={12} lg={8}>
-          <div
-            className="d-flex align-items-center w-100"
-          >
+        <Col xs={10} md={12}>
+          <Row className="d-flex align-items-center w-100">
             {/* Search bar container with focus styling on desktop */}
-            <div
+            <Col
               className={containerClasses}
               style={focusStyle}
             >
@@ -70,18 +68,20 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
                     size={20} className="me-2 text-muted" />
                   : <></>
               }
-            </div>
+            </Col>
 
             {/* Filter Button */}
-            <Button
-              variant="outline-secondary"
-              className="rounded-circle d-flex align-items-center justify-content-center ms-3"
-              style={{ width: '40px', height: '40px' }}
-              onClick={handleShowFilters}
-            >
-              <BiFilterAlt size={20} />
-            </Button>
-          </div>
+            <Col xs={2}>
+              <Button
+                variant="outline-primary"
+                className="rounded-circle d-flex d-md-none align-items-center justify-content-center ms-3"
+                style={{ width: '40px', height: '40px' }}
+                onClick={handleShowFilters}
+              >
+                <BiFilterAlt size={20} />
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
 

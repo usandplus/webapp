@@ -16,12 +16,4 @@ const UserView: React.FC = () => {
   );
 };
 
-// Sample section components
-const EmpresaOverview = () => <div>Overview of Empresa</div>;
-const ManageConvocatorias = () => <div>Manage Convocatorias</div>;
-const EditEmpresaDetails = () => <div>Edit Empresa Details</div>;
-const EmpresaReports = () => <div>Empresa Reports & Analytics</div>;
-const TeamManagement = () => <div>Team Management</div>;
-const EmpresaSettings = () => <div>Empresa Settings</div>;
-
 export default UserView;
