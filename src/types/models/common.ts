@@ -1,18 +1,4 @@
-export interface BaseShowcase {
-    title: string;
-    items: {
-      id: string; // Unique identifier for the item
-      title: string; // Title of the card
-      description: string; // Description for the card
-      imgURL: string; // Image URL for the card
-      rating: number; // Rating for the card
-      category: string; // Category for the card
-      clientId: string; // Unique ID for the client
-      number: number;
-      numberTitle: string;
-      profileImgURL: string;
-    }[];
-}
+import { Role } from "./User";
 
 export type UNPBaseCategory =
   | 'educacion'
@@ -35,5 +21,20 @@ export const validCategories: UNPBaseCategory[] = [
     'negocio',
   ];
 
-export type UNPBaseType = 'organizacion' | 'convocatoria' | 'campana' | 'empresa';
+export type UNPBaseType = 'fundacion' | 'convocatoria' | 'campana' | 'empresa';
+export type UNPBaseEntityType = 'ac' | 'fundacion' | 'convocatoria' | 'campana' | 'empresa';
+export interface UNPBaseEntity {
+  entityId: string;
+  creationTime: string | undefined;
+  displayName: string | null;
+  email: string | null;
+  phoneNumber: string | null;
+  photoURL: string | null;
+}
 
+export interface UNPBaseEntityMembership {
+  userId: string;
+  role: Role;
+  startDate: Date;
+  endDate: Date | null;
+}

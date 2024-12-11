@@ -1,16 +1,24 @@
 // src/firebase/firestore/firestoreService.ts
-import { collection, addDoc, getDocs, getDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, getDoc, doc, setDoc, deleteDoc, DocumentReference } from 'firebase/firestore';
 import { firestore } from '../firebaseConfig';
 
 // Add a new document to a collection
-export const addDocument = async (collectionName: string, data: any) => {
+export const addDocument = async (collectionName: string, data: any, docId?: string) => {
   try {
-    const docRef = await addDoc(collection(firestore, collectionName), data);
-    return docRef.id;
+    if (docId) {
+      await setDoc(doc(firestore, collectionName, docId), { ...data, entityId: docId });
+      return docId;
+    } else {
+      const docRef = await addDoc(collection(firestore, collectionName), data);
+      // Update the document with its generated ID
+      await setDoc(docRef, { ...data, entityId: docRef.id }, { merge: true });
+      return docRef.id;
+    }
   } catch (error) {
     console.error('Error adding document:', error);
   }
 };
+
 
 // Get all documents from a collection
 export const getAllDocuments = async (collectionName: string) => {

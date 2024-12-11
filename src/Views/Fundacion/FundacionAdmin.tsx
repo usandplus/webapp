@@ -5,7 +5,7 @@ import UNPCollaboratorManager from '../../Components/unp/UNPCollaboratorManager'
 import UNPAnalytics from '../../Components/unp/UNPAnalytics';
 
 // Example sections for Empresa
-const FundraiserAdmin: React.FC = () => {
+const FundacionAdmin: React.FC = () => {
   const sections = [
     { name: 'Documentos', label: 'Documentos', component: <UNPDocumentManager /> },
     { name: 'Personas', label: 'Personas', component: <UNPCollaboratorManager /> },
@@ -16,7 +16,7 @@ const FundraiserAdmin: React.FC = () => {
   ]
 
   return (
-      <UNPAdminLayout links={links}  sections={sections} />
+      <UNPAdminLayout links={links} sections={sections} />
   );
 };
 
@@ -28,4 +28,4 @@ const EmpresaReports = () => <div>Empresa Reports & Analytics</div>;
 const TeamManagement = () => <div>Team Management</div>;
 const EmpresaSettings = () => <div>Empresa Settings</div>;
 
-export default FundraiserAdmin;
+export default FundacionAdmin;

@@ -4,7 +4,7 @@ export interface FundraiserRequest {
     title: string;
     goalAmount: number; // Target amount to raise
     description: string;
-    organizationId: string; // Related organization ID
+    FundacionId: string; // Related fundacion ID
 }
 
 export interface FundraiserResponse {
@@ -12,6 +12,6 @@ export interface FundraiserResponse {
     title: string;
     goalAmount: number;
     description: string;
-    organizationId: string;
+    FundacionId: string;
     currentAmount: number; // Amount raised so far
 }

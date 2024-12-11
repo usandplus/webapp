@@ -74,8 +74,8 @@ export default function Home() {
         number: Math.ceil(Math.random() * 500),
         numberTitle: 'Volunteers',
         profileImgURL: fakeUrls[Math.floor(Math.random() * fakeUrls.length)],
-        baseType: 'organizacion'
-        // baseType: ['organizacion', 'campana', 'empresa', 'convocatoria'][
+        baseType: 'fundacion'
+        // baseType: ['fundacion', 'campana', 'empresa', 'convocatoria'][
         //   Math.floor(Math.random() * 4)
         // ] as UNPBaseType,
       }));
@@ -132,8 +132,8 @@ export default function Home() {
           <Col xs={12} md={12}>
             <ButtonGroup size="sm" className="mb-2">
               <UNPButton
-                onClick={() => handleTypeChange('organizacion')}
-                variant={selectedType === 'organizacion' ? 'outline-primary' : 'outline-light'}
+                onClick={() => handleTypeChange('fundacion')}
+                variant={selectedType === 'fundacion' ? 'outline-primary' : 'outline-light'}
               >
                 Fundaciones
               </UNPButton>

@@ -10,6 +10,7 @@ import UNPActiveCampaigns from './UNPActiveCampaigns';
 import UNPLocation from './UNPLocation';
 
 interface UNPProfileLayoutProps {
+  aboutMe?: boolean;
   className?: string;
   heroImages: string[]; // Array of image URLs for the hero banner
   entityInfo: {
@@ -17,7 +18,6 @@ interface UNPProfileLayoutProps {
     description: string;
     aboutUs?: string;
     services?: string[];
-    history: string;
     location: string;
     logo?: string;
     ratingSummary?: Object;
@@ -26,7 +26,7 @@ interface UNPProfileLayoutProps {
       avatarURL: string;
       url: string;
     }[];
-    founders?: {
+    importantPeople?: {
       name: string;
       avatarURL: string;
       description: string;
@@ -37,6 +37,7 @@ interface UNPProfileLayoutProps {
 
 const UNPProfileLayout: FC<UNPProfileLayoutProps> = ({
   heroImages,
+  aboutMe,
   entityInfo,
   children,
   className
@@ -50,9 +51,9 @@ const UNPProfileLayout: FC<UNPProfileLayoutProps> = ({
       <UNPHeroGallery images={heroImages} />
       <div className='p-3'>
         <UNPStickyLayout dataTitle={someDataTitle} dataContent={someDataContent} entityInfo={entityInfo}>
-          {entityInfo.aboutUs && <Row><UNPTextSection title='Sobre Nosotros' text={entityInfo.aboutUs} /></Row>}
+          {entityInfo.aboutUs && <Row><UNPTextSection title={`${aboutMe ? 'Sobre Mi' : 'Sobre Nosotros'}`} text={entityInfo.aboutUs} /></Row>}
           {entityInfo.services && <Row><UNPServicesOffered services={entityInfo.services} /></Row>}
-          {entityInfo.founders && <Row><UNPImportantPeople founders={entityInfo.founders} /></Row>}
+          {entityInfo.importantPeople && <Row><UNPImportantPeople importantPeople={entityInfo.importantPeople} /></Row>}
           {entityInfo.campaigns && <Row><UNPActiveCampaigns campaigns={entityInfo.campaigns} /></Row>}
           <Row>
             <UNPLocation locations={[{

@@ -1,6 +1,6 @@
-// src/interfaces/models/Organization.ts
+// src/interfaces/models/Fundacion.ts
 
-export interface OrganizationModel {
+export interface FundacionModel {
     id: string;
     name: string;
     description: string;

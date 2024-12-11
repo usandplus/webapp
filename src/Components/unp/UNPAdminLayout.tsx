@@ -15,6 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import './styles/UNPAdminLayoutStyles.scss';
 import { FaArrowAltCircleUp } from 'react-icons/fa';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
+import { signOutUser } from '../../firebase/auth/authService';
+import { EntityService } from '../../firebase/services/entityService';
 
 interface Section {
   name: string;
@@ -26,44 +28,88 @@ interface Entity {
   name: string;
   path: string;
 }
+interface Link {
+  name: string;
+  path: string;
+}
 
 interface UNPAdminLayoutProps {
   sections: Section[];
   defaultSection?: string;
+  links: Link[];
 }
 
-const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSection }) => {
+const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSection, links }) => {
   const navigate = useNavigate();
-  const { user, loading } = useAuthContext();
+  const { user } = useAuthContext();
   const [activeSection, setActiveSection] = useState(defaultSection || sections[0].name);
   const [showModal, setShowModal] = useState(false);
   const [showMobileModal, setShowMobileModal] = useState(false);
-  const [entities, setEntities] = useState<Entity[]>([
-    { name: 'Default', path: '/dashboard/' },
-    { name: 'Gatitos', path: '/admin/organizacion/1' },
-    { name: 'Perritos', path: '/admin/organizacion/2' },
-  ]);
-  const [currentEntity, setCurrentEntity] = useState<string | null>(user?.displayName || null);
-
+  const [entities, setEntities] = useState<Entity[]>([]);
+  const [currentEntity, setCurrentEntity] = useState<string | null>(
+    localStorage.getItem('currentEntity') || null
+  );
+  console.log(links)
+  // Fetch user entities
   useEffect(() => {
-    user && setCurrentEntity(user.displayName);
-  }, [user]);
+    const fetchEntities = async () => {
+      if (user?.userId) {
+        try {
+          const memberships = await EntityService.getAllUserEntities(user.userId);
+          const combinedEntities: Entity[] = [
+            ...memberships.adminMemberships.map((membership: any) => ({
+              name: membership.entityDisplayName || membership.entityId,
+              path: `/admin/fundacion/${membership.entityId}`,
+            })),
+            ...memberships.userMemberships.map((membership: any) => ({
+              name: membership.entityDisplayName || membership.entityId,
+              path: `/admin/fundacion/${membership.entityId}`,
+            })),
+          ];
+          setEntities(combinedEntities);
 
+          // Set default currentEntity if not already set
+          if (!currentEntity && combinedEntities.length > 0) {
+            const defaultEntity = combinedEntities[0].name;
+            setCurrentEntity(defaultEntity);
+            localStorage.setItem('currentEntity', defaultEntity);
+          }
+        } catch (error) {
+          console.error('Error fetching user entities:', error);
+        }
+      }
+    };
+
+    fetchEntities();
+  }, [user, currentEntity]);
+
+  // Change active section
   const changeActiveSection = (section: string) => {
     setActiveSection(section);
     setShowMobileModal(false);
   };
 
+  // Handle entity change
   const handleEntityChange = (entity: Entity) => {
     setCurrentEntity(entity.name);
+    localStorage.setItem('currentEntity', entity.name);
     navigate(entity.path);
     setActiveSection(sections[0].name);
     setShowModal(false);
     setShowMobileModal(false);
   };
-
+  const handleUserSelection = () => {
+    const userDisplayName = user?.displayName || 'User';
+    setCurrentEntity(userDisplayName);
+    localStorage.setItem('currentEntity', userDisplayName);
+    navigate('/dashboard');
+    setActiveSection(sections[0].name);
+    setShowModal(false);
+    setShowMobileModal(false);
+  };
   const activeComponent = sections.find((section) => section.name === activeSection)?.component || null;
 
+  // Sidebar content
   const sidebarContent = (
     <div className="d-flex flex-column h-100 p-3">
       <div className="sidebar-header text-center mb-4">
@@ -72,19 +118,26 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
           src="/full_logo.png"
           alt="Logo"
           className="mb-3"
-          style={{ maxHeight: '60px', objectFit: 'contain' }}
+          style={{ maxHeight: '8rem', objectFit: 'contain' }}
         />
         <Dropdown>
-          <Dropdown.Toggle variant="primary" id="entity-dropdown-toggle" className="w-100 text-center">
-            {currentEntity}
+          <Dropdown.Toggle
+            variant="primary"
+            id="entity-dropdown-toggle"
+            className="w-100 text-center"
+          >
+            {currentEntity || 'Select Entity'}
           </Dropdown.Toggle>
-          <Dropdown.Menu>
+          <Dropdown.Menu className="w-100">
+            {/* User option */}
             <Dropdown.Item
-              onClick={() => (window.location.pathname === '/dashboard' ? null : navigate('/dashboard'))}
+              onClick={handleUserSelection}
               active={window.location.pathname === '/dashboard'}
             >
-              {user?.displayName}
+              {user?.displayName || 'User'}
             </Dropdown.Item>
+
+            {/* Entity options */}
             {entities.map((entity, index) => (
               <Dropdown.Item key={index} onClick={() => handleEntityChange(entity)}>
                 {entity.name}
@@ -105,6 +158,12 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
             {section.label}
           </Nav.Link>
         ))}
+        <Nav.Link
+          onClick={() => signOutUser()}
+          className={`mb-2 text-secondary rounded`}
+        >
+          Cerrar Sesion
+        </Nav.Link>
       </Nav>
     </div>
   );
@@ -112,38 +171,17 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
   return (
     <>
       <Container fluid className="admin-layout gx-0">
-        <Row className="gx-0"> {/* Fix: Removed gutter spacing */}
+        <Row className="gx-0">
           {/* Sidebar for desktop */}
           <Col lg={4} className="d-none d-lg-block bg-light border-end vh-100">
             {sidebarContent}
           </Col>
 
           {/* Main Content Area */}
-          <Col xs={12} lg={8} className="px-4 scrollable-content">
+          <Col xs={12} lg={8} className="px-4 scrollable-content pt-0 gy-5">
             {activeComponent}
           </Col>
         </Row>
-
-        {/* Modal for Changing Entity (Desktop) */}
-        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Selecciona tu entidad</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <ListGroup>
-              {entities.map((entity, index) => (
-                <ListGroup.Item key={index} action onClick={() => handleEntityChange(entity)}>
-                  {entity.name}
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Cerrar
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </Container>
 
       {/* Mobile Offcanvas Menu */}
@@ -156,7 +194,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
             className="m-3 fixed-bottom shadow-lg rounded-pill d-flex align-items-center justify-content-between"
             style={{ zIndex: 1050 }}
           >
-            <span>{currentEntity}</span>
+            <span>{currentEntity || 'Select Entity'}</span>
             <FaArrowAltCircleUp />
           </Button>
         )}

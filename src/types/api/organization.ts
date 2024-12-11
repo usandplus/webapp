@@ -1,12 +1,12 @@
-// src/interfaces/api/organization.ts
+// src/interfaces/api/fundacion.ts
 
-export interface OrganizationRequest {
+export interface FundacionRequest {
     name: string;
     description: string;
     adminId: string; // UID of the admin
 }
 
-export interface OrganizationResponse {
+export interface FundacionResponse {
     id: string;
     name: string;
     description: string;

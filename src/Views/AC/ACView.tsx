@@ -1,7 +1,7 @@
 import UNPProfileLayout from "../../Components/unp/UNPProfileLayout";
 import UNPReviews from "../../Components/unp/UNPReviews";
 
-const OrganizationView = () => {
+const FundacionView = () => {
   const heroImages = [
     '/stock/stock (1).jpg',
     '/stock/stock (2).jpg',
@@ -40,7 +40,7 @@ const OrganizationView = () => {
       { url: '/campana/3', name: 'Campaña Tres', avatarURL: '/stock/stock (2).jpg' },
       { url: '/campana/4', name: 'Campaña Cuatro', avatarURL: '/stock/stock (1).jpg' }
     ],
-    aboutUs: 'EmpowerChange Foundation is a nonprofit organization dedicated to creating opportunities for underserved communities worldwide. Through education, healthcare initiatives, and sustainable development programs, we aim to break cycles of poverty and empower individuals to thrive. Our team collaborates with local leaders and volunteers to deliver impactful solutions tailored to specific needs. By fostering resilience, equity, and innovation, EmpowerChange is building a brighter future for everyone. Join us in making a lasting difference, one community at a time. Together, we transform lives!',
+    aboutUs: 'EmpowerChange Foundation is a nonprofit fundacion dedicated to creating opportunities for underserved communities worldwide. Through education, healthcare initiatives, and sustainable development programs, we aim to break cycles of poverty and empower individuals to thrive. Our team collaborates with local leaders and volunteers to deliver impactful solutions tailored to specific needs. By fostering resilience, equity, and innovation, EmpowerChange is building a brighter future for everyone. Join us in making a lasting difference, one community at a time. Together, we transform lives!',
     services: ['Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños', 'Ayudamos a niños',]
   };
   const reviews = [
@@ -83,4 +83,4 @@ const OrganizationView = () => {
   );
 };
 
-export default OrganizationView;
+export default FundacionView;

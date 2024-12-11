@@ -6,7 +6,7 @@ export interface CampaignModel {
     description: string;
     startDate: Date;
     endDate: Date;
-    organizationId: string; // Related organization ID
+    FundacionId: string; // Related fundacion ID
     createdAt: Date;
     updatedAt: Date;
 }

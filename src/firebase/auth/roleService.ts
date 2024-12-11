@@ -2,6 +2,7 @@
 
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { firestore } from '../firebaseConfig';
+import { Role } from '../../types/models/User';
 
 // Function to get user role from Firestore
 export const getUserRole = async (userId: string): Promise<string | null> => {
@@ -11,7 +12,7 @@ export const getUserRole = async (userId: string): Promise<string | null> => {
 };
 
 // Function to assign a role to a user
-export const assignRole = async (userId: string, role: string) => {
+export const assignRole = async (userId: string, role: Role) => {
     const userDocRef = doc(firestore, 'users', userId);
     await setDoc(userDocRef, { role }, { merge: true });
 };

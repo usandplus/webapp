@@ -2,22 +2,22 @@ import React from 'react';
 import { Col, Image, Row, Stack } from 'react-bootstrap';
 
 interface UNPImportantPeopleProps {
-  founders?: {
+  importantPeople?: {
     name: string;
     avatarURL: string;
     description: string;
   }[];
 }
 
-const UNPImportantPeople: React.FC<UNPImportantPeopleProps> = ({ founders }) => {
+const UNPImportantPeople: React.FC<UNPImportantPeopleProps> = ({ importantPeople }) => {
   const title = 'Personas Clave';
 
   return (
     <Row className="border-top py-3">
       <h3 className="fw-bold text-primary pb-2">{title}</h3>
-      {founders && founders.length > 0 ? 
+      {importantPeople && importantPeople.length > 0 ? 
         
-          founders.map((founder, i) => {
+          importantPeople.map((founder, i) => {
             return i < 2 ? (
               <Col xs={12} sm={6} key={i} className="text-center">
                 <Image

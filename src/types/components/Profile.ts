@@ -10,5 +10,5 @@ export interface UserProfileData {
     name: string;
     email: string;
     role: string;
-    organization?: string; // Optional organization if applicable
+    fundacion?: string; // Optional fundacion if applicable
 }

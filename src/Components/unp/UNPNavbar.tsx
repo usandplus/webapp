@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, Container, Image, Offcanvas, Spinner } from 'react-bootstrap';
 import { LinkContainer } from "react-router-bootstrap";
 import { signOutUser } from '../../firebase/auth/authService';
@@ -16,7 +16,6 @@ interface NavLink {
 
 interface UNPNavbarProps {
   links?: NavLink[];
-  isScrolled?: boolean;
 }
 
 const FIXED_LINKS: NavLink[] = [
@@ -33,7 +32,6 @@ const BOTTOM_NAV_ITEMS_LOGGED_OUT: NavLink[] = [
 const BOTTOM_NAV_ITEMS_LOGGED_IN: NavLink[] = [
   { name: "Directorio", path: "/" },
   { name: "Mensajes", path: "/mensajes" },
-  { name: "Perfil", path: "/perfil" },
   { name: "Dashboard", path: "/dashboard" },
   { name: "Notificaciones", path: "/notificaciones" },
 ];
@@ -46,21 +44,28 @@ const RIGHT_NAV_ITEMS_LOGGED_OUT: NavLink[] = [
 // Bottom nav items for users that **are** logged in (5 items)
 const RIGHT_NAV_ITEMS_LOGGED_IN: NavLink[] = [
   // { name: "Directorio", path: "/" },
+  { name: "Perfil", path: "/perfil" },
   { name: "Dashboard", path: "/dashboard" },
   { name: "Mensajes", path: "/mensajes" },
-  // { name: "Perfil", path: "/perfil" },
   { name: "Notificaciones", path: "/notificaciones" },
 ];
 
-const UNPNavbar: React.FC<UNPNavbarProps> = ({ links = [], isScrolled }) => {
+const UNPNavbar: React.FC<UNPNavbarProps> = ({ links = [] }) => {
   const { user, loading } = useAuthContext();
   const navigate = useNavigate();
-  const rightNavItems = user ? RIGHT_NAV_ITEMS_LOGGED_IN : RIGHT_NAV_ITEMS_LOGGED_OUT
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const handleCloseOffcanvas = () => setShowOffcanvas(false);
   const handleShowOffcanvas = () => setShowOffcanvas(true);
-  console.log('navbar', window.location)
+  const [isScrolled, setIsScrolled] = useState(false);
+  const rightNavItems = user ? RIGHT_NAV_ITEMS_LOGGED_IN : RIGHT_NAV_ITEMS_LOGGED_OUT
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const desktopLinks = [...FIXED_LINKS, ...links].filter(link => {
     if (link.auth && !user) return false;
     return true;
@@ -238,12 +243,12 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links = [], isScrolled }) => {
                 src={user.photoURL || '/default-profile.png'}
                 alt={user.displayName || 'Profile'}
               />
-                <h3 className='text-primary mt-3'>{user.displayName}</h3>
+              <h3 className='text-primary mt-3'>{user.displayName}</h3>
             </div>
           ) : (
-            <div className='text-center'>
-                  <FaUserCircle
-                    className='text-primary'
+            <div className='text-center border-bottom pb-2 mb-2'>
+              <FaUserCircle
+                className='text-primary'
                 // style={{ width: 96, height: 96 }}
                 size='96' />
             </div>

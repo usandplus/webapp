@@ -6,7 +6,7 @@ export interface FundraiserModel {
     goalAmount: number;
     currentAmount: number; // Amount raised so far
     description: string;
-    organizationId: string; // Related organization ID
+    FundacionId: string; // Related fundacion ID
     createdAt: Date;
     updatedAt: Date;
 }

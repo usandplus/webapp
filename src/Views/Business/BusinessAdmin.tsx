@@ -12,8 +12,12 @@ const BusinessAdmin: React.FC = () => {
     { name: 'Estadisticas', label: 'Estadisticas', component: <UNPAnalytics /> },
   ];
 
-  return (
-    <UNPAdminLayout sections={sections} />
+  const links = [
+    { name: 'Perfil', path: '/perfil'}
+]
+
+return (
+    <UNPAdminLayout links={links}  sections={sections} />
   );
 };
 

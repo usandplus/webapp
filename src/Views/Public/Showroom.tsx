@@ -62,7 +62,7 @@ const showcaseGridItems = [
     "number": 107,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   },
   {
     "id": "150",
@@ -75,7 +75,7 @@ const showcaseGridItems = [
     "number": 293,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   },
   {
     "id": "153",
@@ -88,7 +88,7 @@ const showcaseGridItems = [
     "number": 256,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   },
   {
     "id": "154",
@@ -101,7 +101,7 @@ const showcaseGridItems = [
     "number": 213,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   },
   {
     "id": "195",
@@ -114,7 +114,7 @@ const showcaseGridItems = [
     "number": 297,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   },
   {
     "id": "6",
@@ -127,7 +127,7 @@ const showcaseGridItems = [
     "number": 107,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   },
   {
     "id": "10",
@@ -140,7 +140,7 @@ const showcaseGridItems = [
     "number": 293,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   },
   {
     "id": "13",
@@ -153,7 +153,7 @@ const showcaseGridItems = [
     "number": 256,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   },
   {
     "id": "14",
@@ -166,7 +166,7 @@ const showcaseGridItems = [
     "number": 213,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   },
   {
     "id": "19",
@@ -179,7 +179,7 @@ const showcaseGridItems = [
     "number": 297,
     "numberTitle": "Volunteers",
     "profileImgURL": "/full_logo.png",
-    "baseType": "organizacion"
+    "baseType": "fundacion"
   }
 ]
 
@@ -195,7 +195,7 @@ const componentsList = [
   { name: 'UNPNavbar', version: '1.2', component: <UNPNavbar links={[{ name: 'Home', path: '/showroom' }]} /> },
   { name: 'UNPProfileBanner', version: '1.2', component: <UNPProfileBanner location="San Pedro Garza Garcia" avatarURL="/full_logo.png" categories="Photographer, Traveler" name="John Doe" achievements={['Top Contributor', 'Gold Member', '500K Followers']} /> },
   { name: 'UNPReviews', version: '1.2', component: <UNPReviews reviews={reviews} averageRating={4.3} aiReview='Aqui va un review por inteligencia artificial' /> },
-  { name: 'UNPShowcaseGrid', version: '1.5', component: <UNPShowcaseGrid selectedCategory={'educacion'} title="Fundaciones" items={showcaseGridItems} baseType={'organizacion'} /> },
+  { name: 'UNPShowcaseGrid', version: '1.5', component: <UNPShowcaseGrid selectedCategory={'educacion'} title="Fundaciones" items={showcaseGridItems} baseType={'fundacion'} /> },
 ];
 
 const Showroom: React.FC = () => {

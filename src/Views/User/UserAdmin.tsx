@@ -35,8 +35,12 @@ const UserAdmin: React.FC = () => {
         { name: 'Historial', label: 'Historial', component: <UNPTransactionHistory /> },
     ];
 
+    const links = [
+        { name: 'Perfil', path: '/perfil'}
+    ]
+
     return (
-        <UNPAdminLayout sections={sections} />
+        <UNPAdminLayout links={links} sections={sections} />
     );
 };
 

@@ -5,7 +5,7 @@ export interface CampaignRequest {
     description: string;
     startDate: Date;
     endDate: Date;
-    organizationId: string; // Related organization ID
+    FundacionId: string; // Related fundacion ID
 }
 
 export interface CampaignResponse {
@@ -14,5 +14,5 @@ export interface CampaignResponse {
     description: string;
     startDate: Date;
     endDate: Date;
-    organizationId: string;
+    FundacionId: string;
 }

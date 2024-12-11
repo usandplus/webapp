@@ -1,21 +1,29 @@
 import React, { useEffect } from 'react';
-import { Card, Button, Form, Container, Row, Col } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Card, Button, Form, Container, Row, Col, Spinner } from 'react-bootstrap';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase/auth/authService';
 
 const Login: React.FC = () => {
-  const {user} = useAuthContext()
-  const navigate = useNavigate()
+  const { user, loading } = useAuthContext();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const redirect = searchParams.get('redirect')
+  const redirect = searchParams.get('redirect') || '/dashboard';
 
-  useEffect(()=>{
-    if (user) 
-      if (redirect) navigate(redirect)
-        else navigate('/dashboard')
-  },[user])
+  // Redirect authenticated users
+  useEffect(() => {
+    if (user && !loading) {
+      navigate(redirect);
+    }
+  }, [user, loading, navigate, redirect]);
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
+  }
 
   return (
     <Container fluid className="d-flex justify-content-center align-items-center mt-5">

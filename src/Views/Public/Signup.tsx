@@ -16,7 +16,7 @@ const SignupView: React.FC = () => {
       return;
     }
     try {
-      await signUpWithEmail(email, password, 'user');
+      await signUpWithEmail(email, password);
       // Handle successful signup
     } catch (error) {
       console.error("Signup failed: ", error);

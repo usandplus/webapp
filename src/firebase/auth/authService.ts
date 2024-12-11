@@ -1,62 +1,107 @@
-// src/firebase/auth/authService.ts
+import { auth } from '../firebaseConfig'
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  User,
+} from 'firebase/auth'
+import { addDocument, getDocumentById } from '../firestore/firestoreService'
+import { UNPUser, UserEntityMembership, UserEventMembership } from '../../types/models/User'
 
-import { auth } from '../firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, User, signInWithRedirect, getRedirectResult, signInWithPopup } from 'firebase/auth';
-import { assignRole } from './roleService';
-
-
-// Sign up function with role assignment
-export const signUpWithEmail = async (email: string, password: string, role: string) => {
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await assignRole(userCredential.user.uid, role); // Assign role after user creation
-        return userCredential.user;
-    } catch (error) {
-        throw error;
-    }
+// Helper: Register new Google user
+const registerGoogleUser = async (user: User) => {
+  let userData: UNPUser = {
+    displayName: user.displayName,
+    email: user.email,
+    emailVerified: user.emailVerified,
+    isAnonymous: user.isAnonymous,
+    creationTime: user.metadata.creationTime,
+    lastSignInTime: user.metadata.lastSignInTime,
+    phoneNumber: user.phoneNumber,
+    photoURL: user.photoURL,
+    userId: user.uid,
+    role: 'user',
+  };
+  await addDocument(`users/${user.uid}/public/`, userData, 'info');
+  return userData;
 };
 
-// Sign in function
+export const setupInitialUserProfile = async (user: UNPUser) => {
+  let userData = {
+    published: false,
+    heroImages: [], // Array of image URLs for the hero banner
+    profileInfo: {
+      name: user.displayName,
+      description: '',
+      aboutUs: '',
+      services: [],
+      location: '',
+      logo: user.photoURL,
+      ratingSummary: null,
+      campaigns: [],
+      importantPeople: []
+    }
+  }
+  await addDocument(`users/${user.userId}/public/`, userData, 'profile')
+  return userData
+}
+
+export const getUserData = async (uid: string) => {
+    let userData = await getDocumentById('users', uid)
+    return userData
+}
+
+// Sign up with email
+export const signUpWithEmail = async (email: string, password: string) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+    return userCredential.user
+  } catch (error) {
+    console.error('Error signing up with email:', error)
+    throw error
+  }
+}
+
+// Sign in with email
 export const signInWithEmail = async (email: string, password: string) => {
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        return userCredential.user;
-    } catch (error) {
-        throw error;
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    return userCredential.user
+  } catch (error) {
+    console.error('Error signing in with email:', error)
+    throw error
+  }
+}
+
+export const signInWithGoogle = async () => {
+  const googleProvider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+
+    // Check if user doc exists
+    let userDoc = await getDocumentById(`users/${user.uid}/public`, 'info');
+    if (!userDoc) {
+      console.log('No user doc found. Creating...');
+      const userData = await registerGoogleUser(user);
+      await setupInitialUserProfile(userData);
+      userDoc = userData;
     }
+
+    return userDoc;
+  } catch (error) {
+    console.error('Error signing in with Google:', error);
+    throw error;
+  }
 };
-
-// Sign in with Google
-const googleProvider = new GoogleAuthProvider();
-export const signInWithGoogle = async (): Promise<User | null> => {
-    try {
-        await signInWithPopup(auth, googleProvider);
-        // After redirect, you'll retrieve the result using getRedirectResult()
-        const result = await getRedirectResult(auth);
-        
-        if (result) {
-            const user: User = result.user; // User information retrieved after the redirect
-            
-            // Additional logic can be added here, such as storing user info in Firestore
-
-            return user; // Return the user object
-        } else {
-            console.error('No user returned after Google sign-in.');
-            return null; // Handle case where no user is returned
-        }
-    } catch (error) {
-        console.error("Error signing in with Google: ", error);
-        throw error; // Rethrow the error to handle it in the calling component
-    }
-};
-
-// Sign out function
+// Sign out
 export const signOutUser = async () => {
-    try {
-        await signOut(auth);
-    } catch (error) {
-        throw error;
-    }
-};
-
-// Other auth functions can be added here, e.g., password reset
+  try {
+    await signOut(auth)
+  } catch (error) {
+    console.error('Error signing out:', error)
+    throw error
+  }
+}
