@@ -82,8 +82,10 @@ const UNPNavbar: React.FC<UNPNavbarProps> = ({ links = [] }) => {
         <LinkContainer to="/">
           <Navbar.Brand>
             {/* UNP */}
-            <Image alt="" src="/isotype.png" className="d-inline-block align-top" height={32} />
-            <Image alt="" src="/name_rectangle.png" className="d-inline-block align-top" width={150} />
+            {/* <Image alt="" src="/isotype.png" className="d-inline-block align-top" height={32} />
+            <Image alt="" src="/name_rectangle.png" className="d-inline-block align-top" width={150} /> */}
+            {/* Kasasa */}
+            <Image alt="" src="/kasasa_logo.png" className="d-inline-block align-top" width={150} />
           </Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="unp-navbar-nav" />

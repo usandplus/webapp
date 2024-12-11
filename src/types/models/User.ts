@@ -5,10 +5,10 @@ import { User } from "firebase/auth";
 export type Role = "admin" | "mod" | "user" | null
 // Users can be registered towards an entity (business/fundacion)
 export interface UserEntityMembership {
+    entityDisplayName: string;
+    role: string;
     entityId: string;
-    role: Role;
-    startDate: Date;
-    endDate: Date | null;
+    entityType: string;
 }
 
 // Users can be registered towards an event (campaign/fundraiser)
@@ -54,4 +54,5 @@ export interface UNPUser {
     phoneNumber: string | null;
     photoURL: string | null;
     userId: string;
+    memberships?: UserEntityMembership[]
 }

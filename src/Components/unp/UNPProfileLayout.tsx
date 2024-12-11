@@ -18,7 +18,7 @@ interface UNPProfileLayoutProps {
     description: string;
     aboutUs?: string;
     services?: string[];
-    location: string;
+    location?: string;
     logo?: string;
     ratingSummary?: Object;
     campaigns?: {

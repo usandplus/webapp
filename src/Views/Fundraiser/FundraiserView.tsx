@@ -1,5 +1,17 @@
 import UNPProfileLayout from "../../Components/unp/UNPProfileLayout";
 
+interface FundraiserProfile {
+  entityInfo: {
+    name: string
+    description: string
+    history: string
+    locationAddress: string
+    logo: string
+    aboutUs: string
+    services: string[]
+  }
+  heroImages: string[]
+}
 
 const FundraiserView = () => {
   const heroImages = [

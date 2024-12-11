@@ -138,10 +138,8 @@ const UNPTransactionHistory: React.FC = () => {
               <Row className="w-100 gx-0"> {/* gx-0 removes extra gutter spacing */}
                 {/* First Column */}
                 <Col xs={6}>
-                  <Card.Text>
-                    <h6 className="mb-1 text-primary">{transaction.type}</h6>
-                    <span className="fw-bold me-2">{transaction.amount}</span>
-                  </Card.Text>
+                  <h6 className="mb-1 text-primary">{transaction.type}</h6>
+                  <span className="fw-bold me-2">{transaction.amount}</span>
                   <Card.Text>
                     <small className="text-muted">{transaction.date}</small>
                   </Card.Text>

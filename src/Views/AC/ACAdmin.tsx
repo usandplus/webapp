@@ -5,7 +5,7 @@ import UNPCollaboratorManager from '../../Components/unp/UNPCollaboratorManager'
 import UNPAnalytics from '../../Components/unp/UNPAnalytics';
 
 // Example sections for Empresa
-const FundacionAdmin: React.FC = () => {
+const ACAdmin: React.FC = () => {
   const sections = [
     { name: 'Documentos', label: 'Documentos', component: <UNPDocumentManager /> },
     { name: 'Personas', label: 'Personas', component: <UNPCollaboratorManager /> },
@@ -28,4 +28,4 @@ const EmpresaReports = () => <div>Empresa Reports & Analytics</div>;
 const TeamManagement = () => <div>Team Management</div>;
 const EmpresaSettings = () => <div>Empresa Settings</div>;
 
-export default FundacionAdmin;
+export default ACAdmin;

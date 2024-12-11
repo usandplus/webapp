@@ -3,10 +3,17 @@ import UNPAdminLayout from '../../Components/unp/UNPAdminLayout';
 import UNPDocumentManager from '../../Components/unp/UNPDocumentManager';
 import UNPCollaboratorManager from '../../Components/unp/UNPCollaboratorManager';
 import UNPAnalytics from '../../Components/unp/UNPAnalytics';
+import UNPEditProfile from '../../Components/unp/UNPEditProfile';
+import { useParams } from 'react-router-dom';
 
 // Example sections for Empresa
 const FundacionAdmin: React.FC = () => {
+  const { fundacionId } = useParams<{ fundacionId: string }>();
+
+
+
   const sections = [
+    // { name: 'Tu Perfil', label: 'Tu Perfil', component: <UNPEditProfile  initialData={null} /> },
     { name: 'Documentos', label: 'Documentos', component: <UNPDocumentManager /> },
     { name: 'Personas', label: 'Personas', component: <UNPCollaboratorManager /> },
     { name: 'Estadisticas', label: 'Estadisticas', component: <UNPAnalytics /> },  ];

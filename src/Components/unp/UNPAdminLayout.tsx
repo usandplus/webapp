@@ -16,7 +16,8 @@ import './styles/UNPAdminLayoutStyles.scss';
 import { FaArrowAltCircleUp } from 'react-icons/fa';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
 import { signOutUser } from '../../firebase/auth/authService';
-import { EntityService } from '../../firebase/services/entityService';
+import { UserEntityMembership } from '../../types/models/User';
+
 
 interface Section {
   name: string;
@@ -41,7 +42,7 @@ interface UNPAdminLayoutProps {
 
 const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSection, links }) => {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { user, userMemberships } = useAuthContext();
   const [activeSection, setActiveSection] = useState(defaultSection || sections[0].name);
   const [showModal, setShowModal] = useState(false);
   const [showMobileModal, setShowMobileModal] = useState(false);
@@ -49,39 +50,25 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
   const [currentEntity, setCurrentEntity] = useState<string | null>(
     localStorage.getItem('currentEntity') || null
   );
-  console.log(links)
-  // Fetch user entities
+  console.log(userMemberships, user)
+
   useEffect(() => {
-    const fetchEntities = async () => {
-      if (user?.userId) {
-        try {
-          const memberships = await EntityService.getAllUserEntities(user.userId);
-          const combinedEntities: Entity[] = [
-            ...memberships.adminMemberships.map((membership: any) => ({
-              name: membership.entityDisplayName || membership.entityId,
-              path: `/admin/fundacion/${membership.entityId}`,
-            })),
-            ...memberships.userMemberships.map((membership: any) => ({
-              name: membership.entityDisplayName || membership.entityId,
-              path: `/admin/fundacion/${membership.entityId}`,
-            })),
-          ];
-          setEntities(combinedEntities);
-
-          // Set default currentEntity if not already set
-          if (!currentEntity && combinedEntities.length > 0) {
-            const defaultEntity = combinedEntities[0].name;
-            setCurrentEntity(defaultEntity);
-            localStorage.setItem('currentEntity', defaultEntity);
-          }
-        } catch (error) {
-          console.error('Error fetching user entities:', error);
-        }
+    if (userMemberships) {
+      const mappedEntities = userMemberships.map((membership) => ({
+        name: membership.entityDisplayName || membership.entityId,
+        path: `/admin/${membership.entityType}/${membership.entityId}`,
+        role: membership.role, // Keep track of the role
+      }));
+      setEntities(mappedEntities);
+  
+      if (!currentEntity && mappedEntities.length > 0) {
+        const defaultEntity = mappedEntities[0].name;
+        setCurrentEntity(defaultEntity);
+        localStorage.setItem('currentEntity', defaultEntity);
       }
-    };
-
-    fetchEntities();
-  }, [user, currentEntity]);
+    }
+  }, [userMemberships, currentEntity]);
+  
 
   // Change active section
   const changeActiveSection = (section: string) => {
@@ -98,6 +85,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
     setShowModal(false);
     setShowMobileModal(false);
   };
+
   const handleUserSelection = () => {
     const userDisplayName = user?.displayName || 'User';
     setCurrentEntity(userDisplayName);
@@ -107,6 +95,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
     setShowModal(false);
     setShowMobileModal(false);
   };
+
   const activeComponent = sections.find((section) => section.name === activeSection)?.component || null;
 
   // Sidebar content

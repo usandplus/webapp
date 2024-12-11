@@ -4,6 +4,7 @@ import { Col, Image, Row, Stack } from 'react-bootstrap';
 interface UNPImportantPeopleProps {
   importantPeople?: {
     name: string;
+    userId?: string
     avatarURL: string;
     description: string;
   }[];

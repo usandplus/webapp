@@ -1,9 +1,9 @@
 // src/firebase/firestore/entityService.ts
-import { collection, doc, FieldValue, getDoc, getDocs, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { collection, doc, FieldValue, getDoc, getDocs, query, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { UNPBaseEntityType } from '../../types/models/common';
 import { addDocument, getDocumentById, updateDocument, deleteDocument, getAllDocuments } from '../firestore/firestoreService';
 import { firestore } from '../firebaseConfig';
-import { Role } from '../../types/models/User';
+import { Role, UserEntityMembership } from '../../types/models/User';
 
 interface EntityRequestData {
   name: string;
@@ -222,53 +222,95 @@ export const EntityService = {// Create a new entity
       throw error;
     }
   },
-  getAllUserEntities: async (userId: string): Promise<any> => {
+  getAllUserMemberships:async (userId: string): Promise<UserEntityMembership[]> =>{
     try {
-      // Reference to admin and user memberships subcollections
-      const adminMembershipsRef = collection(firestore, `users/${userId}/private/memberships/admin`);
-      const userMembershipsRef = collection(firestore, `users/${userId}/private/memberships/user`);
-  
-      // Fetch all admin memberships
-      const adminMembershipsSnapshot = await getDocs(adminMembershipsRef);
-      const adminMemberships = adminMembershipsSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-  
-      // Fetch all user memberships
-      const userMembershipsSnapshot = await getDocs(userMembershipsRef);
-      const userMemberships = userMembershipsSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-  
-      // Combine the results into a single JSON object
-      const combinedMemberships = {
-        adminMemberships,
-        userMemberships,
-      };
-  
-      console.log('Fetched user memberships:', combinedMemberships);
-      return combinedMemberships;
+
+      // Paths for both collections
+      const adminMembershipsCollection = collection(
+        firestore,
+        `users/${userId}/private/memberships/admin`
+      );
+      const userMembershipsCollection = collection(
+        firestore,
+        `users/${userId}/private/memberships/user`
+      );
+
+      // Queries for both collections
+      const adminMembershipsQuery = query(adminMembershipsCollection);
+      const userMembershipsQuery = query(userMembershipsCollection);
+
+      // Fetch documents from both collections concurrently
+      const [adminSnapshot, userSnapshot] = await Promise.all([
+        getDocs(adminMembershipsQuery),
+        getDocs(userMembershipsQuery),
+      ]);
+
+
+      // Map over the snapshots to construct arrays of documents
+      const adminMemberships: UserEntityMembership[] = adminSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          entityDisplayName: data.entityDisplayName || "",
+          role: data.role || "",
+          entityId: data.entityId || "",
+          entityType: data.entityType || "",
+        };
+      });
+
+      const userMemberships: UserEntityMembership[] = userSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          entityDisplayName: data.entityDisplayName || "",
+          role: data.role || "",
+          entityId: data.entityId || "",
+          entityType: data.entityType || "",
+        };
+      });
+
+      // Merge the results from both collections
+      const allMemberships = [...adminMemberships, ...userMemberships];
+      console.log(allMemberships)
+      return allMemberships;
     } catch (error) {
-      console.error('Error fetching user memberships:', error);
-      throw new Error('Failed to fetch user memberships.');
+      console.error("Error fetching user memberships:", error);
+      throw error; // Rethrow the error for upstream handling
     }
   },
   getUserProfile: async (userId: string): Promise<any> => {
     try {
       // Reference to the user's public profile document
       const profileRef = doc(firestore, `users/${userId}/public/profile`);
-      
+
       // Fetch the document snapshot
       const profileSnapshot = await getDoc(profileRef);
-      
+
       if (profileSnapshot.exists()) {
         const profileData = profileSnapshot.data();
         console.log('Fetched user profile:', profileData);
         return profileData;
       } else {
         console.log('No profile found for user:', userId);
+        return null; // Return null if the profile doesn't exist
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      throw new Error('Failed to fetch user profile.');
+    }
+  },
+  getEntityProfile: async (entityType: string, entityId: string): Promise<any> => {
+    try {
+      // Reference to the user's public profile document
+      const profileRef = doc(firestore, `${entityType}/${entityId}/public/profile`);
+
+      // Fetch the document snapshot
+      const profileSnapshot = await getDoc(profileRef);
+
+      if (profileSnapshot.exists()) {
+        const profileData = profileSnapshot.data();
+        console.log(`Fetched ${profileData.displayName} profile:`, profileData);
+        return profileData;
+      } else {
+        console.log('No profile found for user:', entityId);
         return null; // Return null if the profile doesn't exist
       }
     } catch (error) {

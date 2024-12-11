@@ -20,7 +20,19 @@ export const validCategories: UNPBaseCategory[] = [
     'tecnologia',
     'negocio',
   ];
-
+  export type UNPBaseEvent = {
+    url: string;
+    name: string;
+    avatarURL: string;
+    type: UNPBaseEventType;
+  }
+export type UNPImportantPeople = {
+  description: string
+  userId?: string
+  name: string
+  avatarURL: string
+}
+export type UNPBaseEventType = 'campana' | 'convocatoria'
 export type UNPBaseType = 'fundacion' | 'convocatoria' | 'campana' | 'empresa';
 export type UNPBaseEntityType = 'ac' | 'fundacion' | 'convocatoria' | 'campana' | 'empresa';
 export interface UNPBaseEntity {
@@ -37,4 +49,12 @@ export interface UNPBaseEntityMembership {
   role: Role;
   startDate: Date;
   endDate: Date | null;
+}
+
+export interface UNPBaseReview {
+  avatar: string
+  name: string
+  description: string
+  reviewText: string
+  rating: number
 }

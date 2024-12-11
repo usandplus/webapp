@@ -31,6 +31,7 @@ const UserAdmin: React.FC = () => {
                 feedItems={['test']}
             />
         },
+        { name: 'Tu Perfil', label: 'Tu Perfil', component: <UNPTransactionHistory /> },
         { name: 'Documentos', label: 'Documentos', component: <UNPUserDocumentManager /> },
         { name: 'Historial', label: 'Historial', component: <UNPTransactionHistory /> },
     ];

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Button, Form, Container, Row, Col, Spinner } from 'react-bootstrap';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase/auth/authService';
+import UNPSpinner from '../../Components/unp/UNPSpinner';
 
 const Login: React.FC = () => {
   const { user, loading } = useAuthContext();
@@ -10,20 +11,11 @@ const Login: React.FC = () => {
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get('redirect') || '/dashboard';
 
-  // Redirect authenticated users
   useEffect(() => {
     if (user && !loading) {
       navigate(redirect);
     }
   }, [user, loading, navigate, redirect]);
-
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <Spinner animation="border" variant="primary" />
-      </div>
-    );
-  }
 
   return (
     <Container fluid className="d-flex justify-content-center align-items-center mt-5">
@@ -66,6 +58,7 @@ const Login: React.FC = () => {
         </Col>
       </Row>
     </Container>
+
   );
 };
 
