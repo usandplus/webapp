@@ -1,12 +1,9 @@
 import React from 'react';
 import UNPAdminLayout from '../../Components/unp/UNPAdminLayout';
-import UNPDocumentManager from '../../Components/unp/UNPDocumentManager';
-import UNPCollaboratorManager from '../../Components/unp/UNPCollaboratorManager';
-import UNPAnalytics from '../../Components/unp/UNPAnalytics';
 import UNPDashboard from '../../Components/unp/UNPDashboard';
 import UNPUserDocumentManager from '../../Components/unp/UNPUserDocumentManager';
 import UNPTransactionHistory from '../../Components/unp/UNPTransactionHistory';
-import UNPEditProfile, { ProfileInfo } from '../../Components/unp/UNPEditProfile';
+import UNPEditUserProfile from '../../Components/unp/UNPEditUserProfile';
 
 // Example sections for Empresa
 const UserAdmin: React.FC = () => {
@@ -32,7 +29,7 @@ const UserAdmin: React.FC = () => {
                 feedItems={['test']}
             />
         },
-        { name: 'Tu Perfil', label: 'Tu Perfil', component: <UNPEditProfile useTestData  /> },
+        { name: 'Tu Perfil', label: 'Tu Perfil', component: <UNPEditUserProfile useTestData  /> },
         { name: 'Documentos', label: 'Documentos', component: <UNPUserDocumentManager /> },
         { name: 'Historial', label: 'Historial', component: <UNPTransactionHistory /> },
     ];

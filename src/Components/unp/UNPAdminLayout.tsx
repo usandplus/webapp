@@ -6,7 +6,6 @@ import {
   Col,
   Nav,
   Button,
-  Modal,
   Offcanvas,
   Image,
 } from 'react-bootstrap';
@@ -50,8 +49,8 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
 
   useEffect(() => {
     if(window.location.pathname === '/dashboard'){
-      if(currentEntity !== user?.displayName && user){
-        setCurrentEntity(user?.displayName)
+      if(currentEntity !== user!.displayName!){
+        setCurrentEntity(user!.displayName!)
       }
     }
     if (userMemberships) {
@@ -67,7 +66,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
         localStorage.setItem('currentEntity', defaultEntity);
       }
     }
-  }, [userMemberships, currentEntity]);
+  }, [user, userMemberships, currentEntity]);
 
   const changeActiveSection = (section: string) => {
     setActiveSection(section);
