@@ -1,4 +1,4 @@
-import { auth } from '../firebaseConfig'
+import { auth, firestore } from '../firebaseConfig'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,7 +9,7 @@ import {
 } from 'firebase/auth'
 import { addDocument, getDocumentById } from '../firestore/firestoreService'
 import { UNPUser, UserEntityMembership, UserEventMembership } from '../../types/models/User'
-
+import { collection, getDocs, query } from 'firebase/firestore'
 // Helper: Register new Google user
 const registerGoogleUser = async (user: User) => {
   let userData: UNPUser = {

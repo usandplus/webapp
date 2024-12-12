@@ -222,60 +222,7 @@ export const EntityService = {// Create a new entity
       throw error;
     }
   },
-  getAllUserMemberships:async (userId: string): Promise<UserEntityMembership[]> =>{
-    try {
-
-      // Paths for both collections
-      const adminMembershipsCollection = collection(
-        firestore,
-        `users/${userId}/private/memberships/admin`
-      );
-      const userMembershipsCollection = collection(
-        firestore,
-        `users/${userId}/private/memberships/user`
-      );
-
-      // Queries for both collections
-      const adminMembershipsQuery = query(adminMembershipsCollection);
-      const userMembershipsQuery = query(userMembershipsCollection);
-
-      // Fetch documents from both collections concurrently
-      const [adminSnapshot, userSnapshot] = await Promise.all([
-        getDocs(adminMembershipsQuery),
-        getDocs(userMembershipsQuery),
-      ]);
-
-
-      // Map over the snapshots to construct arrays of documents
-      const adminMemberships: UserEntityMembership[] = adminSnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          entityDisplayName: data.entityDisplayName || "",
-          role: data.role || "",
-          entityId: data.entityId || "",
-          entityType: data.entityType || "",
-        };
-      });
-
-      const userMemberships: UserEntityMembership[] = userSnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          entityDisplayName: data.entityDisplayName || "",
-          role: data.role || "",
-          entityId: data.entityId || "",
-          entityType: data.entityType || "",
-        };
-      });
-
-      // Merge the results from both collections
-      const allMemberships = [...adminMemberships, ...userMemberships];
-      console.log(allMemberships)
-      return allMemberships;
-    } catch (error) {
-      console.error("Error fetching user memberships:", error);
-      throw error; // Rethrow the error for upstream handling
-    }
-  },
+  
   getUserProfile: async (userId: string): Promise<any> => {
     try {
       // Reference to the user's public profile document

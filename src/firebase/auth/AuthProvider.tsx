@@ -3,7 +3,7 @@ import { auth, firestore } from '../firebaseConfig';
 import { onAuthStateChanged, getRedirectResult } from 'firebase/auth';
 import { getAllDocuments, getDocumentById } from '../firestore/firestoreService'; // Function to fetch user from Firestore
 import { UNPUser, UserEntityMembership } from '../../types/models/User';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query } from 'firebase/firestore';
 import { EntityService } from '../services/entityService';
 
 interface AuthContextType {
@@ -19,6 +19,60 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [userMemberships, setUserMemberships] = useState<UserEntityMembership[] | null | undefined>([])
 
+  const getAllUserMemberships=async (userId: string): Promise<UserEntityMembership[]> =>{
+    try {
+  
+      // Paths for both collections
+      const adminMembershipsCollection = collection(
+        firestore,
+        `users/${userId}/private/memberships/admin`
+      );
+      const userMembershipsCollection = collection(
+        firestore,
+        `users/${userId}/private/memberships/user`
+      );
+  
+      // Queries for both collections
+      const adminMembershipsQuery = query(adminMembershipsCollection);
+      const userMembershipsQuery = query(userMembershipsCollection);
+  
+      // Fetch documents from both collections concurrently
+      const [adminSnapshot, userSnapshot] = await Promise.all([
+        getDocs(adminMembershipsQuery),
+        getDocs(userMembershipsQuery),
+      ]);
+  
+  
+      // Map over the snapshots to construct arrays of documents
+      const adminMemberships: UserEntityMembership[] = adminSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          entityDisplayName: data.entityDisplayName || "",
+          role: data.role || "",
+          entityId: data.entityId || "",
+          entityType: data.entityType || "",
+        };
+      });
+  
+      const userMemberships: UserEntityMembership[] = userSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          entityDisplayName: data.entityDisplayName || "",
+          role: data.role || "",
+          entityId: data.entityId || "",
+          entityType: data.entityType || "",
+        };
+      });
+  
+      // Merge the results from both collections
+      const allMemberships = [...adminMemberships, ...userMemberships];
+      console.log(allMemberships)
+      return allMemberships;
+    } catch (error) {
+      console.error("Error fetching user memberships:", error);
+      throw error; // Rethrow the error for upstream handling
+    }
+  }
   const fetchUNPUser = async (uid: string): Promise<UNPUser | null> => {
     const MAX_RETRIES = 3;
     let retries = 0;
@@ -52,7 +106,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const unpUser = await fetchUNPUser(firebaseUser.uid);
           setUser(unpUser);
           
-          const memberships = await EntityService.getAllUserMemberships(firebaseUser.uid);
+          const memberships = await getAllUserMemberships(firebaseUser.uid);
+          console.log(memberships)
           if(memberships) setUserMemberships(memberships);
         }
       } catch (error) {
