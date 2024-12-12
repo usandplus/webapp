@@ -1,49 +1,45 @@
+@import '/src/custom.scss';
+
 .admin-layout {
-  height: 100vh;
-  
   .sidebar {
-    background: #f8f9fa; // A standard light gray for differentiation
-    border-right: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    overflow-y: auto;
     position: sticky;
     top: 0;
+    height: calc(100vh - 70px); // Ensure it doesn't exceed the viewport
   }
-  
-  .sidebar-header {
-    .entity-dropdown {
-      .dropdown-toggle {
-        text-align: left;
-      }
-    }
+
+  .logo {
+    max-height: 6rem;
+    object-fit: contain;
   }
 
   .sidebar-link {
-    color: #0d6efd;
-    transition: background-color 0.2s;
+    .logout{
+      color: $danger;
+      &:hover {
+        background-color: lighten($danger, 10%);
+        color: #fff !important
+      }
+    }
+
+    border-radius: 6px;
     &:hover {
-      background-color: #e9f2ff;
-      border-radius: 0.25rem;
+      background-color: lighten($primary, 10%);
+      color: #fff
+    }
+    &.active {
+      background-color: $primary;
+      color: #fff !important;
+      border-radius: 6px;
     }
   }
 
-  .active-section {
-    background-color: #0d6efd;
-    color: #fff !important;
-    border-radius: 0.25rem;
+  .content {
+    overflow-y: auto;
   }
 
-  .content-card {
-    border: none;
-    border-radius: 0.5rem;
-  }
-}
-
-#admin-layout-bottom-nav {
-  bottom: 70px !important;
-}
-
-.entity-list-item {
-  cursor: pointer;
-  &:hover {
-    background-color: #f0f0f0;
+  .fixed-bottom {
+    z-index: 1050;
   }
 }

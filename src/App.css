@@ -56,8 +56,8 @@ main {
     overflow: hidden !important; /* Prevent horizontal scrolling */
   }
   .main-content {
-    padding-top: 220px;
-    padding-bottom: 90px !important; /* Adjust based on the height of your bottom navbar */
+     padding-top: 220px; 
+     padding-bottom: 90px !important;
   }
   .main-content-top {
     padding-top: 220px;
@@ -119,7 +119,7 @@ main {
 }
 
 .scrollable-content {
-  padding-bottom: calc(56px + 60px); /* Navbar height + button height */
-  overflow-y: auto; /* Allow scrolling */
-  height: calc(100vh - 56px); /* Full viewport height minus fixed navbar height */
+  padding-bottom: calc(56px + 60px); 
+  overflow-y: auto; 
+  height: calc(100vh - 70px); 
 }

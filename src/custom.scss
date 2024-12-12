@@ -1,10 +1,11 @@
+
 // Define custom variables
 $unpbackground: #D1CFFF;
 $contrast: #38F9B9;
 
 // Override Bootstrap defaults
-$primary: #8137FF; // UNP
-// $primary: #dc3545; // Kasasa
+// $primary: #8137FF; // UNP
+$primary: #dc3545; // Kasasa
 $secondary: #3C2089; // Your new secondary color
 $success: #28a745;
 $info: #17a2b8;
@@ -27,5 +28,6 @@ $grid-breakpoints: (
   xl: 1200px,
   xxl: 1400px
 );
+
 // Import Bootstrap
 @import '~bootstrap/scss/bootstrap';

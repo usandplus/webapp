@@ -25,7 +25,7 @@ export default function App() {
       <div className="d-block d-lg-none">
         <UNPNavbar />
       </div>
-      <Container fluid className="gx-0">
+      <Container fluid id='content' className="gx-0">
         {
           firstLoad
             ? <UNPSpinner fullScreen />

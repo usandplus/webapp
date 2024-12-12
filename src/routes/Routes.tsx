@@ -24,6 +24,7 @@ import NewBusinessView from '../Views/Business/NewBusinessView';
 import NewACView from '../Views/AC/NewACView';
 import ProfileView from '../Views/Public/Profile';
 import ACAdmin from '../Views/AC/ACAdmin';
+import Unauthorized401 from '../Views/Public/401';
 
 const publicRoutes = [
   { path: '/', element: <Home /> },
@@ -34,6 +35,7 @@ const publicRoutes = [
   { path: '/campana/:entityId', element: <CampaignView /> },
   { path: '/usuario/:entityId', element: <UserView /> },
   { path: '/logout', element: <LogoutView /> },
+  { path: '/sinAcceso', element: <Unauthorized401 /> },
   { path: '*', element: <NotFound404 /> },
 ];
 
@@ -45,11 +47,11 @@ const protectedRoutes = [
   { path: '/nuevaEmpresa', element: <NewBusinessView />, requiredRole: 'user' },
   { path: '/nuevaAC', element: <NewACView />, requiredRole: 'user' },
   { path: '/dashboard', element: <UserAdmin />, requiredRole: 'user' },
-  { path: '/admin/fundacion/:fundacionId', element: <FundacionAdmin />, requiredRole: 'admin' },
-  { path: '/admin/ac/:fundacionId', element: <ACAdmin />, requiredRole: 'admin' },
-  { path: '/admin/empresa/:fundacionId', element: <BusinessAdmin />, requiredRole: 'admin' },
-  { path: '/admin/campana/:fundacionId', element: <CampaignAdmin />, requiredRole: 'admin' },
-  { path: '/admin/convocatoria/:fundacionId', element: <FundraiserAdmin />, requiredRole: 'admin' },
+  { path: '/admin/fundacion/:id', element: <FundacionAdmin />, requiredEntityRole: 'admin' },
+  { path: '/admin/ac/:id', element: <ACAdmin />, requiredEntityRole: 'admin' },
+  { path: '/admin/empresa/:id', element: <BusinessAdmin />, requiredEntityRole: 'admin' },
+  { path: '/admin/campana/:id', element: <CampaignAdmin />, requiredEntityRole: 'admin' },
+  { path: '/admin/convocatoria/:id', element: <FundraiserAdmin />, requiredEntityRole: 'admin' },
 ];
 
 const AppRoutes: React.FC = () => {
@@ -66,6 +68,7 @@ const AppRoutes: React.FC = () => {
           userRole={user?.role}
           redirectTo="/login"
           loading={loading}
+          userMemberships={userMemberships}
         />
       }
     >

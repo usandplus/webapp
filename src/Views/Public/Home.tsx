@@ -170,12 +170,12 @@ export default function Home() {
       </Container>
 
       {/* Filter Bar */}
-      <Container className="filter-bar-container bg-white pt-0 mb-3">
+      <Container fluid className="filter-bar-container bg-white pt-0 mb-3">
         <Row className="align-items-center flex-nowrap">
-          <Col xs={12} md={10}>
+          <Col xs={12} md={10} xl={8}>
             <UNPFilterBar onFilterChange={handleFilterChange} selectedCategory={selectedCategory} />
           </Col>
-          <Col md={2} className="d-none d-md-block">
+          <Col md={2} xl={3} className="d-none d-md-block">
             <UNPButton onClick={handleShow}>Filtros</UNPButton>
           </Col>
         </Row>

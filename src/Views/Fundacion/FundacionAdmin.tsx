@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 
 // Example sections for Empresa
 const FundacionAdmin: React.FC = () => {
-  const { fundacionId } = useParams<{ fundacionId: string }>();
+  const { id: fundacionId } = useParams<{ id: string }>();
 
 
 
