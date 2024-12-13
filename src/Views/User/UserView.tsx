@@ -7,32 +7,20 @@ import UNPActiveCampaigns from "../../Components/unp/UNPActiveCampaigns";
 import UNPLocation from "../../Components/unp/UNPLocation";
 import { EntityService } from '../../firebase/services/entityService';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
-
-interface ProfileData {
-  published: boolean;
-  heroImages: string[]; // Array of image URLs for the hero banner
-  profileInfo: {
-    name: string;
-    description: string;
-    aboutUs?: string;
-    services?: string[];
-    location: string;
-    logo?: string;
-    ratingSummary?: Object;
-  };
-}
+import { UNPBasePublicUser } from '../../types/models/common';
 
 const UserView: FC = () => {
   const { user, loading } = useAuthContext()
-  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [profileData, setProfileData] = useState<UNPBasePublicUser | null>(null);
   const [isLoading, setLoading] = useState(loading);
   const [error, setError] = useState<string | null>(null);
+  const [heroImages, setHeroImages] = useState<string[]>([]);
   console.log('profileData', profileData)
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         if(!user) return setError("Profile data not found.");
-        const data = await EntityService.getUserProfile(user.userId);
+        const data = await EntityService.getUserProfile(user.userId!);
 
         if (!data) {
           setError("Profile data not found.");
@@ -71,8 +59,6 @@ const UserView: FC = () => {
     return null; // Fallback in case profile data is unexpectedly null
   }
 
-  const { heroImages, profileInfo } = profileData;
-
   return (
     <Container fluid style={{ backgroundColor: 'offwhite' }} className={`px-md-5 pt-md-3`}>
       {/* Hero Section */}
@@ -80,26 +66,23 @@ const UserView: FC = () => {
 
       <div className='p-3'>
         <UNPStickyLayout
-          dataTitle="About Us"
-          dataContent={profileInfo.description}
           entityInfo={{
-            logo: profileInfo.logo,
-            name: profileInfo.name,
-            description: profileInfo.description,
-            location: profileInfo.location,
-            services: profileInfo.services,
+            logo: profileData.logo,
+            name: profileData.displayName,
+            description: profileData.description,
+            services: profileData.services,
           }}
         >
-          {profileInfo.services && (
+          {profileData.services && (
             <Row>
-              <UNPServicesOffered services={profileInfo.services} />
+              <UNPServicesOffered services={profileData.services} />
             </Row>
           )}
-          {profileInfo.ratingSummary && (
-            <Row>
-              {/* <UNPActiveCampaigns campaigns={profileInfo.ratingSummary} /> */}
+          {/* {profileData.ratingSummary && (
+            <Row> 
+               <UNPActiveCampaigns campaigns={profileData.ratingSummary} /> 
             </Row>
-          )}
+          )} */}
           <Row>
             <UNPLocation locations={[{ description: 'Test', lat: 152, lng: 1535 }]} />
           </Row>

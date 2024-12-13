@@ -43,14 +43,13 @@ const UNPProfileLayout: FC<UNPProfileLayoutProps> = ({
   className
 }) => {
   const someDataTitle = 'Product Details';
-  const someDataContent = 'This product is awesome because it has a lot of amazing features.';
 
   return (
     <Container fluid style={{ backgroundColor: 'offwhite' }} className={`${className} px-md-5 pt-md-3`}>
       {/* Hero Section */}
       <UNPHeroGallery images={heroImages} />
       <div className='p-3'>
-        <UNPStickyLayout dataTitle={someDataTitle} dataContent={someDataContent} entityInfo={entityInfo}>
+        <UNPStickyLayout entityInfo={entityInfo}>
           {entityInfo.aboutUs && <Row><UNPTextSection title={`${aboutMe ? 'Sobre Mi' : 'Sobre Nosotros'}`} text={entityInfo.aboutUs} /></Row>}
           {entityInfo.services && <Row><UNPServicesOffered services={entityInfo.services} /></Row>}
           {entityInfo.importantPeople && <Row><UNPImportantPeople importantPeople={entityInfo.importantPeople} /></Row>}

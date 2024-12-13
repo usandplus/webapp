@@ -7,8 +7,6 @@ import UNPRatingSummary from './UNPRatingSummary';
 
 interface UNPStickyLayoutProps {
     entityInfo: Record<string, unknown>; // Consider a stricter type if structure is known
-    dataTitle: string;
-    dataContent: string;
     children: React.ReactNode;
 }
 
@@ -28,7 +26,7 @@ const testData = {
     ],
 };
 
-const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ dataTitle, dataContent, entityInfo, children }) => {
+const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ entityInfo, children }) => {
     const [showOffcanvas, setShowOffcanvas] = useState(false);
 
     const handleClose = () => setShowOffcanvas(false);

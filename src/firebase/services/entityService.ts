@@ -226,7 +226,7 @@ export const EntityService = {// Create a new entity
   getUserProfile: async (userId: string): Promise<any> => {
     try {
       // Reference to the user's public profile document
-      const profileRef = doc(firestore, `users/${userId}/public/profile`);
+      const profileRef = doc(firestore, `users/${userId}/public/info`);
 
       // Fetch the document snapshot
       const profileSnapshot = await getDoc(profileRef);

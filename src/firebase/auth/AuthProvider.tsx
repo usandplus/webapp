@@ -79,7 +79,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     while (retries < MAX_RETRIES) {
       try {
-        const userDoc = await getDocumentById(`users/${uid}/public`, 'info');
+        const userDoc = await getDocumentById(`users`, uid);
         if (userDoc) {
           return userDoc as UNPUser;
         }

@@ -10,25 +10,46 @@ import {
 import { addDocument, getDocumentById } from '../firestore/firestoreService'
 import { UNPUser, UserEntityMembership, UserEventMembership } from '../../types/models/User'
 import { collection, getDocs, query } from 'firebase/firestore'
+import { UNPBasePrivateUser, UNPBasePublicUser, UNPBaseUser } from '../../types/models/common'
 // Helper: Register new Google user
 const registerGoogleUser = async (user: User) => {
-  let userData: UNPUser = {
+  let userBaseData: UNPBaseUser = {
     displayName: user.displayName,
     email: user.email,
-    emailVerified: user.emailVerified,
-    isAnonymous: user.isAnonymous,
-    creationTime: user.metadata.creationTime,
-    lastSignInTime: user.metadata.lastSignInTime,
-    phoneNumber: user.phoneNumber,
+    lastSignInTime: user.metadata.lastSignInTime!,
     photoURL: user.photoURL,
     userId: user.uid,
     role: 'user',
   };
-  await addDocument(`users/${user.uid}/public/`, userData, 'info');
-  return userData;
+  let userPublicData: UNPBasePublicUser  = {
+    displayName: user.displayName,
+    description: '',
+    history: '',
+    logo: user.photoURL!,
+    aboutUs: '',
+    services: [''],
+    importantPeople: [],
+    events: [],
+    categories: '',
+    visibility: {}
+  }
+  let userPrivateData: UNPBasePrivateUser  = {
+    email: user.email!,
+    emailVerified: user.emailVerified,
+    locationAddress: '',
+    locationCity: '',
+    locationCountry: '',
+    locationZipcode: '',
+    creationTime: user.metadata.creationTime!,
+    phoneNumber: user.phoneNumber,
+  }
+  await addDocument(`users`, userBaseData, user.uid);
+  await addDocument(`users/${user.uid}/public/`, userPublicData, 'info');
+  await addDocument(`users/${user.uid}/private/`, userPrivateData, 'info');
+  return userBaseData;
 };
 
-export const setupInitialUserProfile = async (user: UNPUser) => {
+export const setupInitialUserProfile = async (user: UNPBaseUser) => {
   let userData = {
     published: false,
     heroImages: [], // Array of image URLs for the hero banner
@@ -82,11 +103,11 @@ export const signInWithGoogle = async () => {
     const user = result.user;
 
     // Check if user doc exists
-    let userDoc = await getDocumentById(`users/${user.uid}/public`, 'info');
+    let userDoc = await getDocumentById(`users`, user.uid);
     if (!userDoc) {
       console.log('No user doc found. Creating...');
       const userData = await registerGoogleUser(user);
-      await setupInitialUserProfile(userData);
+      // await setupInitialUserProfile(userData);
       userDoc = userData;
     }
 

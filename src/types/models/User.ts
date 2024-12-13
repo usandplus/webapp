@@ -1,9 +1,10 @@
 // src/interfaces/models/string;
 
 import { User } from "firebase/auth";
+import { UNPBasePrivateUser, UNPBasePublicUser, UNPBaseUser } from "./common";
 
-export type Role = "admin" | "mod" | "user" | null
-// Users can be registered towards an entity (business/fundacion)
+export type Role = "admin" | "mod" | "collab" | "user" | null
+
 export interface UserEntityMembership {
     entityDisplayName: string;
     role: string;
@@ -11,7 +12,6 @@ export interface UserEntityMembership {
     entityType: string;
 }
 
-// Users can be registered towards an event (campaign/fundraiser)
 export interface UserEventMembership {
     entityId: string;
     role: Role;
@@ -43,16 +43,8 @@ tenantId: string
 uid: string
 */
 
-export interface UNPUser {
-    role: Role; // Can be 'admin', 'org', etc.
-    creationTime: string | undefined;
-    lastSignInTime: string | undefined;
-    displayName: string | null;
-    email: string | null;
-    emailVerified: boolean;
-    isAnonymous: boolean;
-    phoneNumber: string | null;
-    photoURL: string | null;
-    userId: string;
+export interface UNPUser extends UNPBaseUser{
     memberships?: UserEntityMembership[]
+    private: UNPBasePrivateUser
+    public: UNPBasePublicUser
 }

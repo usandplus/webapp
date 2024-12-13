@@ -56,7 +56,7 @@ const protectedRoutes = [
 
 const AppRoutes: React.FC = () => {
   const { user, loading, userMemberships } = useAuthContext();
-
+  console.log(user)
   const renderProtectedRoute = (route: any) => (
     <Route
       key={route.path}
