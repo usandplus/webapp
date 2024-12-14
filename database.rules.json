@@ -1,6 +1,13 @@
 {
   "rules": {
-    ".read": "now < 1711083600000",  // 2024-3-22
-    ".write": "now < 1711083600000",  // 2024-3-22
+    "suggestions": {
+      ".read": false,
+      ".write": true
+    },
+    
+    "$other": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
   }
 }

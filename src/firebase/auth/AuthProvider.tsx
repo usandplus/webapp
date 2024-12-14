@@ -1,50 +1,38 @@
 import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth, firestore } from '../firebaseConfig';
-import { onAuthStateChanged, getRedirectResult } from 'firebase/auth';
-import { getAllDocuments, getDocumentById } from '../firestore/firestoreService'; // Function to fetch user from Firestore
+import { getDocumentById } from '../firestore/firestoreService';
 import { UNPUser, UserEntityMembership } from '../../types/models/User';
 import { collection, getDocs, query } from 'firebase/firestore';
-import { EntityService } from '../services/entityService';
+import { createUserDocuments } from './authService';
+import { UNPBaseUser } from '../../types/models/common';
+import { Spinner } from 'react-bootstrap';
+import UNPSpinner from '../../Components/unp/UNPSpinner';
 
 interface AuthContextType {
-  user: UNPUser | null;
+  user: UNPBaseUser | null;
   loading: boolean;
-  userMemberships: UserEntityMembership[]
+  userMemberships: UserEntityMembership[];
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UNPUser | null>(null);
+  const [user, setUser] = useState<UNPBaseUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [userMemberships, setUserMemberships] = useState<UserEntityMembership[]>([])
+  const [userMemberships, setUserMemberships] = useState<UserEntityMembership[]>([]);
 
-  const getAllUserMemberships=async (userId: string): Promise<UserEntityMembership[]> =>{
+  const fetchUserMemberships = async (userId: string): Promise<UserEntityMembership[]> => {
     try {
-  
-      // Paths for both collections
-      const adminMembershipsCollection = collection(
-        firestore,
-        `users/${userId}/private/memberships/admin`
-      );
-      const userMembershipsCollection = collection(
-        firestore,
-        `users/${userId}/private/memberships/user`
-      );
-  
-      // Queries for both collections
-      const adminMembershipsQuery = query(adminMembershipsCollection);
-      const userMembershipsQuery = query(userMembershipsCollection);
-  
-      // Fetch documents from both collections concurrently
+      const adminMembershipsRef = collection(firestore, `users/${userId}/private/memberships/admin`);
+      const userMembershipsRef = collection(firestore, `users/${userId}/private/memberships/user`);
+
       const [adminSnapshot, userSnapshot] = await Promise.all([
-        getDocs(adminMembershipsQuery),
-        getDocs(userMembershipsQuery),
+        getDocs(query(adminMembershipsRef)),
+        getDocs(query(userMembershipsRef)),
       ]);
-  
-  
-      // Map over the snapshots to construct arrays of documents
-      const adminMemberships: UserEntityMembership[] = adminSnapshot.docs.map((doc) => {
+
+      const adminMemberships = adminSnapshot.docs.map((doc) => {
         const data = doc.data();
         return {
           entityDisplayName: data.entityDisplayName || "",
@@ -53,8 +41,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           entityType: data.entityType || "",
         };
       });
-  
-      const userMemberships: UserEntityMembership[] = userSnapshot.docs.map((doc) => {
+
+      const basicMemberships = userSnapshot.docs.map((doc) => {
         const data = doc.data();
         return {
           entityDisplayName: data.entityDisplayName || "",
@@ -63,61 +51,60 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           entityType: data.entityType || "",
         };
       });
-  
-      // Merge the results from both collections
-      const allMemberships = [...adminMemberships, ...userMemberships];
-      console.log(allMemberships)
-      return allMemberships;
+
+      return [...adminMemberships, ...basicMemberships];
     } catch (error) {
       console.error("Error fetching user memberships:", error);
-      throw error; // Rethrow the error for upstream handling
+      return [];
     }
-  }
-  const fetchUNPUser = async (uid: string): Promise<UNPUser | null> => {
-    const MAX_RETRIES = 3;
-    let retries = 0;
+  };
 
-    while (retries < MAX_RETRIES) {
-      try {
-        const userDoc = await getDocumentById(`users`, uid);
-        if (userDoc) {
-          return userDoc as UNPUser;
-        }
-        console.log('User document not found, retrying...');
-      } catch (error) {
-        console.error('Error fetching user document:', error);
+  const fetchUNPUser = async (user: User): Promise<UNPBaseUser | null> => {
+    try {
+      let userDoc = await getDocumentById(`users`, user.uid);
+      if (userDoc) {
+        return userDoc as UNPBaseUser;
+      } else {
+        console.log('no user document, creating...')
+        userDoc  = await createUserDocuments(user)
       }
-      retries++;
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second before retrying
+      
+      return userDoc as UNPBaseUser;
+    } catch (error) {
+      console.error('Error fetching user document:', error);
+      return null;
     }
-
-    console.error('User document could not be fetched after multiple attempts.');
-    return null;
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setLoading(true);
       if (firebaseUser) {
-        const unpUser = await fetchUNPUser(firebaseUser.uid);
+        const unpUser = await fetchUNPUser(firebaseUser);
         setUser(unpUser);
-        const memberships = await getAllUserMemberships(firebaseUser.uid);
-        console.log(memberships)
-        setUserMemberships(memberships);
+
+        if (unpUser) {
+          const memberships = await fetchUserMemberships(firebaseUser.uid);
+          setUserMemberships(memberships);
+        } else {
+          setUserMemberships([]);
+        }
       } else {
         setUser(null);
+        setUserMemberships([]);
       }
+
       setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-  // Memoize the context value to prevent unnecessary re-renders
-  const value = useMemo(() => ({ user, loading, userMemberships }), [user, loading]);
+  const value = useMemo(() => ({ user, loading, userMemberships }), [user, loading, userMemberships]);
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {loading ? <UNPSpinner fullScreen /> : children}
     </AuthContext.Provider>
   );
 };
