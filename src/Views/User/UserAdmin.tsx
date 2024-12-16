@@ -4,9 +4,11 @@ import UNPDashboard from '../../Components/unp/UNPDashboard';
 import UNPUserDocumentManager from '../../Components/unp/UNPUserDocumentManager';
 import UNPTransactionHistory from '../../Components/unp/UNPTransactionHistory';
 import UNPEditUserProfile from '../../Components/unp/UNPEditUserProfile';
+import { useAuthContext } from '../../firebase/auth/AuthProvider';
 
 // Example sections for Empresa
 const UserAdmin: React.FC = () => {
+    const {user, loading, userMemberships} = useAuthContext()
     const sections = [
         {
             name: 'Dashboard', label: 'Dashboard', component: <UNPDashboard
@@ -29,7 +31,7 @@ const UserAdmin: React.FC = () => {
                 feedItems={['test']}
             />
         },
-        { name: 'Tu Perfil', label: 'Tu Perfil', component: <UNPEditUserProfile useTestData  /> },
+        { name: 'Tu Perfil', label: 'Tu Perfil', component: <UNPEditUserProfile userId={user?.userId!} /> },
         { name: 'Documentos', label: 'Documentos', component: <UNPUserDocumentManager /> },
         { name: 'Historial', label: 'Historial', component: <UNPTransactionHistory /> },
     ];

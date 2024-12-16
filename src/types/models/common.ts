@@ -70,6 +70,8 @@ export interface UNPBasePublicUser {
   logo: string;
   aboutUs: string;
   services: string[];
+  locationCity: string;
+  locationCountry: string;
   importantPeople: UNPImportantPeople[];
   events: UNPBaseEvent[];
   categories: string;

@@ -29,8 +29,22 @@ export const createUserDocuments = async (user: User): Promise<UNPBaseUser> => {
     services: [],
     importantPeople: [],
     events: [],
+    locationCity: '',
+    locationCountry: '',
     categories: '',
-    visibility: {}
+    visibility: {
+      displayName: true,
+      description: true,
+      history: true,
+      logo: true,
+      aboutUs: true,
+      services: true,
+      locationCity: true,
+      locationCountry: true,
+      importantPeople: true,
+      // events: true,
+      categories: true,
+    }
   };
 
   const userPrivateData: UNPBasePrivateUser = {

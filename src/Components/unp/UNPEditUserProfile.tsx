@@ -1,89 +1,125 @@
-import React, { useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Container,
   Card,
   Form,
   Button,
   Modal,
+  Spinner,
+  Alert,
 } from 'react-bootstrap';
-import { UNPImportantPeople, UNPBaseEvent } from '../../types/models/common';
+import { UNPBasePublicUser } from '../../types/models/common';
+import { getUserProfile } from '../../firebase/services/userService';
 
-export interface UserProfileInfo {
-  name: string;
-  description: string;
-  history: string;
-  locationAddress: string;
-  locationCity: string;
-  locationCountry: string;
-  locationZipcode: string;
-  logo: string;
-  aboutUs: string;
-  services: string[];
-  importantPeople: UNPImportantPeople[];
-  events: UNPBaseEvent[];
-  categories: string;
-  visibility: Record<string, boolean>;
+interface EditProfileProps {
+  userId: string;
+  onSave?: (data: UNPBasePublicUser) => void;
 }
 
-type UNPEditUserProfileProps = {
-  initialData?: UserProfileInfo;
-  onSave?: (data: UserProfileInfo) => void;
-  useTestData?: boolean;
-};
+// Configuration for fields: label, type, and their corresponding keys in the profile
+// type 'text'    -> Simple text input
+// type 'textarea'-> Multi-line text input
+// type 'array'   -> Array of strings handled as comma-separated input
+// type 'json'    -> Array of objects handled as JSON text
+const FIELDS = [
+  { key: 'displayName', label: 'Display Name', type: 'text' },
+  { key: 'description', label: 'Description', type: 'textarea' },
+  { key: 'history', label: 'History', type: 'textarea' },
+  { key: 'logo', label: 'Logo URL', type: 'text' },
+  { key: 'aboutUs', label: 'About Us', type: 'textarea' },
+  { key: 'services', label: 'Services', type: 'array' },
+  { key: 'locationCity', label: 'City', type: 'text' },
+  { key: 'locationCountry', label: 'Country', type: 'text' },
+  { key: 'importantPeople', label: 'Important People', type: 'json' },
+  // { key: 'events', label: 'Events', type: 'json' },
+  { key: 'categories', label: 'Categories', type: 'text' },
+];
 
-const testData: UserProfileInfo = {
-  name: 'Test Name',
-  description: 'Test Description',
-  history: 'This is a test history.',
-  locationAddress: '123 Test St',
-  locationCity: 'Test City',
-  locationCountry: 'Test Country',
-  locationZipcode: '12345',
-  logo: 'https://via.placeholder.com/150',
-  aboutUs: 'About us for testing purposes.',
-  services: ['Service 1', 'Service 2'],
-  importantPeople: [],
-  events: [],
-  categories: 'Test Category',
-  visibility: {
-    name: true,
-    description: true,
-    history: true,
-    locationAddress: true,
-    locationCity: true,
-    locationCountry: true,
-    locationZipcode: true,
-    logo: true,
-    aboutUs: true,
-    services: true,
-    importantPeople: true,
-    events: true,
-    categories: true,
-  },
-};
-
-const UNPEditUserProfile: React.FC<UNPEditUserProfileProps> = ({
-  initialData,
-  onSave,
-  useTestData = false,
-}) => {
-  const [profile, setProfile] = useState<UserProfileInfo>(
-    useTestData ? testData : initialData!
-  );
-  const [showModal, setShowModal] = useState(false);
+const EditProfile: FC<EditProfileProps> = ({ userId, onSave }) => {
+  const [originalProfile, setOriginalProfile] = useState<UNPBasePublicUser | null>(null);
+  const [editedProfile, setEditedProfile] = useState<UNPBasePublicUser | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
-  console.log(profile)
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setProfile((prev) => ({ ...prev, [name]: value }));
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProfile = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getUserProfile(userId);
+        if (isMounted) {
+          setOriginalProfile(data);
+          setEditedProfile({ ...data });
+          setLoading(false);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError('Failed to load profile. Please try again.');
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchProfile();
+    return () => {
+      isMounted = false;
+    };
+  }, [userId]);
+
+  const handleFieldChange = (key: string, value: string) => {
+    if (!editedProfile) return;
+    const fieldConfig = FIELDS.find((f) => f.key === key);
+
+    if (!fieldConfig) return;
+
+    let updatedValue: any = value;
+
+    switch (fieldConfig.type) {
+      case 'array':
+        // Convert comma-separated to array of strings
+        updatedValue = value
+          .split(',')
+          .map((v) => v.trim())
+          .filter((v) => v);
+        break;
+      case 'json':
+        // Expect a JSON array of objects
+        try {
+          updatedValue = JSON.parse(value);
+        } catch (err) {
+          // If invalid JSON, don't update to something broken. 
+          // You could also handle this with validation and user feedback.
+          return;
+        }
+        break;
+      // 'text' and 'textarea' remain as is
+      default:
+        // For text or textarea, updatedValue is just the raw string
+        break;
+    }
+
+    setEditedProfile((prev) => (prev ? { ...prev, [key]: updatedValue } : prev));
     setUnsavedChanges(true);
   };
 
-  const handleToggle = (section: string) => {
-    setProfile((prev) => ({
-      ...prev,
-      visibility: { ...prev.visibility, [section]: !prev.visibility[section] },
-    }));
+  const handleVisibilityToggle = (key: string) => {
+    if (!editedProfile) return;
+    if (!editedProfile.visibility || typeof editedProfile.visibility[key] === 'undefined') return;
+
+    setEditedProfile((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        visibility: {
+          ...prev.visibility,
+          [key]: !prev.visibility[key],
+        },
+      };
+    });
     setUnsavedChanges(true);
   };
 
@@ -92,116 +128,118 @@ const UNPEditUserProfile: React.FC<UNPEditUserProfileProps> = ({
   };
 
   const confirmSave = () => {
-    if (onSave) {
-      onSave(profile);
+    if (editedProfile && onSave) {
+      onSave(editedProfile);
+      setOriginalProfile({ ...editedProfile });
     }
     setUnsavedChanges(false);
     setShowModal(false);
   };
 
   const handleDiscardChanges = () => {
-    setProfile(useTestData ? testData : initialData!);
-    setUnsavedChanges(false);
-  };
-
-  const renderCardContent = (field: string) => {
-    switch (field) {
-      case 'name':
-      case 'description':
-      case 'history':
-      case 'locationAddress':
-      case 'locationCity':
-      case 'locationCountry':
-      case 'locationZipcode':
-      case 'categories':
-        return (
-          <Form.Group controlId={field}>
-            <Form.Label className="text-capitalize">{field.replace(/([A-Z])/g, ' $1')}</Form.Label>
-            <Form.Control
-              type="text"
-              name={field}
-              value={(profile as any)[field]}
-              onChange={handleInputChange}
-              placeholder={`Enter ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`}
-            />
-          </Form.Group>
-        );
-      case 'aboutUs':
-        return (
-          <Form.Group controlId={field}>
-            <Form.Label>About Us</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              name={field}
-              value={profile.aboutUs}
-              onChange={handleInputChange}
-              placeholder="Enter details about your organization"
-            />
-          </Form.Group>
-        );
-      case 'services':
-        return (
-          <Form.Group controlId={field}>
-            <Form.Label>Services</Form.Label>
-            <Form.Control
-              type="text"
-              name={field}
-              value={profile.services.join(', ')}
-              onChange={(e) =>
-                setProfile((prev) => ({
-                  ...prev,
-                  services: e.target.value.split(',').map((s) => s.trim()),
-                }))
-              }
-              placeholder="Enter services separated by commas"
-            />
-          </Form.Group>
-        );
-      case 'logo':
-        // return (
-        //   <Form.Group controlId={field}>
-        //     <Form.Label>Logo</Form.Label>
-        //     <Form.Control
-        //       type="file"
-        //       onChange={(e) => {
-        //         if (e.target.files && e.target.files[0]) {
-        //           const file = e.target.files[0];
-        //           const reader = new FileReader();
-        //           reader.onload = () => {
-        //             setProfile((prev) => ({ ...prev, logo: reader.result as string }));
-        //           };
-        //           reader.readAsDataURL(file);
-        //         }
-        //       }}
-        //     />
-        //     {profile.logo && <Image src={profile.logo} thumbnail className="mt-2" />}
-        //   </Form.Group>
-        // );
-        break;
-      default:
-        return null;
+    // Just revert to original profile without refetching
+    if (originalProfile) {
+      setEditedProfile({ ...originalProfile });
+      setUnsavedChanges(false);
     }
   };
+
+  if (loading) {
+    return (
+      <Container className="py-5 text-center">
+        <Spinner animation="border" role="status" />
+        <p>Loading profile...</p>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="py-5">
+        <Alert variant="danger">{error}</Alert>
+      </Container>
+    );
+  }
+
+  if (!editedProfile) {
+    return (
+      <Container className="py-5">
+        <Alert variant="warning">No profile data available.</Alert>
+      </Container>
+    );
+  }
 
   return (
     <Container className="py-4">
       <h1 className="text-center mb-4">Edit Profile</h1>
-      {Object.keys(profile.visibility).map((field) => (
-        <Card key={field} className="mb-3 shadow">
-          <Card.Header className="d-flex justify-content-between align-items-center">
-            <strong className="text-capitalize">{field.replace(/([A-Z])/g, ' $1')}</strong>
-            <Form.Check
-              type="switch"
-              id={`toggle-${field}`}
-              label={profile.visibility[field] ? 'Visible' : 'Hidden'}
-              checked={profile.visibility[field]}
-              onChange={() => handleToggle(field)}
+      {FIELDS.map(({ key, label, type }) => {
+        const visible = editedProfile.visibility[key] ?? false;
+
+        let displayValue = '';
+        const currentValue = (editedProfile as any)[key];
+
+        // Convert arrays/JSON back to string for editing
+        if (type === 'array') {
+          displayValue = Array.isArray(currentValue) ? currentValue.join(', ') : '';
+        } else if (type === 'json') {
+          displayValue = JSON.stringify(currentValue ?? [], null, 2);
+        } else {
+          displayValue = currentValue ?? '';
+        }
+
+        const formControl =
+          type === 'textarea' ? (
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={displayValue}
+              onChange={(e) => handleFieldChange(key, e.target.value)}
             />
-          </Card.Header>
-          <Card.Body>{renderCardContent(field)}</Card.Body>
-        </Card>
-      ))}
+          ) : type === 'json' ? (
+            <Form.Control
+              as="textarea"
+              rows={6}
+              value={displayValue}
+              onChange={(e) => handleFieldChange(key, e.target.value)}
+            />
+          ) : (
+            <Form.Control
+              type="text"
+              value={displayValue}
+              onChange={(e) => handleFieldChange(key, e.target.value)}
+            />
+          );
+
+        return (
+          <Card key={key} className="mb-3 shadow-sm">
+            <Card.Header className="d-flex justify-content-between align-items-center">
+              <strong>{label}</strong>
+              <Form.Check
+                type="switch"
+                label={visible ? 'Visible' : 'Hidden'}
+                checked={visible}
+                onChange={() => handleVisibilityToggle(key)}
+              />
+            </Card.Header>
+            <Card.Body>
+              <Form.Group>
+                <Form.Label>{label}</Form.Label>
+                {formControl}
+                {type === 'array' && (
+                  <Form.Text className="text-muted">
+                    Separate multiple entries with commas.
+                  </Form.Text>
+                )}
+                {type === 'json' && (
+                  <Form.Text className="text-muted">
+                    Enter a JSON array. Example: [{`"name":"Jane","role":"CEO"`}]
+                  </Form.Text>
+                )}
+              </Form.Group>
+            </Card.Body>
+          </Card>
+        );
+      })}
 
       {unsavedChanges && (
         <div className="text-center mt-4">
@@ -218,7 +256,9 @@ const UNPEditUserProfile: React.FC<UNPEditUserProfileProps> = ({
         <Modal.Header closeButton>
           <Modal.Title>Confirm Changes</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to save these changes?</Modal.Body>
+        <Modal.Body>
+          Are you sure you want to save these changes to the profile?
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Cancel
@@ -232,4 +272,4 @@ const UNPEditUserProfile: React.FC<UNPEditUserProfileProps> = ({
   );
 };
 
-export default UNPEditUserProfile;
+export default EditProfile;

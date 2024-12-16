@@ -67,7 +67,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
       }
     }
   }, [user, userMemberships, currentEntity]);
-
+  console.log(user)
   const changeActiveSection = (section: string) => {
     setActiveSection(section);
     setShowMobileModal(false);
@@ -83,12 +83,12 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
   const sidebarContent = (
     <div className="d-flex flex-column sidebar h-100">
       <div className="sidebar-header text-center mb-4">
-        <Image src="/full_logo.png" style={{maxHeight: 200}} alt="Logo" className="mb-3 logo" />
+        <Image roundedCircle src={`${window.location.pathname === '/dashboard' ? user?.photoURL : ''}`} style={{maxHeight: 200}} alt="Logo" className="my-3 logo" />
         <Dropdown>
-          <Dropdown.Toggle className="w-100">
+          <Dropdown.Toggle variant='outline-primary' className="w-75 ">
             {currentEntity || 'Select Entity'}
           </Dropdown.Toggle>
-          <Dropdown.Menu  className="w-100">
+          <Dropdown.Menu  className="w-100 shadow-lg">
               <Dropdown.Item className={`${window.location.pathname === '/dashboard' ? 'active' : ''}`} onClick={() => navigate('/dashboard')}>
                 {user?.displayName}
               </Dropdown.Item>
@@ -100,7 +100,7 @@ const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSectio
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <Nav className="flex-column mt-3">
+      <Nav className="flex-column mt-3 w-75 mx-auto">
         {sections.map((section) => (
           <Nav.Link
             key={section.name}
