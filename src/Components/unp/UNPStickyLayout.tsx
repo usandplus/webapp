@@ -60,7 +60,7 @@ const UNPStickyLayout: React.FC<UNPStickyLayoutProps> = ({ entityInfo, children 
                                 <Card.Body>
                                     <Card.Title>
                                         <Row className="g-0 align-items-center mx-auto">
-                                            <Col xs={12} xl={5} className="me-auto">
+                                            <Col xs={12} className="me-auto">
                                                 <h1 className="text-primary fw-bold">{testData.name}</h1>
                                             </Col>
                                         </Row>

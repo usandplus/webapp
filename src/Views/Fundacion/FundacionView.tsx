@@ -6,6 +6,7 @@ import UNPSpinner from "../../Components/unp/UNPSpinner";
 import { EntityService } from "../../firebase/services/entityService";
 import { useParams } from "react-router-dom";
 import UNPUnderConstruction from "../../Components/unp/UNPUnderConstruction";
+import ProfilePlaceholder from "../../Components/unp/placeholders/ProfilePlaceholder";
 // import { getProfileInformation } from "../../api/profile"; // Adjust the import path as necessary
 interface ProfileInfo {
   name: string;
@@ -160,8 +161,8 @@ const FundacionView: React.FC<FundacionViewProps> = ({ testData = false }) => {
     profile.ratingSummary.reduce((acc, curr) => acc + curr.rating, 0) /
     profile.ratingSummary.length;
 
-  return (
-    <UNPProfileLayout
+  return loading ? <ProfilePlaceholder />
+  : <UNPProfileLayout
       heroImages={profile.heroImages}
       entityInfo={profile.profileInfo}
       className="main-content-bottom"
@@ -173,7 +174,6 @@ const FundacionView: React.FC<FundacionViewProps> = ({ testData = false }) => {
         averageRating={averageRating}
       />
     </UNPProfileLayout>
-  );
 };
 
 export default FundacionView;

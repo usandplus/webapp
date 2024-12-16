@@ -11,7 +11,7 @@ import {
 import { UNPBasePublicUser } from '../../types/models/common';
 import { getUserProfile } from '../../firebase/services/userService';
 
-interface EditProfileProps {
+interface EditUserProfileProps {
   userId: string;
   onSave?: (data: UNPBasePublicUser) => void;
 }
@@ -35,7 +35,7 @@ const FIELDS = [
   { key: 'categories', label: 'Categories', type: 'text' },
 ];
 
-const EditProfile: FC<EditProfileProps> = ({ userId, onSave }) => {
+const EditUserProfile: FC<EditUserProfileProps> = ({ userId, onSave }) => {
   const [originalProfile, setOriginalProfile] = useState<UNPBasePublicUser | null>(null);
   const [editedProfile, setEditedProfile] = useState<UNPBasePublicUser | null>(null);
   const [loading, setLoading] = useState(true);
@@ -272,4 +272,4 @@ const EditProfile: FC<EditProfileProps> = ({ userId, onSave }) => {
   );
 };
 
-export default EditProfile;
+export default EditUserProfile;

@@ -5,10 +5,17 @@ import UNPUserDocumentManager from '../../Components/unp/UNPUserDocumentManager'
 import UNPTransactionHistory from '../../Components/unp/UNPTransactionHistory';
 import UNPEditUserProfile from '../../Components/unp/UNPEditUserProfile';
 import { useAuthContext } from '../../firebase/auth/AuthProvider';
+import { UNPBasePublicUser } from '../../types/models/common';
+import { updateUserProfile } from '../../firebase/services/userService';
+import AdminPlaceholder from '../../Components/unp/placeholders/AdminPlaceholder';
 
 // Example sections for Empresa
 const UserAdmin: React.FC = () => {
     const {user, loading, userMemberships} = useAuthContext()
+    const onSave = async (data: UNPBasePublicUser) => {
+        if(user?.userId) await updateUserProfile(user?.userId, data)
+    }
+
     const sections = [
         {
             name: 'Dashboard', label: 'Dashboard', component: <UNPDashboard
@@ -31,7 +38,7 @@ const UserAdmin: React.FC = () => {
                 feedItems={['test']}
             />
         },
-        { name: 'Tu Perfil', label: 'Tu Perfil', component: <UNPEditUserProfile userId={user?.userId!} /> },
+        { name: 'Tu Perfil', label: 'Tu Perfil', component: <UNPEditUserProfile userId={user?.userId!} onSave={onSave} /> },
         { name: 'Documentos', label: 'Documentos', component: <UNPUserDocumentManager /> },
         { name: 'Historial', label: 'Historial', component: <UNPTransactionHistory /> },
     ];
@@ -40,9 +47,8 @@ const UserAdmin: React.FC = () => {
         { name: 'Perfil', path: '/perfil'}
     ]
 
-    return (
-        <UNPAdminLayout links={links} sections={sections} />
-    );
+    return loading ? <AdminPlaceholder /> 
+        : <UNPAdminLayout links={links} sections={sections} />
 };
 
 export default UserAdmin;

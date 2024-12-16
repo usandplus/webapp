@@ -104,7 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <AuthContext.Provider value={value}>
-      {loading ? <UNPSpinner fullScreen /> : children}
+      {children}
     </AuthContext.Provider>
   );
 };

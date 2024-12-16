@@ -26,11 +26,12 @@ export default function App() {
         <UNPNavbar />
       </div>
       <Container fluid id='content' className="gx-0">
-        {
+        {/* {
           firstLoad
             ? <UNPSpinner fullScreen />
             : <AppRoutes />
-        }
+            } */}
+             <AppRoutes />
       </Container>
     </div >
   );

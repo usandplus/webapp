@@ -39,7 +39,7 @@ interface UNPAdminLayoutProps {
 
 const UNPAdminLayout: React.FC<UNPAdminLayoutProps> = ({ sections, defaultSection, links }) => {
   const navigate = useNavigate();
-  const { user, userMemberships } = useAuthContext();
+  const { user, userMemberships, loading } = useAuthContext();
   const [activeSection, setActiveSection] = useState(defaultSection || sections[0].name);
   const [showMobileModal, setShowMobileModal] = useState(false);
   const [entities, setEntities] = useState<Entity[]>([]);

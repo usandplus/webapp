@@ -5,14 +5,17 @@ import UNPShowcaseGrid, { UNPShowcaseGridProps } from '../../Components/unp/UNPS
 import UNPButton from '../../Components/unp/UNPButton';
 import UNPSearchBar from '../../Components/unp/UNPSearchBar';
 import { UNPBaseCategory, UNPBaseType } from '../../types/models/common';
+import { useAuthContext } from '../../firebase/auth/AuthProvider';
+import HomePlaceholder from '../../Components/unp/placeholders/HomePlaceholder';
 
 export default function Home() {
+  const {loading} = useAuthContext()
   const [show, setShow] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<UNPBaseCategory | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [items, setItems] = useState<UNPShowcaseGridProps['items']>([]);
   const [selectedType, setSelectedType] = useState<UNPBaseType | null>(null);
-
+  const [localLoading, setLocalLoading] = useState<boolean>(false)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleFilterChange = (category: UNPBaseCategory | null) => setSelectedCategory(category);
@@ -41,6 +44,7 @@ export default function Home() {
     };
   }, []);
   useEffect(() => {
+    setLocalLoading(true)
     const categoryTypes: UNPBaseCategory[] = [
       'educacion',
       'ciencia',
@@ -80,6 +84,7 @@ export default function Home() {
         // ] as UNPBaseType,
       }));
     setItems(generateDummyData());
+    setLocalLoading(false)
   }, []);
 
   // Apply both filters: search and type
@@ -89,8 +94,8 @@ export default function Home() {
     return matchesSearch && matchesType;
   });
 
-  return (
-    <Container className="main-content ">
+  return  loading || localLoading ? <HomePlaceholder /> 
+    : <Container className="main-content ">
       {/* Modal for Advanced Filters */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -172,10 +177,10 @@ export default function Home() {
       {/* Filter Bar */}
       <Container fluid className="filter-bar-container bg-white pt-0 mb-3">
         <Row className="align-items-center flex-nowrap">
-          <Col xs={12} md={10} xl={8}>
+          <Col xs={12} md={10} xl={10} xxl={9}>
             <UNPFilterBar onFilterChange={handleFilterChange} selectedCategory={selectedCategory} />
           </Col>
-          <Col md={2} xl={3} className="d-none d-md-block">
+          <Col md={2} xl={3} xxl={2} className="d-none d-md-block">
             <UNPButton onClick={handleShow}>Filtros</UNPButton>
           </Col>
         </Row>
@@ -191,5 +196,4 @@ export default function Home() {
         />
       </Container>
     </Container>
-  );
 }
